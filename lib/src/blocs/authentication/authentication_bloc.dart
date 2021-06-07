@@ -2,40 +2,53 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:ndaza_user_repository/ndaza_user_repository.dart';
 
 part 'authentication_event.dart';
+
 part 'authentication_state.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
-  AuthenticationBloc() : super(AuthenticationState.unknown());
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
+  AuthenticationBloc({required UserRepository userRepository})
+      : _userRepository = userRepository,
+        super(const AuthUnknown());
+
+  final UserRepository _userRepository;
 
   @override
   Stream<AuthenticationState> mapEventToState(
     AuthenticationEvent event,
   ) async* {
-    if(event is AuthenticationStatusChanged){
+    if (event is AuthenticationStatusChanged) {
       yield* _mapAuthenticationChangedToState(event);
     }
   }
 
-  Stream<AuthenticationState> _mapAuthenticationChangedToState(AuthenticationStatusChanged event) async* {
-    switch(event.status){
-      case AuthenticationStatus.unauthenticated:
-        yield const AuthenticationState.unauthenticated();
-        break;
-      case AuthenticationStatus.initializing:
-        yield const AuthenticationState.initializing();
-        //todo check if user already signed in here
-        Future.delayed(Duration(seconds: 2));
-        yield const AuthenticationState.unauthenticated();
-        break;
-      case AuthenticationStatus.authenticated:
-        //todo get profile and other stuff here
-        yield const AuthenticationState.authenticated();
-        break;
-      default:
-        yield const AuthenticationState.unknown();
-        break;
+  Stream<AuthenticationState> _mapAuthenticationChangedToState(
+      AuthenticationStatusChanged event) async* {
+    try {
+      switch (event.status) {
+        case AuthenticationStatus.unauthenticated:
+          yield const Unauthenticated();
+          break;
+        case AuthenticationStatus.initializing:
+          yield const AuthInitializing();
+          var currUser = await _userRepository.getUser();
+          if (currUser != null) {
+            yield Authenticated(user: currUser);
+          } else
+            yield const Unauthenticated();
+          break;
+        case AuthenticationStatus.authenticated:
+          yield Authenticated(user: event.user!);
+          break;
+        default:
+          yield const AuthUnknown();
+          break;
+      }
+    } catch (_) {
+      yield const AuthFailed();
     }
   }
 }

@@ -1,20 +1,54 @@
 part of 'authentication_bloc.dart';
-enum AuthenticationStatus{unknown,initializing,authenticated,unauthenticated}
 
-class AuthenticationState extends Equatable {
-  final AuthenticationStatus status;
-  const AuthenticationState._({this.status = AuthenticationStatus.unknown});
-
-
-  const AuthenticationState.unknown():this._();
-  const AuthenticationState.initializing():this._(status:AuthenticationStatus.initializing);
-  const AuthenticationState.authenticated():this._(status:AuthenticationStatus.authenticated);
-  const AuthenticationState.unauthenticated():this._(status:AuthenticationStatus.unauthenticated);
-
-  @override
-  List<Object> get props => [status];
-
-  @override
-  String toString() => 'AuthenticationState {status:$status}';
+enum AuthenticationStatus {
+  unknown,
+  initializing,
+  authenticated,
+  unauthenticated
 }
 
+abstract class AuthenticationState extends Equatable {
+  const AuthenticationState();
+
+  @override
+  List<Object> get props => [];
+}
+
+class AuthUnknown extends AuthenticationState {
+  const AuthUnknown();
+  @override
+  String toString() => 'AuthUnknown';
+}
+
+class AuthInitializing extends AuthenticationState {
+  const AuthInitializing();
+  @override
+  String toString() => 'AuthInitializing';
+}
+
+class Authenticated extends AuthenticationState {
+  final UserEntity user;
+
+  const Authenticated({required this.user});
+
+  @override
+  String toString() => 'Authenticated {user: $user}';
+
+  @override
+  List<Object> get props => [user];
+}
+
+class Unauthenticated extends AuthenticationState {
+  const Unauthenticated();
+  @override
+  String toString() => 'Unauthenticated';
+}
+
+///Must only be emitted when something unexpected happens during authentication
+///
+///e.g authenticated but with null user
+class AuthFailed extends AuthenticationState{
+  const AuthFailed();
+  @override
+  String toString() => 'AuthFailed';
+}

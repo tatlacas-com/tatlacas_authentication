@@ -8,15 +8,16 @@ abstract class AuthenticationEvent extends Equatable {
 }
 
 class AuthenticationStatusChanged extends AuthenticationEvent {
-  const AuthenticationStatusChanged({required this.status});
+  const AuthenticationStatusChanged({required this.status,this.user});
 
   final AuthenticationStatus status;
+  final UserEntity? user;
 
   @override
   List<Object?> get props => [status];
 
   @override
-  String toString() => 'AuthenticationStatusChanged {status: $status}';
+  String toString() => 'AuthenticationStatusChanged {status:$status, user:$user}';
 }
 
 class LogoutRequested extends AuthenticationEvent {
