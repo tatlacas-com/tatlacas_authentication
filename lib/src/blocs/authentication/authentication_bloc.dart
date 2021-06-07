@@ -10,11 +10,10 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  AuthenticationBloc({required UserRepository userRepository})
-      : _userRepository = userRepository,
-        super(const AuthUnknown());
+  AuthenticationBloc({required this.userRepository})
+      : super(const AuthUnknown());
 
-  final UserRepository _userRepository;
+  final UserRepository userRepository;
 
   @override
   Stream<AuthenticationState> mapEventToState(
@@ -34,7 +33,7 @@ class AuthenticationBloc
           break;
         case AuthenticationStatus.initializing:
           yield const AuthInitializing();
-          var currUser = await _userRepository.getUser();
+          var currUser = await userRepository.getUser();
           if (currUser != null) {
             yield Authenticated(user: currUser);
           } else
