@@ -8,5 +8,10 @@ void main() {
         expect(OauthLoginRequested().toString(), 'OauthLoginRequested');
       });
     });
+    group('RetryRequested', () {
+      test('toString returns correct value', () {
+        expect(RetryRequested().toString(), 'RetryRequested');
+      });
+    });
   });
 }

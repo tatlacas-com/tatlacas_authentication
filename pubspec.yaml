@@ -14,8 +14,10 @@ dependencies:
   flutter_bloc: ^7.0.0
   equatable: ^2.0.2
 
-  ndaza_user_repository:
-    path: ndaza_user_repository
+  user_repository:
+    path: user_repository
+  oauth_repository:
+    path: oauth_repository
 
 dev_dependencies:
   flutter_test:

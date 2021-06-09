@@ -1,4 +1,4 @@
-name: ndaza_user_repository
+name: user_repository
 description: Ndaza user repository
 version: 0.0.1
 publish_to: none

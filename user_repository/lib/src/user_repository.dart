@@ -1,5 +1,6 @@
-import 'package:ndaza_user_repository/ndaza_user_repository.dart';
 import 'package:tatlacas_sql_storage/tatlacas_sql_storage.dart';
+
+import '../user_repository.dart';
 
 class UserRepository {
   final SqlStorage _repo;

@@ -7,6 +7,12 @@ abstract class OauthLoginEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+class RetryRequested extends OauthLoginEvent{
+
+  @override
+  String toString() => 'RetryRequested';
+}
+
 class OauthLoginRequested extends OauthLoginEvent {
   @override
   String toString() => 'OauthLoginRequested';

@@ -3,26 +3,31 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:ndaza_authentication/ndaza_authentication.dart';
-import 'package:ndaza_user_repository/ndaza_user_repository.dart';
+import 'package:oauth_repository/oauth_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 import 'oauth_login_bloc_test.mocks.dart';
 
-@GenerateMocks([AuthenticationBloc, UserRepository])
+@GenerateMocks([AuthenticationBloc, UserRepository, OauthRepository])
 void main() {
   group('OauthLoginBloc', () {
     late OauthLoginBloc bloc;
     late AuthenticationBloc authBloc;
     late UserRepository userRepository;
+    late OauthRepository oauthRepository;
     setUp(() {
       authBloc = MockAuthenticationBloc();
       userRepository = MockUserRepository();
-      when(userRepository.saveUser(UserEntity(id: 'testing123')))
-          .thenAnswer((invocation) {
-        return Future.value(invocation.positionalArguments[0] as UserEntity);
+      oauthRepository = MockOauthRepository();
+      when(oauthRepository.authenticate()).thenAnswer((invocation) {
+        return Future.value(UserEntity(id: 'testing123'));
       });
+      when(userRepository.saveUser(UserEntity(id: 'testing123'))).thenAnswer(
+          (invocation) => Future.value(UserEntity(id: 'testing123')));
       bloc = OauthLoginBloc(
         authenticationBloc: authBloc,
         userRepository: userRepository,
+        oauthRepository: oauthRepository,
       );
     });
 
@@ -34,8 +39,8 @@ void main() {
         'should emit OauthLoginFailed on authentication throws',
         build: () {
           when(authBloc.add(AuthenticationStatusChanged(
-                  status: AuthenticationStatus.authenticated,)))
-              .thenThrow(Exception('ops'));
+            status: AuthenticationStatus.authenticated,
+          ))).thenThrow(Exception('ops'));
           return bloc;
         },
         act: (bloc) async => bloc.add(OauthLoginRequested()),
@@ -48,8 +53,7 @@ void main() {
     blocTest<OauthLoginBloc, OauthLoginState>(
         'should emit OauthLoginFailed on repository throws',
         build: () {
-          when(userRepository.saveUser(UserEntity(id: 'testing123')))
-              .thenThrow(Exception('ops'));
+          when(oauthRepository.authenticate()).thenThrow(Exception('ops'));
           return bloc;
         },
         act: (bloc) async => bloc.add(OauthLoginRequested()),
@@ -63,8 +67,8 @@ void main() {
         'should emit in progress and succeeded',
         build: () {
           when(authBloc.add(AuthenticationStatusChanged(
-                  status: AuthenticationStatus.authenticated, )))
-              .thenAnswer((invocation) {
+            status: AuthenticationStatus.authenticated,
+          ))).thenAnswer((invocation) {
             var event = invocation.positionalArguments[0]
                 as AuthenticationStatusChanged;
             expect(event.user, isNotNull);

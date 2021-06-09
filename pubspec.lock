@@ -333,13 +333,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.4"
-  ndaza_user_repository:
-    dependency: "direct main"
-    description:
-      path: ndaza_user_repository
-      relative: true
-    source: path
-    version: "0.0.1"
   nested:
     dependency: transitive
     description:
@@ -354,6 +347,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  oauth_repository:
+    dependency: "direct main"
+    description:
+      path: oauth_repository
+      relative: true
+    source: path
+    version: "0.0.1"
   package_config:
     dependency: transitive
     description:
@@ -569,6 +569,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0"
+  tatlacas_flutter_oauth:
+    dependency: transitive
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "4c6b0395495c1378b11d616cac81dfb11733e646"
+      url: "https://github.com/tatlacas-com/tatlacas_flutter_oauth.git"
+    source: git
+    version: "0.0.1"
   tatlacas_sql_storage:
     dependency: transitive
     description:
@@ -618,6 +627,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.3.0"
+  user_repository:
+    dependency: "direct main"
+    description:
+      path: user_repository
+      relative: true
+    source: path
+    version: "0.0.1"
   uuid:
     dependency: transitive
     description:

@@ -1,0 +1,21 @@
+name: oauth_repository
+description: Ndaza Oauth Repository
+version: 0.0.1
+publish_to: none
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  tatlacas_flutter_oauth:
+    path: ../../tatlacas_flutter_oauth
+  equatable: ^2.0.2
+  user_repository:
+    path: ../user_repository
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter

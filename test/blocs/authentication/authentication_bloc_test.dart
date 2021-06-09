@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:ndaza_authentication/ndaza_authentication.dart';
-import 'package:ndaza_user_repository/ndaza_user_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 import 'authentication_bloc_test.mocks.dart';
 
