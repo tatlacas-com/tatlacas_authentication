@@ -42,11 +42,10 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
       yield const OauthLoginInProgress();
 
       var user = await oauthRepository.authenticate();
-      if (user != null) {
+      if (user?.accessToken != null) {
         yield const OauthLoginSucceeded();
-        user = await userRepository.saveUser(user);
-        //todo put a delay to transition to authenticated
-        await Future.delayed(Duration(seconds: 2));
+        user = await userRepository.saveUser(user!);
+        await Future.delayed(Duration(milliseconds: 500));
         authenticationBloc.add(AuthenticationStatusChanged(
             status: AuthenticationStatus.authenticated, user: user));
       } else {

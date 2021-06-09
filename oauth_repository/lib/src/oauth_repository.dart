@@ -12,7 +12,7 @@ class OauthRepository {
 
   Future<UserEntity?> authenticate() async {
     final token = await _authenticate();
-    if (token != null) return UserEntity(id: 'testing 123');
+    if (token?.isNotEmpty == true) return UserEntity(id: 'testing 123',accessToken: token);
     return null;
   }
 
@@ -21,6 +21,6 @@ class OauthRepository {
         await flutterAppAuth.authorizeAndExchangeCode(
       authorizationTokenRequest,
     );
-    return result?.accessToken;
+    return result?.idToken;
   }
 }

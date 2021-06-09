@@ -8,6 +8,7 @@ class UserEntity extends Entity {
   final String? xmppPassword;
   final bool profileDownloaded;
   final String? fcmToken;
+  final String? accessToken;
 
   const UserEntity({
     String? id,
@@ -16,19 +17,21 @@ class UserEntity extends Entity {
     this.username,
     this.xmppJid,
     this.xmppPassword,
+    this.accessToken,
     this.profileDownloaded = false,
     this.fcmToken,
-  }):super(id: id);
+  }) : super(id: id);
 
-  UserEntity.fromJson(Map<String,dynamic> json)
-      :this.givenName = json['givenName'],
+  UserEntity.fromJson(Map<String, dynamic> json)
+      : this.givenName = json['givenName'],
         this.familyName = json['familyName'],
         this.username = json['username'],
+        this.accessToken = json['accessToken'],
         this.xmppJid = json['xmppJid'],
         this.xmppPassword = json['xmppPassword'],
         this.profileDownloaded = json['profileDownloaded'] == '1',
         this.fcmToken = json['fcmToken'],
-  super(id: json['id']);
+        super(id: json['id']);
 
   get columnGivenName => SqlColumn<UserEntity, String>(
         'givenName',
@@ -65,6 +68,11 @@ class UserEntity extends Entity {
         read: (entity) => entity.fcmToken,
       );
 
+  get columnAccessToken => SqlColumn<UserEntity, String>(
+        'accessToken',
+        read: (entity) => entity.fcmToken,
+      );
+
   @override
   List<SqlColumn<Entity, dynamic>> get columns => [
         columnId,
@@ -75,6 +83,7 @@ class UserEntity extends Entity {
         columnXmppPassword,
         columnProfileDownloaded,
         columnFcmToken,
+        columnAccessToken,
       ];
 
   @override
@@ -93,5 +102,14 @@ class UserEntity extends Entity {
   String get tableName => 'user';
 
   @override
-  String toString() => 'UserEntity {id:$id, givenName:$givenName, familyName:$familyName, username:$username, xmppJid:$xmppJid, xmppPassword:${xmppPassword?.isNotEmpty== true?'present':'null'}, profileDownloaded:$profileDownloaded, fcmToken:${fcmToken?.isNotEmpty == true?'present':'null'}';
+  List<String> upgradeTable(int oldVersion, int newVersion) {
+    if(oldVersion<2){
+      return [alterTableAddColumn(columnAccessToken)];
+    }
+    return super.upgradeTable(oldVersion, newVersion);
+  }
+
+  @override
+  String toString() =>
+      'UserEntity {id:$id, givenName:$givenName, familyName:$familyName, username:$username, xmppJid:$xmppJid, xmppPassword:${xmppPassword?.isNotEmpty == true ? 'present' : 'null'}, profileDownloaded:$profileDownloaded, fcmToken:${fcmToken?.isNotEmpty == true ? 'present' : 'null'}';
 }

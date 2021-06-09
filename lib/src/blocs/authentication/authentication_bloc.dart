@@ -22,6 +22,14 @@ class AuthenticationBloc
     if (event is AuthenticationStatusChanged) {
       yield* _mapAuthenticationChangedToState(event);
     }
+    if (event is LogoutRequested) {
+      yield* _mapLogoutRequestedToState();
+    }
+  }
+
+  Stream<AuthenticationState> _mapLogoutRequestedToState() async* {
+    await userRepository.removeUser();
+    yield const Unauthenticated();
   }
 
   Stream<AuthenticationState> _mapAuthenticationChangedToState(
@@ -34,8 +42,8 @@ class AuthenticationBloc
         case AuthenticationStatus.initializing:
           yield const AuthInitializing();
           var currUser = await userRepository.getUser();
-          if (currUser != null) {
-            yield Authenticated(user: currUser);
+          if (currUser?.accessToken != null) {
+            yield Authenticated(user: currUser!);
           } else
             yield const Unauthenticated();
           break;
