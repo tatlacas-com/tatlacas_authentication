@@ -70,7 +70,7 @@ class UserEntity extends Entity {
 
   get columnAccessToken => SqlColumn<UserEntity, String>(
         'accessToken',
-        read: (entity) => entity.fcmToken,
+        read: (entity) => entity.accessToken,
       );
 
   @override
@@ -96,6 +96,7 @@ class UserEntity extends Entity {
         xmppPassword,
         profileDownloaded,
         fcmToken,
+        accessToken,
       ];
 
   @override
@@ -103,7 +104,7 @@ class UserEntity extends Entity {
 
   @override
   List<String> upgradeTable(int oldVersion, int newVersion) {
-    if(oldVersion<2){
+    if (oldVersion < 2) {
       return [alterTableAddColumn(columnAccessToken)];
     }
     return super.upgradeTable(oldVersion, newVersion);
@@ -111,5 +112,5 @@ class UserEntity extends Entity {
 
   @override
   String toString() =>
-      'UserEntity {id:$id, givenName:$givenName, familyName:$familyName, username:$username, xmppJid:$xmppJid, xmppPassword:${xmppPassword?.isNotEmpty == true ? 'present' : 'null'}, profileDownloaded:$profileDownloaded, fcmToken:${fcmToken?.isNotEmpty == true ? 'present' : 'null'}';
+      'UserEntity {id:$id, givenName:$givenName, familyName:$familyName, username:$username, xmppJid:$xmppJid, xmppPassword:${xmppPassword?.isNotEmpty == true ? 'present' : 'null'}, profileDownloaded:$profileDownloaded, fcmToken:${fcmToken?.isNotEmpty == true ? 'present' : 'null'}, accessToken:${accessToken?.isNotEmpty == true ? 'present' : 'null'}';
 }

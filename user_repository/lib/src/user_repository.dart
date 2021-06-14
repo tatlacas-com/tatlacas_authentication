@@ -6,7 +6,7 @@ class UserRepository {
   final SqlStorage _repo;
   static const UserEntity _type = UserEntity();
 
-  const UserRepository({required SqlStorage repo}) : this._repo = repo;
+  const UserRepository({required SqlStorage storage}) : this._repo = storage;
 
   Future<UserEntity> saveUser(UserEntity user) async {
     return await _repo.insertOrUpdate(user) as UserEntity;

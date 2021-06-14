@@ -572,11 +572,9 @@ packages:
   tatlacas_flutter_oauth:
     dependency: transitive
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "4c6b0395495c1378b11d616cac81dfb11733e646"
-      url: "https://github.com/tatlacas-com/tatlacas_flutter_oauth.git"
-    source: git
+      path: "../tatlacas_flutter_oauth"
+      relative: true
+    source: path
     version: "0.0.1"
   tatlacas_sql_storage:
     dependency: transitive

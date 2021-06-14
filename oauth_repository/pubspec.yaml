@@ -15,6 +15,7 @@ dependencies:
   equatable: ^2.0.2
   user_repository:
     path: ../user_repository
+  uuid: ^3.0.1
 
 dev_dependencies:
   flutter_test:

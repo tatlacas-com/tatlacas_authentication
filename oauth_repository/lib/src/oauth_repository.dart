@@ -1,5 +1,6 @@
 import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
 import 'package:user_repository/user_repository.dart';
+import 'package:uuid/uuid.dart';
 
 class OauthRepository {
   final FlutterAppAuth flutterAppAuth;
@@ -12,7 +13,11 @@ class OauthRepository {
 
   Future<UserEntity?> authenticate() async {
     final token = await _authenticate();
-    if (token?.isNotEmpty == true) return UserEntity(id: 'testing 123',accessToken: token);
+    if (token?.isNotEmpty == true)
+      return UserEntity(
+        id: Uuid().v4(),
+        accessToken: token,
+      );
     return null;
   }
 
