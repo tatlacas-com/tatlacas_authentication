@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ndaza_authentication/ndaza_authentication.dart';
-import 'package:user_repository/user_repository.dart';
+import 'package:ndaza_authentication/user_repository.dart';
 
 void main() {
   group('AuthenticationState', () {

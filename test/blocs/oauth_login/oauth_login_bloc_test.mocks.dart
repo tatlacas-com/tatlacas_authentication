@@ -9,11 +9,14 @@ import 'package:bloc/src/transition.dart' as _i8;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:ndaza_authentication/src/blocs/authentication/authentication_bloc.dart'
     as _i3;
-import 'package:oauth_repository/src/models/oauth_config.dart' as _i7;
-import 'package:oauth_repository/src/oauth_repository.dart' as _i10;
+import 'package:ndaza_authentication/src/repos/oauth_repository/oauth_repository.dart'
+    as _i10;
+import 'package:ndaza_authentication/src/repos/user_repository/models/user_entity.dart'
+    as _i5;
+import 'package:ndaza_authentication/src/repos/user_repository/user_repository.dart'
+    as _i2;
+import 'package:tatlacas_flutter_oauth/authorization_token_request.dart' as _i7;
 import 'package:tatlacas_flutter_oauth/flutter_appauth.dart' as _i6;
-import 'package:user_repository/src/models/user_entity.dart' as _i5;
-import 'package:user_repository/src/user_repository.dart' as _i2;
 
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: comment_references
@@ -33,7 +36,8 @@ class _FakeUserEntity extends _i1.Fake implements _i5.UserEntity {}
 
 class _FakeFlutterAppAuth extends _i1.Fake implements _i6.FlutterAppAuth {}
 
-class _FakeOAuthConfig extends _i1.Fake implements _i7.OAuthConfig {}
+class _FakeAuthorizationTokenRequest extends _i1.Fake
+    implements _i7.AuthorizationTokenRequest {}
 
 /// A class which mocks [AuthenticationBloc].
 ///
@@ -156,6 +160,11 @@ class MockUserRepository extends _i1.Mock implements _i2.UserRepository {
       (super.noSuchMethod(Invocation.method(#getUser, []),
               returnValue: Future<_i5.UserEntity?>.value())
           as _i4.Future<_i5.UserEntity?>);
+  @override
+  _i4.Future<void> removeUser() =>
+      (super.noSuchMethod(Invocation.method(#removeUser, []),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future.value()) as _i4.Future<void>);
 }
 
 /// A class which mocks [OauthRepository].
@@ -171,9 +180,10 @@ class MockOauthRepository extends _i1.Mock implements _i10.OauthRepository {
       (super.noSuchMethod(Invocation.getter(#flutterAppAuth),
           returnValue: _FakeFlutterAppAuth()) as _i6.FlutterAppAuth);
   @override
-  _i7.OAuthConfig get oAuthConfig =>
-      (super.noSuchMethod(Invocation.getter(#oAuthConfig),
-          returnValue: _FakeOAuthConfig()) as _i7.OAuthConfig);
+  _i7.AuthorizationTokenRequest get authorizationTokenRequest =>
+      (super.noSuchMethod(Invocation.getter(#authorizationTokenRequest),
+              returnValue: _FakeAuthorizationTokenRequest())
+          as _i7.AuthorizationTokenRequest);
   @override
   _i4.Future<_i5.UserEntity?> authenticate() =>
       (super.noSuchMethod(Invocation.method(#authenticate, []),

@@ -10,14 +10,18 @@ dependencies:
   flutter:
     sdk: flutter
 
+  tatlacas_sql_storage:
+    path: ../tatlacas_sql_storage
+  tatlacas_flutter_oauth:
+    path: ../tatlacas_flutter_oauth
+
   bloc: ^7.0.0
   flutter_bloc: ^7.0.0
   equatable: ^2.0.2
+  sqflite: ^2.0.0+2
+  uuid: ^3.0.1
+  path_provider: ^2.0.1
 
-  user_repository:
-    path: user_repository
-  oauth_repository:
-    path: oauth_repository
 
 dev_dependencies:
   flutter_test:

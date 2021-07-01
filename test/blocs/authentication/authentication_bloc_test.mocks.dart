@@ -5,8 +5,10 @@
 import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:user_repository/src/models/user_entity.dart' as _i2;
-import 'package:user_repository/src/user_repository.dart' as _i3;
+import 'package:ndaza_authentication/src/repos/user_repository/models/user_entity.dart'
+    as _i2;
+import 'package:ndaza_authentication/src/repos/user_repository/user_repository.dart'
+    as _i3;
 
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: comment_references
@@ -34,4 +36,9 @@ class MockUserRepository extends _i1.Mock implements _i3.UserRepository {
       (super.noSuchMethod(Invocation.method(#getUser, []),
               returnValue: Future<_i2.UserEntity?>.value())
           as _i4.Future<_i2.UserEntity?>);
+  @override
+  _i4.Future<void> removeUser() =>
+      (super.noSuchMethod(Invocation.method(#removeUser, []),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future.value()) as _i4.Future<void>);
 }

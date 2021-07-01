@@ -1,6 +1,7 @@
 import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
-import 'package:user_repository/user_repository.dart';
 import 'package:uuid/uuid.dart';
+
+import '../../../user_repository.dart';
 
 class OauthRepository {
   final FlutterAppAuth flutterAppAuth;
