@@ -1,7 +1,7 @@
+import 'package:ndaza_authentication/src/repos/user_repository/models/user_entity.dart';
 import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../user_repository.dart';
 
 class OauthRepository {
   final FlutterAppAuth flutterAppAuth;

@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:ndaza_authentication/src/repos/user_repository/models/user_entity.dart';
+import 'package:ndaza_authentication/src/repos/user_repository/user_repository.dart';
 
-import '../../../user_repository.dart';
 
 part 'authentication_event.dart';
 

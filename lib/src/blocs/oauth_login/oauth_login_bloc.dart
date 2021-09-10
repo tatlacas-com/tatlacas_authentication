@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:ndaza_authentication/src/repos/oauth_repository/oauth_repository.dart';
+import 'package:ndaza_authentication/src/repos/user_repository/user_repository.dart';
 
-import '../../../oauth_repository.dart';
-import '../../../user_repository.dart';
 import '../authentication/authentication_bloc.dart';
 
 part 'oauth_login_event.dart';
