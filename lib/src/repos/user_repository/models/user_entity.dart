@@ -102,13 +102,6 @@ class UserEntity extends Entity {
   @override
   String get tableName => 'user';
 
-  @override
-  List<String> upgradeTable(int oldVersion, int newVersion) {
-    if (oldVersion < 2) {
-      return [alterTableAddColumn(columnAccessToken)];
-    }
-    return super.upgradeTable(oldVersion, newVersion);
-  }
 
   @override
   String toString() =>
