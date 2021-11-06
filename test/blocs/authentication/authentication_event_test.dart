@@ -8,17 +8,18 @@ void main() {
         expect(
             AuthenticationStatusChanged(
               status: AuthenticationStatus.authenticated,
-              user: UserEntity(
-                givenName: 'Test',
-                familyName: 'User',
-                id: '4',
-              ),
+              user: UserEntity.fromJson({
+                'givenName': 'Test',
+                'familyName': 'User',
+                'id': '4',
+              }),
             ).toString(),
-            'AuthenticationStatusChanged {status:${AuthenticationStatus.authenticated}, user:${UserEntity(
-              givenName: 'Test',
-              familyName: 'User',
-              id: '4',
-            )}}');
+            'AuthenticationStatusChanged {status:${AuthenticationStatus.authenticated}, user:${UserEntity.fromJson(
+                {
+                  'givenName': 'Test',
+                  'familyName': 'User',
+                  'id': '4',
+                })}}');
       });
     });
     group('LogoutRequested', () {

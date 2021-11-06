@@ -5,7 +5,7 @@ import 'models/user_entity.dart';
 
 class UserRepository {
   final SqlStorage _repo;
-  static const UserEntity _type = UserEntity();
+  static final UserEntity _type = UserEntity();
 
   const UserRepository({required SqlStorage storage}) : this._repo = storage;
 

@@ -18,10 +18,10 @@ void main() {
       userRepository = MockUserRepository();
       oauthRepository = MockOauthRepository();
       when(oauthRepository.authenticate()).thenAnswer((invocation) {
-        return Future.value(UserEntity(id: 'testing123'));
+        return Future.value(UserEntity.fromJson({'id': 'testing123'}));
       });
-      when(userRepository.saveUser(UserEntity(id: 'testing123'))).thenAnswer(
-          (invocation) => Future.value(UserEntity(id: 'testing123')));
+      when(userRepository.saveUser(UserEntity.fromJson({'id': 'testing123'}))).thenAnswer(
+          (invocation) => Future.value(UserEntity.fromJson({'id': 'testing123'})));
       bloc = OauthLoginBloc(
         authenticationBloc: authBloc,
         userRepository: userRepository,

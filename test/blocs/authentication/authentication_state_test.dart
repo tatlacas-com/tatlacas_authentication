@@ -17,16 +17,16 @@ void main() {
       test('toString returns correct value', () {
         expect(
             Authenticated(
-                user: UserEntity(
-              givenName: 'Test',
-              familyName: 'User',
-              id: '4',
-            )).toString(),
-            'Authenticated {user: ${UserEntity(
-              givenName: 'Test',
-              familyName: 'User',
-              id: '4',
-            )}}');
+                user: UserEntity.fromJson({
+              'givenName': 'Test',
+              'familyName': 'User',
+              'id': '4',
+            })).toString(),
+            'Authenticated {user: ${UserEntity.fromJson({
+                  'givenName': 'Test',
+                  'familyName': 'User',
+                  'id': '4',
+                })}}');
       });
     });
     group('Unauthenticated', () {

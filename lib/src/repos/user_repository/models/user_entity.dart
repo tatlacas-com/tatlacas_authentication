@@ -1,81 +1,73 @@
 import 'package:tatlacas_sql_storage/tatlacas_sql_storage.dart';
 
-class UserEntity extends Entity {
-  final String? givenName;
-  final String? familyName;
-  final String? username;
-  final String? xmppJid;
-  final String? xmppPassword;
-  final bool profileDownloaded;
-  final String? fcmToken;
-  final String? accessToken;
+class UserEntity extends Entity<UserEntity> {
+  late final String? givenName;
+  late final String? familyName;
+  late final String? username;
+  late final String? xmppJid;
+  late final String? xmppPassword;
+  late final bool profileDownloaded;
+  late final String? fcmToken;
+  late final String? accessToken;
 
-  const UserEntity({
-    String? id,
-    this.givenName,
-    this.familyName,
-    this.username,
-    this.xmppJid,
-    this.xmppPassword,
-    this.accessToken,
-    this.profileDownloaded = false,
-    this.fcmToken,
-  }) : super(id: id);
+  UserEntity();
 
-  UserEntity.fromJson(Map<String, dynamic> json)
-      : this.givenName = json['givenName'],
-        this.familyName = json['familyName'],
-        this.username = json['username'],
-        this.accessToken = json['accessToken'],
-        this.xmppJid = json['xmppJid'],
-        this.xmppPassword = json['xmppPassword'],
-        this.profileDownloaded = json['profileDownloaded'] == '1',
-        this.fcmToken = json['fcmToken'],
-        super(id: json['id']);
+
+  factory UserEntity.fromJson(Map<String, dynamic> json) {
+    return UserEntity().load(json);
+  }
+
 
   get columnGivenName => SqlColumn<UserEntity, String>(
         'givenName',
         read: (entity) => entity.givenName,
+        write: (entity, value) => entity.givenName = value,
       );
 
   get columnFamilyName => SqlColumn<UserEntity, String>(
         'familyName',
         read: (entity) => entity.familyName,
+        write: (entity, value) => entity.familyName = value,
       );
 
   get columnUsername => SqlColumn<UserEntity, String>(
         'username',
         read: (entity) => entity.username,
+        write: (entity, value) => entity.username = value,
       );
 
   get columnXmppJid => SqlColumn<UserEntity, String>(
         'xmppJid',
         read: (entity) => entity.xmppJid,
+        write: (entity, value) => entity.xmppJid = value,
       );
 
   get columnXmppPassword => SqlColumn<UserEntity, String>(
         'xmppPassword',
         read: (entity) => entity.xmppPassword,
+        write: (entity, value) => entity.xmppPassword = value,
       );
 
   get columnProfileDownloaded => SqlColumn<UserEntity, bool>(
         'profileDownloaded',
         read: (entity) => entity.profileDownloaded,
+        write: (entity, value) => entity.profileDownloaded = value ?? false,
       );
 
   get columnFcmToken => SqlColumn<UserEntity, String>(
         'fcmToken',
         read: (entity) => entity.fcmToken,
+        write: (entity, value) => entity.fcmToken = value,
       );
 
   get columnAccessToken => SqlColumn<UserEntity, String>(
         'accessToken',
         read: (entity) => entity.accessToken,
+        write: (entity, value) => entity.accessToken = value,
       );
 
   @override
-  List<SqlColumn<Entity, dynamic>> get columns => [
-        columnId,
+  Iterable<SqlColumn<UserEntity, dynamic>> get columns => [
         columnGivenName,
         columnFamilyName,
         columnUsername,
@@ -101,7 +93,6 @@ class UserEntity extends Entity {
 
   @override
   String get tableName => 'user';
-
 
   @override
   String toString() =>

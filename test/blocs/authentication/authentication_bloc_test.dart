@@ -44,20 +44,20 @@ void main() {
       act: (bloc) async => bloc.add(
         AuthenticationStatusChanged(
           status: AuthenticationStatus.authenticated,
-          user: UserEntity(
-            givenName: 'Test',
-            familyName: 'User',
-            id: '4',
-          ),
+          user: UserEntity.fromJson({
+            'givenName': 'Test',
+            'familyName': 'User',
+            'id': '4',
+          }),
         ),
       ),
       expect: () => <AuthenticationState>[
         Authenticated(
-          user: UserEntity(
-            givenName: 'Test',
-            familyName: 'User',
-            id: '4',
-          ),
+          user: UserEntity.fromJson({
+            'givenName': 'Test',
+            'familyName': 'User',
+            'id': '4',
+          }),
         ),
       ],
     );
@@ -65,11 +65,12 @@ void main() {
       'should emit Authenticated with correct user from repo',
       build: () {
         when(userRepository.getUser())
-            .thenAnswer((_) => Future.value(UserEntity(
-                  givenName: 'Test',
-                  familyName: 'User',
-                  id: '4',
-                )));
+            .thenAnswer((_) => Future.value(UserEntity.fromJson({
+                  'givenName': 'Test',
+                  'familyName': 'User',
+                  'accessToken': '1234',
+                  'id': '4',
+                })));
         return bloc;
       },
       act: (bloc) async => bloc.add(
@@ -80,11 +81,12 @@ void main() {
       expect: () => <AuthenticationState>[
         AuthInitializing(),
         Authenticated(
-          user: UserEntity(
-            givenName: 'Test',
-            familyName: 'User',
-            id: '4',
-          ),
+          user: UserEntity.fromJson({
+            'givenName': 'Test',
+            'familyName': 'User',
+            'accessToken': '1234',
+            'id': '4',
+          }),
         ),
       ],
     );
@@ -92,8 +94,7 @@ void main() {
     blocTest<AuthenticationBloc, AuthenticationState>(
       'should emit Unauthenticated if repo has no user',
       build: () {
-        when(userRepository.getUser())
-            .thenAnswer((_) => Future.value(null));
+        when(userRepository.getUser()).thenAnswer((_) => Future.value(null));
         return bloc;
       },
       act: (bloc) async => bloc.add(
@@ -108,7 +109,7 @@ void main() {
     );
     blocTest<AuthenticationBloc, AuthenticationState>(
       'should emit Unauthenticated',
-      build: ()=>bloc,
+      build: () => bloc,
       act: (bloc) async => bloc.add(
         AuthenticationStatusChanged(
           status: AuthenticationStatus.unauthenticated,
