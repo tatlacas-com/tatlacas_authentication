@@ -1,4 +1,4 @@
-import 'package:tatlacas_sql_storage/tatlacas_sql_storage.dart';
+import 'package:tatlacas_sqflite_storage/sql.dart';
 
 import 'models/user_entity.dart';
 

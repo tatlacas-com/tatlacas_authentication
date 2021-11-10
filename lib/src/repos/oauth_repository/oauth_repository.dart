@@ -15,9 +15,7 @@ class OauthRepository {
   Future<UserEntity?> authenticate() async {
     final token = await _authenticate();
     if (token?.isNotEmpty == true) {
-      var entity = UserEntity();
-      entity.id =  Uuid().v4();
-      entity.accessToken = token;
+      var entity = UserEntity(id:  Uuid().v4(),accessToken: token);
       return entity;
     }
     return null;

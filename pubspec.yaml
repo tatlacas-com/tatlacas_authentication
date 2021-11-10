@@ -10,8 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
 
-  tatlacas_sql_storage:
-    path: ../tatlacas_sql_storage
+  tatlacas_sqflite_storage:
+    path: ../tatlacas_sqflite_storage
   tatlacas_flutter_oauth:
     path: ../tatlacas_flutter_oauth
 
