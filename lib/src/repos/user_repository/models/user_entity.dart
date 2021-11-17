@@ -10,12 +10,9 @@ class UserEntity extends Entity<UserEntity> {
   final String? fcmToken;
   final String? accessToken;
 
-
-
   factory UserEntity.fromJson(Map<String, dynamic> json) {
     return UserEntity().load(json);
   }
-
 
   get columnGivenName => SqlColumn<UserEntity, String>(
         'givenName',
@@ -50,7 +47,8 @@ class UserEntity extends Entity<UserEntity> {
   get columnProfileDownloaded => SqlColumn<UserEntity, bool>(
         'profileDownloaded',
         read: (entity) => entity.profileDownloaded,
-        write: (entity, value) => entity.copyWith(profileDownloaded: value ?? false),
+        write: (entity, value) =>
+            entity.copyWith(profileDownloaded: value ?? false),
       );
 
   get columnFcmToken => SqlColumn<UserEntity, String>(
@@ -78,8 +76,7 @@ class UserEntity extends Entity<UserEntity> {
       ];
 
   @override
-  List<Object?> get props => [
-        id,
+  List<Object?> get props => super.props.followedBy([
         givenName,
         familyName,
         username,
@@ -88,21 +85,21 @@ class UserEntity extends Entity<UserEntity> {
         profileDownloaded,
         fcmToken,
         accessToken,
-      ];
+      ]).toList();
 
   @override
   String get tableName => 'user';
 
   @override
-  String toString() =>
-      'UserEntity {id:$id, givenName:$givenName, familyName:$familyName, username:$username, xmppJid:$xmppJid, xmppPassword:${xmppPassword?.isNotEmpty == true ? 'present' : 'null'}, profileDownloaded:$profileDownloaded, fcmToken:${fcmToken?.isNotEmpty == true ? 'present' : 'null'}, accessToken:${accessToken?.isNotEmpty == true ? 'present' : 'null'}';
+  String toString() => indentedString({"UserEntity": toJson()});
 
   @override
-  UserEntity setBaseParams({String? id, DateTime? createdAt, DateTime? updatedAt}) {
+  UserEntity setBaseParams(
+      {String? id, DateTime? createdAt, DateTime? updatedAt}) {
     return this.copyWith(
-      id: id,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 
@@ -118,7 +115,7 @@ class UserEntity extends Entity<UserEntity> {
     this.profileDownloaded = false,
     this.fcmToken,
     this.accessToken,
-  }): super(id: id, createdAt: createdAt, updatedAt: updatedAt);
+  }) : super(id: id, createdAt: createdAt, updatedAt: updatedAt);
 
   UserEntity copyWith({
     String? id,
@@ -134,9 +131,9 @@ class UserEntity extends Entity<UserEntity> {
     String? accessToken,
   }) {
     return UserEntity(
-      id: id,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
+      id: id ?? this.id,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
       givenName: givenName ?? this.givenName,
       familyName: familyName ?? this.familyName,
       username: username ?? this.username,
