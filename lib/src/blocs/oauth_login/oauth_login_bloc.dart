@@ -13,11 +13,6 @@ part 'oauth_login_event.dart';
 part 'oauth_login_state.dart';
 
 class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
-  OauthLoginBloc({
-    required this.authenticationBloc,
-    required this.userRepository,
-    required this.oauthRepository,
-  }) : super(OauthLoginInitial());
   @protected
   final AuthenticationBloc authenticationBloc;
   @protected
@@ -25,34 +20,37 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
   @protected
   final OauthRepository oauthRepository;
 
-  @override
-  Stream<OauthLoginState> mapEventToState(
-    OauthLoginEvent event,
-  ) async* {
-    if (event is OauthLoginRequested) {
-      yield* _mapOauthLoginRequestedToState();
-    }
-   else if (event is RetryRequested) {
-      yield const OauthLoginInitial();
-    }
+  OauthLoginBloc({
+    required this.authenticationBloc,
+    required this.userRepository,
+    required this.oauthRepository,
+  }) : super(OauthLoginInitial()){
+    on<OauthLoginRequested>(_onOauthLoginRequested);
+    on<RetryRequested>(_onRetryRequested);
   }
 
-  Stream<OauthLoginState> _mapOauthLoginRequestedToState() async* {
+
+  FutureOr<void> _onRetryRequested(RetryRequested event,
+      Emitter<OauthLoginState> emit) {
+    emit(const OauthLoginInitial());
+  }
+  FutureOr<void> _onOauthLoginRequested(OauthLoginRequested event,
+  Emitter<OauthLoginState> emit) async {
     try {
-      yield const OauthLoginInProgress();
+      emit(const OauthLoginInProgress());
 
       final  user = await oauthRepository.authenticate();
       if (user?.accessToken != null) {
-        yield const OauthLoginSucceeded();
+        emit(const OauthLoginSucceeded());
         await userRepository.saveUser(user!);
         await Future.delayed(Duration(milliseconds: 500));
         authenticationBloc.add(AuthenticationStatusChanged(
             status: AuthenticationStatus.authenticated, user: user));
       } else {
-        yield const OauthLoginFailed();
+        emit(const OauthLoginFailed());
       }
     } catch (e) {
-      yield const OauthLoginFailed();
+      emit(const OauthLoginFailed());
     }
   }
 }

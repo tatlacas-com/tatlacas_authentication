@@ -2,21 +2,21 @@
 // in ndaza_authentication/test/blocs/oauth_login/oauth_login_bloc_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i7;
 
-import 'package:bloc/src/bloc.dart' as _i9;
-import 'package:bloc/src/transition.dart' as _i8;
+import 'package:bloc/src/bloc.dart' as _i8;
+import 'package:bloc/src/transition.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:ndaza_authentication/src/blocs/authentication/authentication_bloc.dart'
     as _i3;
 import 'package:ndaza_authentication/src/repos/oauth_repository/oauth_repository.dart'
     as _i10;
 import 'package:ndaza_authentication/src/repos/user_repository/models/user_entity.dart'
-    as _i5;
+    as _i4;
 import 'package:ndaza_authentication/src/repos/user_repository/user_repository.dart'
     as _i2;
-import 'package:tatlacas_flutter_oauth/authorization_token_request.dart' as _i7;
-import 'package:tatlacas_flutter_oauth/flutter_appauth.dart' as _i6;
+import 'package:tatlacas_flutter_oauth/authorization_token_request.dart' as _i6;
+import 'package:tatlacas_flutter_oauth/flutter_appauth.dart' as _i5;
 
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: comment_references
@@ -29,15 +29,12 @@ class _FakeUserRepository extends _i1.Fake implements _i2.UserRepository {}
 class _FakeAuthenticationState extends _i1.Fake
     implements _i3.AuthenticationState {}
 
-class _FakeStreamSubscription<T> extends _i1.Fake
-    implements _i4.StreamSubscription<T> {}
+class _FakeUserEntity extends _i1.Fake implements _i4.UserEntity {}
 
-class _FakeUserEntity extends _i1.Fake implements _i5.UserEntity {}
-
-class _FakeFlutterAppAuth extends _i1.Fake implements _i6.FlutterAppAuth {}
+class _FakeFlutterAppAuth extends _i1.Fake implements _i5.FlutterAppAuth {}
 
 class _FakeAuthorizationTokenRequest extends _i1.Fake
-    implements _i7.AuthorizationTokenRequest {}
+    implements _i6.AuthorizationTokenRequest {}
 
 /// A class which mocks [AuthenticationBloc].
 ///
@@ -57,16 +54,14 @@ class MockAuthenticationBloc extends _i1.Mock
       (super.noSuchMethod(Invocation.getter(#state),
           returnValue: _FakeAuthenticationState()) as _i3.AuthenticationState);
   @override
-  _i4.Stream<_i3.AuthenticationState> get stream =>
+  _i7.Stream<_i3.AuthenticationState> get stream =>
       (super.noSuchMethod(Invocation.getter(#stream),
               returnValue: Stream<_i3.AuthenticationState>.empty())
-          as _i4.Stream<_i3.AuthenticationState>);
+          as _i7.Stream<_i3.AuthenticationState>);
   @override
-  _i4.Stream<_i3.AuthenticationState> mapEventToState(
-          _i3.AuthenticationEvent? event) =>
-      (super.noSuchMethod(Invocation.method(#mapEventToState, [event]),
-              returnValue: Stream<_i3.AuthenticationState>.empty())
-          as _i4.Stream<_i3.AuthenticationState>);
+  bool get isClosed =>
+      (super.noSuchMethod(Invocation.getter(#isClosed), returnValue: false)
+          as bool);
   @override
   void add(_i3.AuthenticationEvent? event) =>
       super.noSuchMethod(Invocation.method(#add, [event]),
@@ -76,60 +71,28 @@ class MockAuthenticationBloc extends _i1.Mock
       super.noSuchMethod(Invocation.method(#onEvent, [event]),
           returnValueForMissingStub: null);
   @override
-  _i4.Stream<_i8.Transition<_i3.AuthenticationEvent, _i3.AuthenticationState>>
-      transformEvents(
-              _i4.Stream<_i3.AuthenticationEvent>? events,
-              _i9.TransitionFunction<_i3.AuthenticationEvent, _i3.AuthenticationState>?
-                  transitionFn) =>
-          (super.noSuchMethod(
-                  Invocation.method(#transformEvents, [events, transitionFn]),
-                  returnValue:
-                      Stream<_i8.Transition<_i3.AuthenticationEvent, _i3.AuthenticationState>>.empty())
-              as _i4.Stream<
-                  _i8.Transition<_i3.AuthenticationEvent, _i3.AuthenticationState>>);
-  @override
   void emit(_i3.AuthenticationState? state) =>
       super.noSuchMethod(Invocation.method(#emit, [state]),
           returnValueForMissingStub: null);
   @override
+  void on<E extends _i3.AuthenticationEvent>(
+          _i8.EventHandler<E, _i3.AuthenticationState>? handler,
+          {_i8.EventTransformer<E>? transformer}) =>
+      super.noSuchMethod(
+          Invocation.method(#on, [handler], {#transformer: transformer}),
+          returnValueForMissingStub: null);
+  @override
   void onTransition(
-          _i8.Transition<_i3.AuthenticationEvent, _i3.AuthenticationState>?
+          _i9.Transition<_i3.AuthenticationEvent, _i3.AuthenticationState>?
               transition) =>
       super.noSuchMethod(Invocation.method(#onTransition, [transition]),
           returnValueForMissingStub: null);
   @override
-  _i4.Stream<_i8.Transition<_i3.AuthenticationEvent, _i3.AuthenticationState>>
-      transformTransitions(
-              _i4.Stream<_i8.Transition<_i3.AuthenticationEvent, _i3.AuthenticationState>>?
-                  transitions) =>
-          (super.noSuchMethod(
-                  Invocation.method(#transformTransitions, [transitions]),
-                  returnValue:
-                      Stream<_i8.Transition<_i3.AuthenticationEvent, _i3.AuthenticationState>>.empty())
-              as _i4.Stream<
-                  _i8.Transition<_i3.AuthenticationEvent, _i3.AuthenticationState>>);
-  @override
-  _i4.Future<void> close() => (super.noSuchMethod(Invocation.method(#close, []),
+  _i7.Future<void> close() => (super.noSuchMethod(Invocation.method(#close, []),
       returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future.value()) as _i4.Future<void>);
+      returnValueForMissingStub: Future.value()) as _i7.Future<void>);
   @override
-  _i4.StreamSubscription<_i3.AuthenticationState> listen(
-          void Function(_i3.AuthenticationState)? onData,
-          {Function? onError,
-          void Function()? onDone,
-          bool? cancelOnError}) =>
-      (super.noSuchMethod(
-              Invocation.method(#listen, [
-                onData
-              ], {
-                #onError: onError,
-                #onDone: onDone,
-                #cancelOnError: cancelOnError
-              }),
-              returnValue: _FakeStreamSubscription<_i3.AuthenticationState>())
-          as _i4.StreamSubscription<_i3.AuthenticationState>);
-  @override
-  void onChange(_i8.Change<_i3.AuthenticationState>? change) =>
+  void onChange(_i9.Change<_i3.AuthenticationState>? change) =>
       super.noSuchMethod(Invocation.method(#onChange, [change]),
           returnValueForMissingStub: null);
   @override
@@ -151,20 +114,20 @@ class MockUserRepository extends _i1.Mock implements _i2.UserRepository {
   }
 
   @override
-  _i4.Future<_i5.UserEntity> saveUser(_i5.UserEntity? user) =>
+  _i7.Future<_i4.UserEntity> saveUser(_i4.UserEntity? user) =>
       (super.noSuchMethod(Invocation.method(#saveUser, [user]),
-              returnValue: Future<_i5.UserEntity>.value(_FakeUserEntity()))
-          as _i4.Future<_i5.UserEntity>);
+              returnValue: Future<_i4.UserEntity>.value(_FakeUserEntity()))
+          as _i7.Future<_i4.UserEntity>);
   @override
-  _i4.Future<_i5.UserEntity?> getUser() =>
+  _i7.Future<_i4.UserEntity?> getUser() =>
       (super.noSuchMethod(Invocation.method(#getUser, []),
-              returnValue: Future<_i5.UserEntity?>.value())
-          as _i4.Future<_i5.UserEntity?>);
+              returnValue: Future<_i4.UserEntity?>.value())
+          as _i7.Future<_i4.UserEntity?>);
   @override
-  _i4.Future<void> removeUser() =>
+  _i7.Future<void> removeUser() =>
       (super.noSuchMethod(Invocation.method(#removeUser, []),
           returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future.value()) as _i4.Future<void>);
+          returnValueForMissingStub: Future.value()) as _i7.Future<void>);
 }
 
 /// A class which mocks [OauthRepository].
@@ -176,17 +139,17 @@ class MockOauthRepository extends _i1.Mock implements _i10.OauthRepository {
   }
 
   @override
-  _i6.FlutterAppAuth get flutterAppAuth =>
+  _i5.FlutterAppAuth get flutterAppAuth =>
       (super.noSuchMethod(Invocation.getter(#flutterAppAuth),
-          returnValue: _FakeFlutterAppAuth()) as _i6.FlutterAppAuth);
+          returnValue: _FakeFlutterAppAuth()) as _i5.FlutterAppAuth);
   @override
-  _i7.AuthorizationTokenRequest get authorizationTokenRequest =>
+  _i6.AuthorizationTokenRequest get authorizationTokenRequest =>
       (super.noSuchMethod(Invocation.getter(#authorizationTokenRequest),
               returnValue: _FakeAuthorizationTokenRequest())
-          as _i7.AuthorizationTokenRequest);
+          as _i6.AuthorizationTokenRequest);
   @override
-  _i4.Future<_i5.UserEntity?> authenticate() =>
+  _i7.Future<_i4.UserEntity?> authenticate() =>
       (super.noSuchMethod(Invocation.method(#authenticate, []),
-              returnValue: Future<_i5.UserEntity?>.value())
-          as _i4.Future<_i5.UserEntity?>);
+              returnValue: Future<_i4.UserEntity?>.value())
+          as _i7.Future<_i4.UserEntity?>);
 }
