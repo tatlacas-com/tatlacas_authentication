@@ -13,15 +13,18 @@ void main() {
     late AuthenticationBloc authBloc;
     late UserRepository userRepository;
     late OauthRepository oauthRepository;
+    late UserEntity testUser;
     setUp(() {
       authBloc = MockAuthenticationBloc();
       userRepository = MockUserRepository();
       oauthRepository = MockOauthRepository();
+      testUser =
+          UserEntity.fromJson({'id': 'testing123', 'accessToken': 'xyz'});
       when(oauthRepository.authenticate()).thenAnswer((invocation) {
-        return Future.value(UserEntity.fromJson({'id': 'testing123'}));
+        return Future.value(testUser);
       });
-      when(userRepository.saveUser(UserEntity.fromJson({'id': 'testing123'}))).thenAnswer(
-          (invocation) => Future.value(UserEntity.fromJson({'id': 'testing123'})));
+      when(userRepository.saveUser(testUser)).thenAnswer((invocation) =>
+          Future.value(UserEntity.fromJson({'id': 'testing123'})));
       bloc = OauthLoginBloc(
         authenticationBloc: authBloc,
         userRepository: userRepository,
@@ -44,7 +47,6 @@ void main() {
         act: (bloc) async => bloc.add(OauthLoginRequested()),
         expect: () => <OauthLoginState>[
               OauthLoginInProgress(),
-              OauthLoginSucceeded(),
               OauthLoginFailed(),
             ]);
 
@@ -60,33 +62,14 @@ void main() {
               OauthLoginFailed(),
             ]);
 
-    UserEntity? authenticatedUser;
     blocTest<OauthLoginBloc, OauthLoginState>(
-        'should emit in progress and succeeded',
-        build: () {
-          when(authBloc.add(AuthenticationStatusChanged(
-            status: AuthenticationStatus.authenticated,
-          ))).thenAnswer((invocation) {
-            var event = invocation.positionalArguments[0]
-                as AuthenticationStatusChanged;
-            expect(event.user, isNotNull);
-            authenticatedUser = event.user;
-            when(authBloc.state).thenReturn(Authenticated(user: event.user!));
-          });
-          return bloc;
-        },
-        act: (bloc) async => bloc.add(OauthLoginRequested()),
-        expect: () => <OauthLoginState>[
-              OauthLoginInProgress(),
-              OauthLoginSucceeded(),
-            ],
-        verify: (bloc) {
-          expect(authenticatedUser, isNotNull);
-          expect(
-              authBloc.state,
-              Authenticated(
-                user: authenticatedUser!,
-              ));
-        });
+      'should emit in progress and succeeded',
+      build: () => bloc,
+      act: (bloc) async => bloc.add(OauthLoginRequested()),
+      expect: () => <OauthLoginState>[
+        OauthLoginInProgress(),
+        OauthLoginSucceeded(),
+      ],
+    );
   });
 }
