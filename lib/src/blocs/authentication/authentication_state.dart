@@ -4,51 +4,55 @@ enum AuthenticationStatus {
   unknown,
   initializing,
   authenticated,
-  unauthenticated
+  unauthenticated,
+  authenticating,
+  authFailed,
 }
 
 abstract class AuthenticationState extends Equatable {
-  const AuthenticationState();
+  final UserEntity? account;
+
+  final timestamp = DateTime.now();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [timestamp];
+
+  AuthenticationState({
+    this.account,
+  });
 }
 
-class AuthUnknown extends AuthenticationState {
-  const AuthUnknown();
-  @override
-  String toString() => 'AuthUnknown';
+class AuthUnknownState extends AuthenticationState {
+  AuthUnknownState();
 }
 
-class AuthInitializing extends AuthenticationState {
-  const AuthInitializing();
-  @override
-  String toString() => 'AuthInitializing';
+class AuthInitializingState extends AuthenticationState {
+  AuthInitializingState();
 }
 
-class Authenticated extends AuthenticationState {
-  final UserEntity user;
-
-  const Authenticated({required this.user});
+class AuthenticatedState extends AuthenticationState {
+  AuthenticatedState({required UserEntity user}) : super(account: user);
 
   @override
-  String toString() => 'Authenticated {user: $user}';
-
-  @override
-  List<Object> get props => [user];
+  List<Object?> get props => [account];
 }
 
-class Unauthenticated extends AuthenticationState {
-  const Unauthenticated();
-  @override
-  String toString() => 'Unauthenticated';
+class UnauthenticatedState extends AuthenticationState {
+  UnauthenticatedState();
+}
+
+class AuthenticatingState extends AuthenticationState {
+  AuthenticatingState();
 }
 
 ///Must only be emitted when something unexpected happens during authentication
 ///
 ///e.g authenticated but with null user
-class AuthFailed extends AuthenticationState{
-  const AuthFailed();
+class AuthFailedState extends AuthenticationState {
+  final dynamic authType;
+
+  AuthFailedState({required this.authType});
+
   @override
-  String toString() => 'AuthFailed';
+  List<Object> get props => [authType];
 }

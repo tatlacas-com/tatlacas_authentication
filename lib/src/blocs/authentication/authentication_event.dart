@@ -8,13 +8,13 @@ abstract class AuthenticationEvent extends Equatable {
 }
 
 class AuthenticationStatusChanged extends AuthenticationEvent {
-  const AuthenticationStatusChanged({required this.status,this.user});
-
+  const AuthenticationStatusChanged({required this.status, required this.authType,this.user});
+  final dynamic authType;
   final AuthenticationStatus status;
   final UserEntity? user;
 
   @override
-  List<Object?> get props => [status];
+  List<Object?> get props => [status, user, authType];
 
   @override
   String toString() => 'AuthenticationStatusChanged {status:$status, user:$user}';

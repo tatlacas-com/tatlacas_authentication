@@ -7,6 +7,7 @@ void main() {
       test('toString returns correct value', () {
         expect(
             AuthenticationStatusChanged(
+              authType: "azure",
               status: AuthenticationStatus.authenticated,
               user: UserEntity.fromJson({
                 'givenName': 'Test',
@@ -14,8 +15,7 @@ void main() {
                 'id': '4',
               }),
             ).toString(),
-            'AuthenticationStatusChanged {status:${AuthenticationStatus.authenticated}, user:${UserEntity.fromJson(
-                {
+            'AuthenticationStatusChanged {status:${AuthenticationStatus.authenticated}, user:${UserEntity.fromJson({
                   'givenName': 'Test',
                   'familyName': 'User',
                   'id': '4',

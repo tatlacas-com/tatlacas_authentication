@@ -5,18 +5,18 @@ void main() {
   group('AuthenticationState', () {
     group('AuthUnknown', () {
       test('AuthUnknown toString returns correct value', () {
-        expect(AuthUnknown().toString(), 'AuthUnknown');
+        expect(AuthUnknownState().toString(), 'AuthUnknown');
       });
     });
     group('AuthInitializing', () {
       test('toString returns correct value', () {
-        expect(AuthInitializing().toString(), 'AuthInitializing');
+        expect(AuthInitializingState().toString(), 'AuthInitializing');
       });
     });
     group('Authenticated', () {
       test('toString returns correct value', () {
         expect(
-            Authenticated(
+            AuthenticatedState(
                 user: UserEntity.fromJson({
               'givenName': 'Test',
               'familyName': 'User',
@@ -31,12 +31,16 @@ void main() {
     });
     group('Unauthenticated', () {
       test('toString returns correct value', () {
-        expect(Unauthenticated().toString(), 'Unauthenticated');
+        expect(UnauthenticatedState().toString(), 'Unauthenticated');
       });
     });
     group('AuthFailed', () {
       test('AuthFailed toString returns correct value', () {
-        expect(AuthFailed().toString(), 'AuthFailed');
+        expect(
+            AuthFailedState(
+              authType: "azure",
+            ).toString(),
+            'AuthFailed');
       });
     });
   });

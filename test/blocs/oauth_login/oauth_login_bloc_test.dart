@@ -41,10 +41,13 @@ void main() {
         build: () {
           when(authBloc.add(AuthenticationStatusChanged(
             status: AuthenticationStatus.authenticated,
+            authType: "azure",
           ))).thenThrow(Exception('ops'));
           return bloc;
         },
-        act: (bloc) async => bloc.add(OauthLoginRequested()),
+        act: (bloc) async => bloc.add(OauthLoginRequested(
+              authType: "azure",
+            )),
         expect: () => <OauthLoginState>[
               OauthLoginInProgress(),
               OauthLoginFailed(),
@@ -56,7 +59,9 @@ void main() {
           when(oauthRepository.authenticate()).thenThrow(Exception('ops'));
           return bloc;
         },
-        act: (bloc) async => bloc.add(OauthLoginRequested()),
+        act: (bloc) async => bloc.add(OauthLoginRequested(
+              authType: "azure",
+            )),
         expect: () => <OauthLoginState>[
               OauthLoginInProgress(),
               OauthLoginFailed(),
@@ -65,7 +70,9 @@ void main() {
     blocTest<OauthLoginBloc, OauthLoginState>(
       'should emit in progress and succeeded',
       build: () => bloc,
-      act: (bloc) async => bloc.add(OauthLoginRequested()),
+      act: (bloc) async => bloc.add(OauthLoginRequested(
+        authType: "azure",
+      )),
       expect: () => <OauthLoginState>[
         OauthLoginInProgress(),
         OauthLoginSucceeded(),

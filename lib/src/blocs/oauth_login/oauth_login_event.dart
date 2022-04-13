@@ -7,13 +7,19 @@ abstract class OauthLoginEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class RetryRequested extends OauthLoginEvent{
+class RetryRequested extends OauthLoginEvent {
 
   @override
   String toString() => 'RetryRequested';
 }
 
 class OauthLoginRequested extends OauthLoginEvent {
+  final dynamic authType;
+
   @override
-  String toString() => 'OauthLoginRequested';
+  List<Object> get props => [authType];
+
+  const OauthLoginRequested({
+    required this.authType,
+  });
 }

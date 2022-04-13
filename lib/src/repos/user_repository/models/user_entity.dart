@@ -9,6 +9,36 @@ class UserEntity extends Entity<UserEntity> {
   final bool profileDownloaded;
   final String? fcmToken;
   final String? accessToken;
+  final String? fullName;
+  final String? email;
+  final String? phone;
+
+  String? get constructedFullName =>
+      fullName ??
+      ((givenName?.isNotEmpty != true && familyName?.isNotEmpty != true)
+          ? null
+          : '${givenName ?? ''} ${familyName ?? ''}');
+
+  SqlColumn<UserEntity, String> get columnPhone =>
+      SqlColumn<UserEntity, String>(
+        'phone',
+        read: (entity) => entity.phone,
+        write: (entity, value) => entity.copyWith(phone: value),
+      );
+
+  SqlColumn<UserEntity, String> get columnEmail =>
+      SqlColumn<UserEntity, String>(
+        'email',
+        read: (entity) => entity.email,
+        write: (entity, value) => entity.copyWith(email: value),
+      );
+
+  SqlColumn<UserEntity, String> get columnFullName =>
+      SqlColumn<UserEntity, String>(
+        'fullName',
+        read: (entity) => entity.fullName,
+        write: (entity, value) => entity.copyWith(fullName: value),
+      );
 
   factory UserEntity.fromJson(Map<String, dynamic> json) {
     return UserEntity().load(json);
@@ -73,6 +103,9 @@ class UserEntity extends Entity<UserEntity> {
         columnProfileDownloaded,
         columnFcmToken,
         columnAccessToken,
+        columnFullName,
+        columnEmail,
+        columnPhone,
       ];
 
   @override
@@ -85,6 +118,9 @@ class UserEntity extends Entity<UserEntity> {
         profileDownloaded,
         fcmToken,
         accessToken,
+        fullName,
+        email,
+        phone,
       ]).toList();
 
   @override
@@ -111,6 +147,9 @@ class UserEntity extends Entity<UserEntity> {
     this.familyName,
     this.username,
     this.xmppJid,
+    this.fullName,
+    this.email,
+    this.phone,
     this.xmppPassword,
     this.profileDownloaded = false,
     this.fcmToken,
@@ -125,6 +164,9 @@ class UserEntity extends Entity<UserEntity> {
     String? familyName,
     String? username,
     String? xmppJid,
+    String? fullName,
+    String? email,
+    String? phone,
     String? xmppPassword,
     bool? profileDownloaded,
     String? fcmToken,
@@ -135,6 +177,9 @@ class UserEntity extends Entity<UserEntity> {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       givenName: givenName ?? this.givenName,
+      fullName: fullName ?? this.fullName,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
       familyName: familyName ?? this.familyName,
       username: username ?? this.username,
       xmppJid: xmppJid ?? this.xmppJid,

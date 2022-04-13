@@ -18,7 +18,7 @@ void main() {
     });
 
     test('should emit AuthUnknown as correct initial state', () {
-      expect(bloc.state, AuthUnknown());
+      expect(bloc.state, AuthUnknownState());
     });
 
     blocTest<AuthenticationBloc, AuthenticationState>(
@@ -29,12 +29,15 @@ void main() {
       },
       act: (bloc) async => bloc.add(
         AuthenticationStatusChanged(
+          authType: "azure",
           status: AuthenticationStatus.initializing,
         ),
       ),
       expect: () => <AuthenticationState>[
-        AuthInitializing(),
-        AuthFailed(),
+        AuthInitializingState(),
+        AuthFailedState(
+          authType: "azure",
+        ),
       ],
     );
 
@@ -43,6 +46,7 @@ void main() {
       build: () => bloc,
       act: (bloc) async => bloc.add(
         AuthenticationStatusChanged(
+          authType: "azure",
           status: AuthenticationStatus.authenticated,
           user: UserEntity.fromJson({
             'givenName': 'Test',
@@ -52,7 +56,7 @@ void main() {
         ),
       ),
       expect: () => <AuthenticationState>[
-        Authenticated(
+        AuthenticatedState(
           user: UserEntity.fromJson({
             'givenName': 'Test',
             'familyName': 'User',
@@ -75,12 +79,13 @@ void main() {
       },
       act: (bloc) async => bloc.add(
         AuthenticationStatusChanged(
+          authType: "azure",
           status: AuthenticationStatus.initializing,
         ),
       ),
       expect: () => <AuthenticationState>[
-        AuthInitializing(),
-        Authenticated(
+        AuthInitializingState(),
+        AuthenticatedState(
           user: UserEntity.fromJson({
             'givenName': 'Test',
             'familyName': 'User',
@@ -99,12 +104,13 @@ void main() {
       },
       act: (bloc) async => bloc.add(
         AuthenticationStatusChanged(
+          authType: "azure",
           status: AuthenticationStatus.initializing,
         ),
       ),
       expect: () => <AuthenticationState>[
-        AuthInitializing(),
-        Unauthenticated(),
+        AuthInitializingState(),
+        UnauthenticatedState(),
       ],
     );
     blocTest<AuthenticationBloc, AuthenticationState>(
@@ -112,11 +118,12 @@ void main() {
       build: () => bloc,
       act: (bloc) async => bloc.add(
         AuthenticationStatusChanged(
+          authType: "azure",
           status: AuthenticationStatus.unauthenticated,
         ),
       ),
       expect: () => <AuthenticationState>[
-        Unauthenticated(),
+        UnauthenticatedState(),
       ],
     );
   });

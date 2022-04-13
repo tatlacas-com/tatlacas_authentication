@@ -24,33 +24,50 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
     required this.authenticationBloc,
     required this.userRepository,
     required this.oauthRepository,
-  }) : super(OauthLoginInitial()){
+  }) : super(OauthLoginInitial()) {
     on<OauthLoginRequested>(_onOauthLoginRequested);
     on<RetryRequested>(_onRetryRequested);
   }
 
-
-  FutureOr<void> _onRetryRequested(RetryRequested event,
-      Emitter<OauthLoginState> emit) {
+  FutureOr<void> _onRetryRequested(
+      RetryRequested event, Emitter<OauthLoginState> emit) {
     emit(const OauthLoginInitial());
+    authenticationBloc.add(AuthenticationStatusChanged(
+        status: AuthenticationStatus.unauthenticated, authType: null));
   }
-  FutureOr<void> _onOauthLoginRequested(OauthLoginRequested event,
-  Emitter<OauthLoginState> emit) async {
+
+  FutureOr<void> _onOauthLoginRequested(
+      OauthLoginRequested event, Emitter<OauthLoginState> emit) async {
     try {
+      authenticationBloc.add(AuthenticationStatusChanged(
+        status: AuthenticationStatus.authenticating,
+        authType: event.authType,
+      ));
       emit(const OauthLoginInProgress());
 
-      var  user = await oauthRepository.authenticate();
+      var user = await oauthRepository.authenticate();
       if (user?.accessToken != null) {
         emit(const OauthLoginSucceeded());
         user = await userRepository.saveUser(user!);
         await Future.delayed(Duration(milliseconds: 500));
         authenticationBloc.add(AuthenticationStatusChanged(
-            status: AuthenticationStatus.authenticated, user: user));
+          status: AuthenticationStatus.authenticated,
+          user: user,
+          authType: event.authType,
+        ));
       } else {
         emit(const OauthLoginFailed());
+        authenticationBloc.add(AuthenticationStatusChanged(
+          status: AuthenticationStatus.authFailed,
+          authType: event.authType,
+        ));
       }
     } catch (e) {
       emit(const OauthLoginFailed());
+      authenticationBloc.add(AuthenticationStatusChanged(
+        status: AuthenticationStatus.authFailed,
+        authType: event.authType,
+      ));
     }
   }
 }

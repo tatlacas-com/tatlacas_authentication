@@ -5,7 +5,11 @@ void main() {
   group('OauthLoginEvent', () {
     group('OauthLoginRequested', () {
       test('toString returns correct value', () {
-        expect(OauthLoginRequested().toString(), 'OauthLoginRequested');
+        expect(
+            OauthLoginRequested(
+              authType: "azure",
+            ).toString(),
+            'OauthLoginRequested');
       });
     });
     group('RetryRequested', () {
