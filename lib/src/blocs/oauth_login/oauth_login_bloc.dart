@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:ndaza_authentication/ndaza_authentication.dart';
 import 'package:ndaza_authentication/src/repos/oauth_repository/oauth_repository.dart';
 import 'package:ndaza_authentication/src/repos/user_repository/user_repository.dart';
+import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
+import 'package:uuid/uuid.dart';
 
 import '../authentication/authentication_bloc.dart';
 
@@ -45,10 +48,12 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
       ));
       emit(const OauthLoginInProgress());
 
-      var user = await oauthRepository.authenticate();
-      if (user?.accessToken != null) {
+      var authResponse = await oauthRepository.authenticate();
+      UserEntity? user;
+      if (authResponse != null) user = await createUser(authResponse);
+      if (user != null) {
         emit(const OauthLoginSucceeded());
-        user = await userRepository.saveUser(user!);
+        user = await userRepository.saveUser(user);
         await Future.delayed(Duration(milliseconds: 500));
         authenticationBloc.add(AuthenticationStatusChanged(
           status: AuthenticationStatus.authenticated,
@@ -69,5 +74,13 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
         authType: event.authType,
       ));
     }
+  }
+
+  Future<UserEntity?> createUser(AuthorizationTokenResponse response) async {
+    if (response.idToken?.isNotEmpty == true) {
+      var entity = UserEntity(id: Uuid().v4(), accessToken: response.idToken);
+      return entity;
+    }
+    return null;
   }
 }
