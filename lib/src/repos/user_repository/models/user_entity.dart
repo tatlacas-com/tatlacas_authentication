@@ -117,10 +117,10 @@ class UserEntity extends Entity<UserEntity> {
         xmppPassword,
         profileDownloaded,
         fcmToken,
-        accessToken,
         fullName,
         email,
         phone,
+        accessToken,
       ]).toList();
 
   @override
