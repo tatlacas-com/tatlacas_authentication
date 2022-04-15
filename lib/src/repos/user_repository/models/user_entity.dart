@@ -102,10 +102,10 @@ class UserEntity extends Entity<UserEntity> {
         columnXmppPassword,
         columnProfileDownloaded,
         columnFcmToken,
-        columnAccessToken,
         columnFullName,
         columnEmail,
         columnPhone,
+        columnAccessToken,
       ];
 
   @override
@@ -125,9 +125,6 @@ class UserEntity extends Entity<UserEntity> {
 
   @override
   String get tableName => 'user';
-
-  @override
-  String toString() => indentedString({"UserEntity": toJson()});
 
   @override
   UserEntity setBaseParams(
