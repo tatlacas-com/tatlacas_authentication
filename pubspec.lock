@@ -611,10 +611,10 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "69e7a28dd79d832edfa498fcd365db903f3abed4"
+      resolved-ref: "987af88d3bed8b75729669ab5ed7a6424c3d91ea"
       url: "git@github.com:tatlacas-com/tatlacas_sqflite_storage.git"
     source: git
-    version: "0.0.1"
+    version: "1.0.1"
   term_glyph:
     dependency: transitive
     description:
