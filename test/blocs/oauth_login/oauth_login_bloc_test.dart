@@ -44,7 +44,7 @@ void main() {
     blocTest<OauthLoginBloc, OauthLoginState>(
         'should emit OauthLoginFailed on authentication throws',
         build: () {
-          when(authBloc.add(AuthenticationStatusChanged(
+          when(authBloc.add(ChangeAuthStatusEvent(
             status: AuthenticationStatus.authenticated,
             authType: "azure",
           ))).thenThrow(Exception('ops'));

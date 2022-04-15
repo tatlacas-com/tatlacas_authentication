@@ -35,14 +35,14 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
   FutureOr<void> _onRetryRequested(
       RetryRequested event, Emitter<OauthLoginState> emit) {
     emit(const OauthLoginInitial());
-    authenticationBloc.add(AuthenticationStatusChanged(
+    authenticationBloc.add(ChangeAuthStatusEvent(
         status: AuthenticationStatus.unauthenticated, authType: null));
   }
 
   FutureOr<void> _onOauthLoginRequested(
       OauthLoginRequested event, Emitter<OauthLoginState> emit) async {
     try {
-      authenticationBloc.add(AuthenticationStatusChanged(
+      authenticationBloc.add(ChangeAuthStatusEvent(
         status: AuthenticationStatus.authenticating,
         authType: event.authType,
       ));
@@ -55,21 +55,21 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
         emit(const OauthLoginSucceeded());
         user = await userRepository.saveUser(user);
         await Future.delayed(Duration(milliseconds: 500));
-        authenticationBloc.add(AuthenticationStatusChanged(
+        authenticationBloc.add(ChangeAuthStatusEvent(
           status: AuthenticationStatus.authenticated,
           user: user,
           authType: event.authType,
         ));
       } else {
         emit(const OauthLoginFailed());
-        authenticationBloc.add(AuthenticationStatusChanged(
+        authenticationBloc.add(ChangeAuthStatusEvent(
           status: AuthenticationStatus.authFailed,
           authType: event.authType,
         ));
       }
     } catch (e) {
       emit(const OauthLoginFailed());
-      authenticationBloc.add(AuthenticationStatusChanged(
+      authenticationBloc.add(ChangeAuthStatusEvent(
         status: AuthenticationStatus.authFailed,
         authType: event.authType,
       ));

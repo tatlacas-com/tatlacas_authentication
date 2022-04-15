@@ -28,7 +28,7 @@ void main() {
         return bloc;
       },
       act: (bloc) async => bloc.add(
-        AuthenticationStatusChanged(
+        ChangeAuthStatusEvent(
           authType: "azure",
           status: AuthenticationStatus.initializing,
         ),
@@ -45,7 +45,7 @@ void main() {
       'should emit Authenticated with correct user',
       build: () => bloc,
       act: (bloc) async => bloc.add(
-        AuthenticationStatusChanged(
+        ChangeAuthStatusEvent(
           authType: "azure",
           status: AuthenticationStatus.authenticated,
           user: UserEntity.fromJson({
@@ -78,7 +78,7 @@ void main() {
         return bloc;
       },
       act: (bloc) async => bloc.add(
-        AuthenticationStatusChanged(
+        ChangeAuthStatusEvent(
           authType: "azure",
           status: AuthenticationStatus.initializing,
         ),
@@ -103,7 +103,7 @@ void main() {
         return bloc;
       },
       act: (bloc) async => bloc.add(
-        AuthenticationStatusChanged(
+        ChangeAuthStatusEvent(
           authType: "azure",
           status: AuthenticationStatus.initializing,
         ),
@@ -117,7 +117,7 @@ void main() {
       'should emit Unauthenticated',
       build: () => bloc,
       act: (bloc) async => bloc.add(
-        AuthenticationStatusChanged(
+        ChangeAuthStatusEvent(
           authType: "azure",
           status: AuthenticationStatus.unauthenticated,
         ),

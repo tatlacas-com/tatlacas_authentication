@@ -7,8 +7,8 @@ abstract class AuthenticationEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class AuthenticationStatusChanged extends AuthenticationEvent {
-  const AuthenticationStatusChanged({required this.status, required this.authType,this.user});
+class ChangeAuthStatusEvent extends AuthenticationEvent {
+  const ChangeAuthStatusEvent({required this.status, required this.authType,this.user});
   final dynamic authType;
   final AuthenticationStatus status;
   final UserEntity? user;
@@ -20,8 +20,8 @@ class AuthenticationStatusChanged extends AuthenticationEvent {
   String toString() => 'AuthenticationStatusChanged {status:$status, user:$user}';
 }
 
-class LogoutRequested extends AuthenticationEvent {
-  const LogoutRequested();
+class LogoutRequestedEvent extends AuthenticationEvent {
+  const LogoutRequestedEvent();
 
   @override
   String toString() => 'LogoutRequested';

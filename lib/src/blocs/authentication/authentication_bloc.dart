@@ -15,18 +15,18 @@ class AuthenticationBloc
 
   AuthenticationBloc({required this.userRepository})
       : super(AuthUnknownState()) {
-    on<AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
-    on<LogoutRequested>(_onLogoutRequested);
+    on<ChangeAuthStatusEvent>(_onChangeAuthStatusEvent);
+    on<LogoutRequestedEvent>(_onLogoutRequestedEvent);
   }
 
-  FutureOr<void> _onLogoutRequested(
-      LogoutRequested event, Emitter<AuthenticationState> emit) async {
+  FutureOr<void> _onLogoutRequestedEvent(
+      LogoutRequestedEvent event, Emitter<AuthenticationState> emit) async {
     await userRepository.removeUser();
     emit(UnauthenticatedState());
   }
 
-  FutureOr<void> _onAuthenticationStatusChanged(
-      AuthenticationStatusChanged event,
+  FutureOr<void> _onChangeAuthStatusEvent(
+      ChangeAuthStatusEvent event,
       Emitter<AuthenticationState> emit) async {
     try {
       switch (event.status) {

@@ -6,7 +6,7 @@ void main() {
     group('AuthenticationStatusChanged', () {
       test('toString returns correct value', () {
         expect(
-            AuthenticationStatusChanged(
+            ChangeAuthStatusEvent(
               authType: "azure",
               status: AuthenticationStatus.authenticated,
               user: UserEntity.fromJson({
@@ -24,7 +24,7 @@ void main() {
     });
     group('LogoutRequested', () {
       test('toString returns correct value', () {
-        expect(LogoutRequested().toString(), 'LogoutRequested');
+        expect(LogoutRequestedEvent().toString(), 'LogoutRequested');
       });
     });
   });
