@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:ndaza_authentication/ndaza_authentication.dart';
-import 'package:ndaza_authentication/src/repos/oauth_repository/oauth_repository.dart';
-import 'package:ndaza_authentication/src/repos/user_repository/user_repository.dart';
+import 'package:tatlacas_authentication/tatlacas_authentication.dart';
+import 'package:tatlacas_authentication/src/repos/oauth_repository/oauth_repository.dart';
+import 'package:tatlacas_authentication/src/repos/user_repository/user_repository.dart';
 import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
 import 'package:uuid/uuid.dart';
 

@@ -1,4 +1,4 @@
-library ndaza_authentication;
+library tatlacas_authentication;
 
 export 'src/blocs/authentication/authentication_bloc.dart';
 export 'src/blocs/oauth_login/oauth_login_bloc.dart';
