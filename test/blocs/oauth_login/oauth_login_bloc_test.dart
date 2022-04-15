@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:ndaza_authentication/ndaza_authentication.dart';
+import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
 
 import 'oauth_login_bloc_test.mocks.dart';
 
@@ -13,17 +14,21 @@ void main() {
     late AuthenticationBloc authBloc;
     late UserRepository userRepository;
     late OauthRepository oauthRepository;
-    late UserEntity testUser;
+    late AuthorizationTokenResponse testResponse;
+    var user = UserEntity.fromJson({'id': 'testing123', 'accessToken': 'xyz'});
     setUp(() {
       authBloc = MockAuthenticationBloc();
       userRepository = MockUserRepository();
       oauthRepository = MockOauthRepository();
-      testUser =
-          UserEntity.fromJson({'id': 'testing123', 'accessToken': 'xyz'});
+      testResponse = AuthorizationTokenResponse('xyz','xyz',DateTime.now(),'xyz','id',
+          {},null);
       when(oauthRepository.authenticate()).thenAnswer((invocation) {
-        return Future.value(testUser);
+        return Future.value(testResponse);
       });
-      when(userRepository.saveUser(testUser)).thenAnswer((invocation) =>
+      when(bloc.createUser(testResponse)).thenAnswer((invocation) {
+        return Future.value(user);
+      });
+      when(userRepository.saveUser(user)).thenAnswer((invocation) =>
           Future.value(UserEntity.fromJson({'id': 'testing123'})));
       bloc = OauthLoginBloc(
         authenticationBloc: authBloc,

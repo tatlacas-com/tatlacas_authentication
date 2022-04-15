@@ -1,5 +1,5 @@
-name: ndaza_authentication
-description: Ndaza Authentication
+name: tatlacas_authentication
+description: TatlaCas Authentication
 version: 0.0.1
 publish_to: none
 environment:
