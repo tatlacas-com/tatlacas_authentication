@@ -2,7 +2,6 @@ import 'package:tatlacas_sqflite_storage/sql.dart';
 
 import 'models/user_entity.dart';
 
-
 class UserRepository {
   final SqlStorage _repo;
   static final UserEntity _type = UserEntity();
@@ -10,7 +9,12 @@ class UserRepository {
   const UserRepository({required SqlStorage storage}) : this._repo = storage;
 
   Future<UserEntity> saveUser(UserEntity user) async {
-    return await _repo.insertOrUpdate(user) as UserEntity;
+    await _repo.delete(_type,
+        where: SqlWhere(
+          _type.columnId,
+          condition: SqlCondition.NotNull,
+        ));
+    return await _repo.insert(user) as UserEntity;
   }
 
   Future<UserEntity?> getUser() async {
