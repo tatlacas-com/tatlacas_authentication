@@ -607,16 +607,20 @@ packages:
   tatlacas_flutter_oauth:
     dependency: "direct main"
     description:
-      path: "../tatlacas_flutter_oauth"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: deaeca9e09f059fd058961dd584e315939c510e8
+      url: "git@github.com:tatlacas-com/tatlacas_flutter_oauth.git"
+    source: git
     version: "0.0.1"
   tatlacas_sqflite_storage:
     dependency: "direct main"
     description:
-      path: "../tatlacas_sqflite_storage"
-      relative: true
-    source: path
+      path: "."
+      ref: main
+      resolved-ref: "69e7a28dd79d832edfa498fcd365db903f3abed4"
+      url: "git@github.com:tatlacas-com/tatlacas_sqflite_storage.git"
+    source: git
     version: "0.0.1"
   term_glyph:
     dependency: transitive

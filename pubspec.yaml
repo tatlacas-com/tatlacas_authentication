@@ -11,9 +11,13 @@ dependencies:
     sdk: flutter
 
   tatlacas_sqflite_storage:
-    path: ../tatlacas_sqflite_storage
+    git:
+      url: git@github.com:tatlacas-com/tatlacas_sqflite_storage.git
+      ref: main
   tatlacas_flutter_oauth:
-    path: ../tatlacas_flutter_oauth
+    git:
+      url: git@github.com:tatlacas-com/tatlacas_flutter_oauth.git
+      ref: main
 
   bloc: ^8.0.1
   flutter_bloc: ^8.0.0
