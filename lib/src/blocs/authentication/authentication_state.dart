@@ -41,6 +41,13 @@ class UnauthenticatedState extends AuthenticationState {
   UnauthenticatedState();
 }
 
+class LoggedOutState extends AuthenticationState {
+  final bool userRequested;
+  LoggedOutState({required this.userRequested});
+  @override
+  List<Object?> get props => [timestamp, userRequested];
+}
+
 class AuthenticatingState extends AuthenticationState {
   AuthenticatingState();
 }
