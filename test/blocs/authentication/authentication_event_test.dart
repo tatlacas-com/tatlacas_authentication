@@ -7,6 +7,7 @@ void main() {
       test('toString returns correct value', () {
         expect(
             ChangeAuthStatusEvent(
+              initialAuthentication: true,
               authType: "azure",
               status: AuthenticationStatus.authenticated,
               user: UserEntity.fromJson({

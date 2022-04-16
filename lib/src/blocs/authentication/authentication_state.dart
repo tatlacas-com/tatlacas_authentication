@@ -31,10 +31,15 @@ class AuthInitializingState extends AuthenticationState {
 }
 
 class AuthenticatedState extends AuthenticationState {
-  AuthenticatedState({required UserEntity user}) : super(account: user);
+  final bool initialAuthentication;
+
+  AuthenticatedState({
+    required this.initialAuthentication,
+    required UserEntity user,
+  }) : super(account: user);
 
   @override
-  List<Object?> get props => [account];
+  List<Object?> get props => [account, initialAuthentication];
 }
 
 class UnauthenticatedState extends AuthenticationState {
@@ -43,7 +48,9 @@ class UnauthenticatedState extends AuthenticationState {
 
 class LoggedOutState extends AuthenticationState {
   final bool userRequested;
+
   LoggedOutState({required this.userRequested});
+
   @override
   List<Object?> get props => [timestamp, userRequested];
 }

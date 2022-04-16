@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:tatlacas_authentication/tatlacas_authentication.dart';
 import 'package:tatlacas_authentication/src/repos/oauth_repository/oauth_repository.dart';
 import 'package:tatlacas_authentication/src/repos/user_repository/user_repository.dart';
+import 'package:tatlacas_authentication/tatlacas_authentication.dart';
 import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
 import 'package:uuid/uuid.dart';
 
@@ -28,23 +28,26 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
     required this.userRepository,
     required this.oauthRepository,
   }) : super(OauthLoginInitial()) {
-    on<OauthLoginRequested>(_onOauthLoginRequested);
-    on<RetryRequested>(_onRetryRequested);
+    on<OauthLoginRequestedEvent>(_onOauthLoginRequested);
+    on<RetryRequestedEvent>(_onRetryRequested);
   }
 
   FutureOr<void> _onRetryRequested(
-      RetryRequested event, Emitter<OauthLoginState> emit) {
+      RetryRequestedEvent event, Emitter<OauthLoginState> emit) {
     emit(const OauthLoginInitial());
     authenticationBloc.add(ChangeAuthStatusEvent(
-        status: AuthenticationStatus.unauthenticated, authType: null));
+        initialAuthentication: event.initialAuthentication,
+        status: AuthenticationStatus.unauthenticated,
+        authType: null));
   }
 
   FutureOr<void> _onOauthLoginRequested(
-      OauthLoginRequested event, Emitter<OauthLoginState> emit) async {
+      OauthLoginRequestedEvent event, Emitter<OauthLoginState> emit) async {
     try {
       authenticationBloc.add(ChangeAuthStatusEvent(
         status: AuthenticationStatus.authenticating,
         authType: event.authType,
+        initialAuthentication: event.initialAuthentication,
       ));
       emit(const OauthLoginInProgress());
 
@@ -56,6 +59,7 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
         user = await userRepository.saveUser(user);
         await Future.delayed(Duration(milliseconds: 500));
         authenticationBloc.add(ChangeAuthStatusEvent(
+          initialAuthentication: event.initialAuthentication,
           status: AuthenticationStatus.authenticated,
           user: user,
           authType: event.authType,
@@ -63,6 +67,7 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
       } else {
         emit(const OauthLoginFailed());
         authenticationBloc.add(ChangeAuthStatusEvent(
+          initialAuthentication: event.initialAuthentication,
           status: AuthenticationStatus.authFailed,
           authType: event.authType,
         ));
@@ -70,6 +75,7 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
     } catch (e) {
       emit(const OauthLoginFailed());
       authenticationBloc.add(ChangeAuthStatusEvent(
+        initialAuthentication: event.initialAuthentication,
         status: AuthenticationStatus.authFailed,
         authType: event.authType,
       ));

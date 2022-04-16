@@ -29,6 +29,7 @@ void main() {
       },
       act: (bloc) async => bloc.add(
         ChangeAuthStatusEvent(
+          initialAuthentication: true,
           authType: "azure",
           status: AuthenticationStatus.initializing,
         ),
@@ -46,6 +47,7 @@ void main() {
       build: () => bloc,
       act: (bloc) async => bloc.add(
         ChangeAuthStatusEvent(
+          initialAuthentication: true,
           authType: "azure",
           status: AuthenticationStatus.authenticated,
           user: UserEntity.fromJson({
@@ -57,6 +59,7 @@ void main() {
       ),
       expect: () => <AuthenticationState>[
         AuthenticatedState(
+          initialAuthentication: true,
           user: UserEntity.fromJson({
             'givenName': 'Test',
             'familyName': 'User',
@@ -79,6 +82,7 @@ void main() {
       },
       act: (bloc) async => bloc.add(
         ChangeAuthStatusEvent(
+          initialAuthentication: true,
           authType: "azure",
           status: AuthenticationStatus.initializing,
         ),
@@ -86,6 +90,7 @@ void main() {
       expect: () => <AuthenticationState>[
         AuthInitializingState(),
         AuthenticatedState(
+          initialAuthentication: true,
           user: UserEntity.fromJson({
             'givenName': 'Test',
             'familyName': 'User',
@@ -104,6 +109,7 @@ void main() {
       },
       act: (bloc) async => bloc.add(
         ChangeAuthStatusEvent(
+          initialAuthentication: true,
           authType: "azure",
           status: AuthenticationStatus.initializing,
         ),
@@ -118,6 +124,7 @@ void main() {
       build: () => bloc,
       act: (bloc) async => bloc.add(
         ChangeAuthStatusEvent(
+          initialAuthentication: true,
           authType: "azure",
           status: AuthenticationStatus.unauthenticated,
         ),

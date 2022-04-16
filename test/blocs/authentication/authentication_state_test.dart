@@ -17,6 +17,7 @@ void main() {
       test('toString returns correct value', () {
         expect(
             AuthenticatedState(
+                initialAuthentication: true,
                 user: UserEntity.fromJson({
               'givenName': 'Test',
               'familyName': 'User',
