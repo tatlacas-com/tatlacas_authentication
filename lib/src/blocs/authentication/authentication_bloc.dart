@@ -26,8 +26,7 @@ class AuthenticationBloc
   }
 
   FutureOr<void> _onChangeAuthStatusEvent(
-      ChangeAuthStatusEvent event,
-      Emitter<AuthenticationState> emit) async {
+      ChangeAuthStatusEvent event, Emitter<AuthenticationState> emit) async {
     try {
       switch (event.status) {
         case AuthenticationStatus.unauthenticated:
@@ -45,12 +44,18 @@ class AuthenticationBloc
           emit(AuthInitializingState());
           var currUser = await userRepository.getUser();
           if (currUser?.accessToken != null) {
-            emit(AuthenticatedState(user: currUser!));
+            emit(AuthenticatedState(
+              initialAuthentication: event.initialAuthentication,
+              user: currUser!,
+            ));
           } else
             emit(UnauthenticatedState());
           break;
         case AuthenticationStatus.authenticated:
-          emit(AuthenticatedState(user: event.user!));
+          emit(AuthenticatedState(
+            initialAuthentication: event.initialAuthentication,
+            user: event.user!,
+          ));
           break;
         default:
           emit(AuthUnknownState());
