@@ -18,7 +18,11 @@ void main() {
     });
 
     test('should emit AuthUnknown as correct initial state', () {
-      expect(bloc.state, AuthUnknownState());
+      expect(
+          bloc.state,
+          AuthUnknownState(
+            initialAuthentication: true,
+          ));
     });
 
     blocTest<AuthenticationBloc, AuthenticationState>(
@@ -35,8 +39,11 @@ void main() {
         ),
       ),
       expect: () => <AuthenticationState>[
-        AuthInitializingState(),
+        AuthInitializingState(
+          initialAuthentication: true,
+        ),
         AuthFailedState(
+          initialAuthentication: true,
           authType: "azure",
         ),
       ],
@@ -88,7 +95,9 @@ void main() {
         ),
       ),
       expect: () => <AuthenticationState>[
-        AuthInitializingState(),
+        AuthInitializingState(
+          initialAuthentication: true,
+        ),
         AuthenticatedState(
           initialAuthentication: true,
           user: UserEntity.fromJson({
@@ -115,8 +124,12 @@ void main() {
         ),
       ),
       expect: () => <AuthenticationState>[
-        AuthInitializingState(),
-        UnauthenticatedState(),
+        AuthInitializingState(
+          initialAuthentication: true,
+        ),
+        UnauthenticatedState(
+          initialAuthentication: true,
+        ),
       ],
     );
     blocTest<AuthenticationBloc, AuthenticationState>(
@@ -130,7 +143,9 @@ void main() {
         ),
       ),
       expect: () => <AuthenticationState>[
-        UnauthenticatedState(),
+        UnauthenticatedState(
+          initialAuthentication: true,
+        ),
       ],
     );
   });

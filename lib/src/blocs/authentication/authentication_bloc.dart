@@ -14,7 +14,7 @@ class AuthenticationBloc
   final UserRepository userRepository;
 
   AuthenticationBloc({required this.userRepository})
-      : super(AuthUnknownState()) {
+      : super(AuthUnknownState(initialAuthentication: true,)) {
     on<ChangeAuthStatusEvent>(_onChangeAuthStatusEvent);
     on<LogoutRequestedEvent>(_onLogoutRequestedEvent);
   }
@@ -22,7 +22,7 @@ class AuthenticationBloc
   FutureOr<void> _onLogoutRequestedEvent(
       LogoutRequestedEvent event, Emitter<AuthenticationState> emit) async {
     await userRepository.removeUser();
-    emit(LoggedOutState(userRequested: event.userRequested));
+    emit(LoggedOutState( initialAuthentication: event.userRequested,userRequested: event.userRequested));
   }
 
   FutureOr<void> _onChangeAuthStatusEvent(
@@ -30,18 +30,18 @@ class AuthenticationBloc
     try {
       switch (event.status) {
         case AuthenticationStatus.unauthenticated:
-          emit(UnauthenticatedState());
+          emit(UnauthenticatedState( initialAuthentication: event.initialAuthentication,));
           break;
         case AuthenticationStatus.authenticating:
-          emit(AuthenticatingState());
+          emit(AuthenticatingState( initialAuthentication: event.initialAuthentication,));
           break;
         case AuthenticationStatus.authFailed:
           emit(AuthFailedState(
-            authType: event.authType,
+            initialAuthentication: event.initialAuthentication, authType: event.authType,
           ));
           break;
         case AuthenticationStatus.initializing:
-          emit(AuthInitializingState());
+          emit(AuthInitializingState( initialAuthentication: event.initialAuthentication,));
           var currUser = await userRepository.getUser();
           if (currUser?.accessToken != null) {
             emit(AuthenticatedState(
@@ -49,7 +49,7 @@ class AuthenticationBloc
               user: currUser!,
             ));
           } else
-            emit(UnauthenticatedState());
+            emit(UnauthenticatedState( initialAuthentication: event.initialAuthentication,));
           break;
         case AuthenticationStatus.authenticated:
           emit(AuthenticatedState(
@@ -58,12 +58,12 @@ class AuthenticationBloc
           ));
           break;
         default:
-          emit(AuthUnknownState());
+          emit(AuthUnknownState( initialAuthentication: event.initialAuthentication,));
           break;
       }
     } catch (_) {
       emit(AuthFailedState(
-        authType: event.authType,
+        initialAuthentication: event.initialAuthentication,authType: event.authType,
       ));
     }
   }
