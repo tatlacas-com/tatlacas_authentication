@@ -3,13 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:tatlacas_authentication/src/repos/oauth_repository/oauth_repository.dart';
-import 'package:tatlacas_authentication/src/repos/user_repository/user_repository.dart';
 import 'package:tatlacas_authentication/tatlacas_authentication.dart';
 import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
 import 'package:uuid/uuid.dart';
-
-import '../authentication/authentication_bloc.dart';
 
 part 'oauth_login_event.dart';
 
@@ -22,6 +18,9 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
   final UserRepository userRepository;
   @protected
   final OauthRepository oauthRepository;
+
+  bool get initialAuthentication =>
+      authenticationBloc.state.initialAuthentication;
 
   OauthLoginBloc({
     required this.authenticationBloc,
