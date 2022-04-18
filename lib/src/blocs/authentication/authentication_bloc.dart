@@ -57,6 +57,12 @@ class AuthenticationBloc
             user: event.user!,
           ));
           break;
+        case AuthenticationStatus.profileUpdated:
+          emit(ProfileUpdatedState(
+            initialAuthentication: event.initialAuthentication,
+            user: event.user!,
+          ));
+          break;
         default:
           emit(AuthUnknownState( initialAuthentication: event.initialAuthentication,));
           break;

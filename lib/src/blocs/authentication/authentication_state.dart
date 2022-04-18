@@ -7,6 +7,7 @@ enum AuthenticationStatus {
   unauthenticated,
   authenticating,
   authFailed,
+  profileUpdated,
 }
 
 abstract class AuthenticationState extends Equatable {
@@ -38,6 +39,18 @@ class AuthInitializingState extends AuthenticationState {
 
 class AuthenticatedState extends AuthenticationState {
   AuthenticatedState({
+    required bool initialAuthentication,
+    required UserEntity user,
+  }) : super(
+          account: user,
+          initialAuthentication: initialAuthentication,
+        );
+
+  @override
+  List<Object?> get props => [account, initialAuthentication];
+}
+class ProfileUpdatedState extends AuthenticationState {
+  ProfileUpdatedState({
     required bool initialAuthentication,
     required UserEntity user,
   }) : super(
