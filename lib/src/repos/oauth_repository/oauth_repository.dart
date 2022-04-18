@@ -1,7 +1,4 @@
-import 'package:tatlacas_authentication/src/repos/user_repository/models/user_entity.dart';
 import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
-import 'package:uuid/uuid.dart';
-
 
 class OauthRepository {
   final FlutterAppAuth flutterAppAuth;
@@ -12,11 +9,14 @@ class OauthRepository {
     required this.authorizationTokenRequest,
   });
 
-  Future<AuthorizationTokenResponse?> authenticate() async {
+  Future<AuthorizationTokenResponse?> authenticate(dynamic authType) async {
     final AuthorizationTokenResponse? result =
-    await flutterAppAuth.authorizeAndExchangeCode(
-      authorizationTokenRequest,
+        await flutterAppAuth.authorizeAndExchangeCode(
+      tokenRequestFor(authType),
     );
     return result;
   }
+
+  AuthorizationTokenRequest tokenRequestFor(dynamic authType) =>
+      authorizationTokenRequest;
 }

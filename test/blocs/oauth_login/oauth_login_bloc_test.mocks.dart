@@ -150,8 +150,13 @@ class MockOauthRepository extends _i1.Mock implements _i8.OauthRepository {
               returnValue: _FakeAuthorizationTokenRequest_4())
           as _i5.AuthorizationTokenRequest);
   @override
-  _i6.Future<_i5.AuthorizationTokenResponse?> authenticate() =>
-      (super.noSuchMethod(Invocation.method(#authenticate, []),
+  _i6.Future<_i5.AuthorizationTokenResponse?> authenticate(dynamic authType) =>
+      (super.noSuchMethod(Invocation.method(#authenticate, [authType]),
               returnValue: Future<_i5.AuthorizationTokenResponse?>.value())
           as _i6.Future<_i5.AuthorizationTokenResponse?>);
+  @override
+  _i5.AuthorizationTokenRequest tokenRequestFor(dynamic authType) =>
+      (super.noSuchMethod(Invocation.method(#tokenRequestFor, [authType]),
+              returnValue: _FakeAuthorizationTokenRequest_4())
+          as _i5.AuthorizationTokenRequest);
 }
