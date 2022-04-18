@@ -12,6 +12,24 @@ class UserEntity extends Entity<UserEntity> {
   final String? fullName;
   final String? email;
   final String? phone;
+  final String? profilePictureThumbnailUrl;
+  final String? largeProfilePictureUrl;
+
+  SqlColumn<UserEntity, String> get columnLargeProfilePictureUrl =>
+      SqlColumn<UserEntity, String>(
+        'largeProfilePictureUrl',
+        read: (entity) => entity.largeProfilePictureUrl,
+        write: (entity, value) =>
+            entity.copyWith(largeProfilePictureUrl: value),
+      );
+
+  SqlColumn<UserEntity, String> get columnProfilePictureThumbnailUrl =>
+      SqlColumn<UserEntity, String>(
+        'profilePictureThumbnailUrl',
+        read: (entity) => entity.profilePictureThumbnailUrl,
+        write: (entity, value) =>
+            entity.copyWith(profilePictureThumbnailUrl: value),
+      );
 
   String? get constructedFullName =>
       fullName ??
@@ -106,6 +124,8 @@ class UserEntity extends Entity<UserEntity> {
         columnEmail,
         columnPhone,
         columnAccessToken,
+        columnProfilePictureThumbnailUrl,
+        columnLargeProfilePictureUrl,
       ];
 
   @override
@@ -121,6 +141,8 @@ class UserEntity extends Entity<UserEntity> {
         email,
         phone,
         accessToken,
+        profilePictureThumbnailUrl,
+        largeProfilePictureUrl,
       ]).toList();
 
   @override
@@ -148,6 +170,8 @@ class UserEntity extends Entity<UserEntity> {
     this.email,
     this.phone,
     this.xmppPassword,
+    this.profilePictureThumbnailUrl,
+    this.largeProfilePictureUrl,
     this.profileDownloaded = false,
     this.fcmToken,
     this.accessToken,
@@ -168,6 +192,8 @@ class UserEntity extends Entity<UserEntity> {
     bool? profileDownloaded,
     String? fcmToken,
     String? accessToken,
+    String? profilePictureThumbnailUrl,
+    String? largeProfilePictureUrl,
   }) {
     return UserEntity(
       id: id ?? this.id,
@@ -176,6 +202,10 @@ class UserEntity extends Entity<UserEntity> {
       givenName: givenName ?? this.givenName,
       fullName: fullName ?? this.fullName,
       email: email ?? this.email,
+      profilePictureThumbnailUrl:
+          profilePictureThumbnailUrl ?? this.profilePictureThumbnailUrl,
+      largeProfilePictureUrl:
+          largeProfilePictureUrl ?? this.largeProfilePictureUrl,
       phone: phone ?? this.phone,
       familyName: familyName ?? this.familyName,
       username: username ?? this.username,
