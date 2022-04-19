@@ -50,7 +50,10 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
       ));
       emit(const OauthLoginInProgress());
 
-      var authResponse = await oauthRepository.authenticate(event.authType);
+      var authResponse = await oauthRepository.authenticate(
+        event.authType,
+        additionalParameters: event.additionalParameters,
+      );
       UserEntity? user;
       if (authResponse != null) user = await createUser(authResponse);
       if (user != null) {
