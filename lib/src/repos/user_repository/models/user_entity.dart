@@ -14,6 +14,13 @@ class UserEntity extends Entity<UserEntity> {
   final String? phone;
   final String? profilePictureThumbnailUrl;
   final String? largeProfilePictureUrl;
+  final bool verified;
+
+  SqlColumn<UserEntity, bool> get columnVerified => SqlColumn<UserEntity, bool>(
+        'verified',
+        read: (entity) => entity.verified,
+        write: (entity, value) => entity.copyWith(verified: value),
+      );
 
   SqlColumn<UserEntity, String> get columnLargeProfilePictureUrl =>
       SqlColumn<UserEntity, String>(
@@ -126,6 +133,7 @@ class UserEntity extends Entity<UserEntity> {
         columnAccessToken,
         columnProfilePictureThumbnailUrl,
         columnLargeProfilePictureUrl,
+        columnVerified,
       ];
 
   @override
@@ -139,6 +147,7 @@ class UserEntity extends Entity<UserEntity> {
         fcmToken,
         fullName,
         email,
+    verified,
         phone,
         accessToken,
         profilePictureThumbnailUrl,
@@ -173,6 +182,7 @@ class UserEntity extends Entity<UserEntity> {
     this.profilePictureThumbnailUrl,
     this.largeProfilePictureUrl,
     this.profileDownloaded = false,
+    this.verified = false,
     this.fcmToken,
     this.accessToken,
   }) : super(id: id, createdAt: createdAt, updatedAt: updatedAt);
@@ -190,6 +200,7 @@ class UserEntity extends Entity<UserEntity> {
     String? phone,
     String? xmppPassword,
     bool? profileDownloaded,
+    bool? verified,
     String? fcmToken,
     String? accessToken,
     String? profilePictureThumbnailUrl,
@@ -200,6 +211,7 @@ class UserEntity extends Entity<UserEntity> {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       givenName: givenName ?? this.givenName,
+      verified: verified ?? this.verified,
       fullName: fullName ?? this.fullName,
       email: email ?? this.email,
       profilePictureThumbnailUrl:
