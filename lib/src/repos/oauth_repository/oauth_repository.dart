@@ -25,7 +25,7 @@ class OauthRepository {
 
   AuthorizationTokenRequest tokenRequestFor(
     dynamic authType, {
-    required Map<String, dynamic> additionalParameters,
+    required Map<String, String> additionalParameters,
   }) =>
       authorizationTokenRequest;
 }

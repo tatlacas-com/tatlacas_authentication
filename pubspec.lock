@@ -602,7 +602,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "9d58b7d8a3fa1e8197b405b3e00914260da84c8a"
+      resolved-ref: aa1416a92114a32a2fcdacffe9c1cfb40fadfa37
       url: "git@github.com:tatlacas-com/tatlacas_flutter_oauth.git"
     source: git
     version: "0.0.1"
