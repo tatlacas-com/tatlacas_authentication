@@ -22,7 +22,7 @@ void main() {
       oauthRepository = MockOauthRepository();
       testResponse = AuthorizationTokenResponse('xyz','xyz',DateTime.now(),'xyz','id',
           {},null);
-      when(oauthRepository.authenticate("azure",additionalParameters: {})).thenAnswer((invocation) {
+      when(oauthRepository.authenticate("azure",params: {})).thenAnswer((invocation) {
         return Future.value(testResponse);
       });
       when(bloc.createUser(testResponse)).thenAnswer((invocation) {
@@ -63,7 +63,7 @@ void main() {
     blocTest<OauthLoginBloc, OauthLoginState>(
         'should emit OauthLoginFailed on repository throws',
         build: () {
-          when(oauthRepository.authenticate("azure",additionalParameters: {})).thenThrow(Exception('ops'));
+          when(oauthRepository.authenticate("azure",params: {})).thenThrow(Exception('ops'));
           return bloc;
         },
         act: (bloc) async => bloc.add(OauthLoginRequestedEvent(

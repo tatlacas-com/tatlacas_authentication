@@ -11,13 +11,13 @@ class OauthRepository {
 
   Future<AuthorizationTokenResponse?> authenticate(
     dynamic authType, {
-    required Map<String, String> additionalParameters,
+    required Map<String, dynamic> params,
   }) async {
     final AuthorizationTokenResponse? result =
         await flutterAppAuth.authorizeAndExchangeCode(
       tokenRequestFor(
         authType,
-        additionalParameters: additionalParameters,
+        params: params,
       ),
     );
     return result;
@@ -25,7 +25,7 @@ class OauthRepository {
 
   AuthorizationTokenRequest tokenRequestFor(
     dynamic authType, {
-    required Map<String, String> additionalParameters,
+    required Map<String, dynamic> params,
   }) =>
       authorizationTokenRequest;
 }
