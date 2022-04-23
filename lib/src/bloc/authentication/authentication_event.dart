@@ -33,7 +33,7 @@ class LogoutRequestedEvent extends AuthenticationEvent {
 
   const LogoutRequestedEvent({
     required this.userRequested,
-    this.context,
+    required this.context,
   });
 
   @override

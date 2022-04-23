@@ -26,7 +26,11 @@ void main() {
     });
     group('LogoutRequested', () {
       test('toString returns correct value', () {
-        expect(LogoutRequestedEvent(userRequested: true).toString(),
+        expect(
+            LogoutRequestedEvent(
+              userRequested: true,
+              context: null,
+            ).toString(),
             'LogoutRequested');
       });
     });

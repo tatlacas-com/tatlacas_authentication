@@ -38,9 +38,10 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
       RetryRequestedEvent event, Emitter<OauthLoginState> emit) {
     emit(const OauthLoginInitial());
     authenticationBloc.add(ChangeAuthStatusEvent(
-        initialAuthentication: event.initialAuthentication,
-        status: AuthenticationStatus.unauthenticated,
-        authType: null));
+      initialAuthentication: event.initialAuthentication,
+      status: AuthenticationStatus.unauthenticated,
+      authType: null,
+    ));
   }
 
   FutureOr<void> _onOauthLoginRequested(
