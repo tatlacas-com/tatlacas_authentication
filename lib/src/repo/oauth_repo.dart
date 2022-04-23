@@ -1,10 +1,10 @@
 import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
 
-class OauthRepository {
+class OauthRepo {
   final FlutterAppAuth flutterAppAuth;
   final AuthorizationTokenRequest authorizationTokenRequest;
 
-  OauthRepository({
+  OauthRepo({
     required this.flutterAppAuth,
     required this.authorizationTokenRequest,
   });

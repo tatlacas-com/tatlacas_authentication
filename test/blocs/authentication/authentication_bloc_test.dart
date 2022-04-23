@@ -9,12 +9,12 @@ import 'authentication_bloc_test.mocks.dart';
 @GenerateMocks([UserRepo])
 void main() {
   group('AuthenticationBloc', () {
-    late UserRepo userRepository;
+    late UserRepo userRepo;
     late AuthenticationBloc bloc;
 
     setUp(() {
-      userRepository = MockUserRepository();
-      bloc = AuthenticationBloc(userRepoFunc: ()=>userRepository);
+      userRepo = MockUserRepo();
+      bloc = AuthenticationBloc(userRepoFunc: (context) => userRepo);
     });
 
     test('should emit AuthUnknown as correct initial state', () {
@@ -28,7 +28,7 @@ void main() {
     blocTest<AuthenticationBloc, AuthenticationState>(
       'should emit AuthFailed if repository throws',
       build: () {
-        when(userRepository.getUser()).thenThrow(Exception('ops'));
+        when(userRepo.getUser()).thenThrow(Exception('ops'));
         return bloc;
       },
       act: (bloc) async => bloc.add(
@@ -78,7 +78,7 @@ void main() {
     blocTest<AuthenticationBloc, AuthenticationState>(
       'should emit Authenticated with correct user from repo',
       build: () {
-        when(userRepository.getUser())
+        when(userRepo.getUser())
             .thenAnswer((_) => Future.value(UserEntity.fromJson({
                   'givenName': 'Test',
                   'familyName': 'User',
@@ -113,7 +113,7 @@ void main() {
     blocTest<AuthenticationBloc, AuthenticationState>(
       'should emit Unauthenticated if repo has no user',
       build: () {
-        when(userRepository.getUser()).thenAnswer((_) => Future.value(null));
+        when(userRepo.getUser()).thenAnswer((_) => Future.value(null));
         return bloc;
       },
       act: (bloc) async => bloc.add(

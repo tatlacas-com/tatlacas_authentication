@@ -7,33 +7,33 @@ import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
 
 import 'oauth_login_bloc_test.mocks.dart';
 
-@GenerateMocks([AuthenticationBloc, UserRepo, OauthRepository])
+@GenerateMocks([AuthenticationBloc, UserRepo, OauthRepo])
 void main() {
   group('OauthLoginBloc', () {
     late OauthLoginBloc bloc;
     late AuthenticationBloc authBloc;
-    late UserRepo userRepository;
-    late OauthRepository oauthRepository;
+    late UserRepo userRepo;
+    late OauthRepo oauthRepo;
     late AuthorizationTokenResponse testResponse;
     var user = UserEntity.fromJson({'id': 'testing123', 'accessToken': 'xyz'});
     setUp(() {
       authBloc = MockAuthenticationBloc();
-      userRepository = MockUserRepository();
-      oauthRepository = MockOauthRepository();
+      userRepo = MockUserRepo();
+      oauthRepo = MockOauthRepo();
       testResponse = AuthorizationTokenResponse('xyz','xyz',DateTime.now(),'xyz','id',
           {},null);
-      when(oauthRepository.authenticate("azure",params: {})).thenAnswer((invocation) {
+      when(oauthRepo.authenticate("azure",params: {})).thenAnswer((invocation) {
         return Future.value(testResponse);
       });
       when(bloc.createUser(testResponse)).thenAnswer((invocation) {
         return Future.value(user);
       });
-      when(userRepository.saveUser(user)).thenAnswer((invocation) =>
+      when(userRepo.saveUser(user)).thenAnswer((invocation) =>
           Future.value(UserEntity.fromJson({'id': 'testing123'})));
       bloc = OauthLoginBloc(
         authenticationBloc: authBloc,
-        userRepository: userRepository,
-        oauthRepository: oauthRepository,
+        userRepo: userRepo,
+        oauthRepo: oauthRepo,
       );
     });
 
@@ -63,7 +63,7 @@ void main() {
     blocTest<OauthLoginBloc, OauthLoginState>(
         'should emit OauthLoginFailed on repository throws',
         build: () {
-          when(oauthRepository.authenticate("azure",params: {})).thenThrow(Exception('ops'));
+          when(oauthRepo.authenticate("azure",params: {})).thenThrow(Exception('ops'));
           return bloc;
         },
         act: (bloc) async => bloc.add(OauthLoginRequestedEvent(

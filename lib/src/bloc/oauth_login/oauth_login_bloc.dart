@@ -4,7 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tatlacas_authentication/src/bloc/authentication/authentication_bloc.dart';
-import 'package:tatlacas_authentication/tatlacas_authentication.dart';
+import 'package:tatlacas_authentication/src/model/user_entity.dart';
+import 'package:tatlacas_authentication/src/repo/oauth_repo.dart';
+import 'package:tatlacas_authentication/src/repo/user_repo.dart';
 import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
 import 'package:uuid/uuid.dart';
 
@@ -16,17 +18,17 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
   @protected
   final AuthenticationBloc authenticationBloc;
   @protected
-  final UserRepo userRepository;
+  final UserRepo userRepo;
   @protected
-  final OauthRepository oauthRepository;
+  final OauthRepo oauthRepo;
 
   bool get initialAuthentication =>
       authenticationBloc.state.initialAuthentication;
 
   OauthLoginBloc({
     required this.authenticationBloc,
-    required this.userRepository,
-    required this.oauthRepository,
+    required this.userRepo,
+    required this.oauthRepo,
   }) : super(OauthLoginInitial()) {
     on<OauthLoginRequestedEvent>(_onOauthLoginRequested);
     on<RetryRequestedEvent>(_onRetryRequested);
@@ -51,7 +53,7 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
       ));
       emit(const OauthLoginInProgress());
 
-      var authResponse = await oauthRepository.authenticate(
+      var authResponse = await oauthRepo.authenticate(
         event.authType,
         params: event.params,
       );
@@ -59,7 +61,7 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
       if (authResponse != null) user = await createUser(authResponse);
       if (user != null) {
         emit(const OauthLoginSucceeded());
-        user = await userRepository.saveUser(user);
+        user = await userRepo.saveUser(user);
         await Future.delayed(Duration(milliseconds: 500));
         authenticationBloc.add(ChangeAuthStatusEvent(
           initialAuthentication: event.initialAuthentication,

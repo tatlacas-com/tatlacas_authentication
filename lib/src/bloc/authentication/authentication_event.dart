@@ -8,11 +8,14 @@ abstract class AuthenticationEvent extends Equatable {
 }
 
 class ChangeAuthStatusEvent extends AuthenticationEvent {
+  final BuildContext? context;
+
   const ChangeAuthStatusEvent({
     required this.status,
+    this.context,
     required this.authType,
     this.user,
-    required this.initialAuthentication ,
+    required this.initialAuthentication,
   });
 
   final dynamic authType;
@@ -26,8 +29,12 @@ class ChangeAuthStatusEvent extends AuthenticationEvent {
 
 class LogoutRequestedEvent extends AuthenticationEvent {
   final bool userRequested;
+  final BuildContext? context;
 
-  const LogoutRequestedEvent({required this.userRequested});
+  const LogoutRequestedEvent({
+    required this.userRequested,
+    this.context,
+  });
 
   @override
   List<Object> get props => [userRequested];

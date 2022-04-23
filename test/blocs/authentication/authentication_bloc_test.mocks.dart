@@ -6,7 +6,7 @@ import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:tatlacas_authentication/src/model/user_entity.dart' as _i2;
-import 'package:tatlacas_authentication/src/repo/user_repository.dart' as _i3;
+import 'package:tatlacas_authentication/src/repo/user_repo.dart' as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:tatlacas_authentication/src/model/user_entity.dart';
-import 'package:tatlacas_authentication/src/repo/user_repository.dart';
+import 'package:tatlacas_authentication/src/repo/user_repo.dart';
 
 part 'authentication_event.dart';
 
@@ -11,8 +12,7 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  UserRepo get userRepo => userRepoFunc();
-  UserRepo Function() userRepoFunc;
+  UserRepo Function(BuildContext? context) userRepoFunc;
 
   AuthenticationBloc({required this.userRepoFunc})
       : super(AuthUnknownState(
@@ -24,7 +24,7 @@ class AuthenticationBloc
 
   FutureOr<void> _onLogoutRequestedEvent(
       LogoutRequestedEvent event, Emitter<AuthenticationState> emit) async {
-    await userRepo.removeUser();
+    await userRepoFunc(event.context).removeUser();
     emit(LoggedOutState(
         initialAuthentication: event.userRequested,
         userRequested: event.userRequested));
@@ -54,7 +54,7 @@ class AuthenticationBloc
           emit(AuthInitializingState(
             initialAuthentication: event.initialAuthentication,
           ));
-          var currUser = await userRepo.getUser();
+          var currUser = await userRepoFunc(event.context).getUser();
           if (currUser?.accessToken != null) {
             emit(AuthenticatedState(
               initialAuthentication: event.initialAuthentication,
