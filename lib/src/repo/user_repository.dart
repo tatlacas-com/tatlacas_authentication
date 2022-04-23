@@ -1,12 +1,12 @@
 import 'package:tatlacas_sqflite_storage/sql.dart';
 
-import 'models/user_entity.dart';
+import '../model/user_entity.dart';
 
-class UserRepository {
+class UserRepo {
   final SqlStorage _repo;
   static final UserEntity _type = UserEntity();
 
-  const UserRepository({required SqlStorage storage}) : this._repo = storage;
+  const UserRepo({required SqlStorage storage}) : this._repo = storage;
 
   Future<UserEntity> saveUser(UserEntity user) async {
     await _repo.delete(_type,

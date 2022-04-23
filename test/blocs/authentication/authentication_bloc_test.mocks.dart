@@ -5,10 +5,8 @@
 import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:tatlacas_authentication/src/repos/user_repository/models/user_entity.dart'
-    as _i2;
-import 'package:tatlacas_authentication/src/repos/user_repository/user_repository.dart'
-    as _i3;
+import 'package:tatlacas_authentication/src/model/user_entity.dart' as _i2;
+import 'package:tatlacas_authentication/src/repo/user_repository.dart' as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -22,11 +20,11 @@ import 'package:tatlacas_authentication/src/repos/user_repository/user_repositor
 
 class _FakeUserEntity_0 extends _i1.Fake implements _i2.UserEntity {}
 
-/// A class which mocks [UserRepository].
+/// A class which mocks [UserRepo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserRepository extends _i1.Mock implements _i3.UserRepository {
-  MockUserRepository() {
+class MockUserRepo extends _i1.Mock implements _i3.UserRepo {
+  MockUserRepo() {
     _i1.throwOnMissingStub(this);
   }
 

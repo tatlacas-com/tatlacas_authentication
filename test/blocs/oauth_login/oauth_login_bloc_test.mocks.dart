@@ -6,14 +6,11 @@ import 'dart:async' as _i6;
 
 import 'package:bloc/bloc.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:tatlacas_authentication/src/blocs/authentication/authentication_bloc.dart'
+import 'package:tatlacas_authentication/src/bloc/authentication/authentication_bloc.dart'
     as _i3;
-import 'package:tatlacas_authentication/src/repos/oauth_repository/oauth_repository.dart'
-    as _i8;
-import 'package:tatlacas_authentication/src/repos/user_repository/models/user_entity.dart'
-    as _i4;
-import 'package:tatlacas_authentication/src/repos/user_repository/user_repository.dart'
-    as _i2;
+import 'package:tatlacas_authentication/src/model/user_entity.dart' as _i4;
+import 'package:tatlacas_authentication/src/repo/oauth_repository.dart' as _i8;
+import 'package:tatlacas_authentication/src/repo/user_repository.dart' as _i2;
 import 'package:tatlacas_flutter_oauth/app_auth_export.dart' as _i5;
 
 // ignore_for_file: type=lint
@@ -26,7 +23,7 @@ import 'package:tatlacas_flutter_oauth/app_auth_export.dart' as _i5;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
-class _FakeUserRepository_0 extends _i1.Fake implements _i2.UserRepository {}
+class _FakeUserRepo_0 extends _i1.Fake implements _i2.UserRepo {}
 
 class _FakeAuthenticationState_1 extends _i1.Fake
     implements _i3.AuthenticationState {}
@@ -48,9 +45,16 @@ class MockAuthenticationBloc extends _i1.Mock
   }
 
   @override
-  _i2.UserRepository get userRepository =>
-      (super.noSuchMethod(Invocation.getter(#userRepository),
-          returnValue: _FakeUserRepository_0()) as _i2.UserRepository);
+  _i2.UserRepo Function() get userRepoFunc =>
+      (super.noSuchMethod(Invocation.getter(#userRepoFunc),
+          returnValue: () => _FakeUserRepo_0()) as _i2.UserRepo Function());
+  @override
+  set userRepoFunc(_i2.UserRepo Function()? _userRepoFunc) =>
+      super.noSuchMethod(Invocation.setter(#userRepoFunc, _userRepoFunc),
+          returnValueForMissingStub: null);
+  @override
+  _i2.UserRepo get userRepo => (super.noSuchMethod(Invocation.getter(#userRepo),
+      returnValue: _FakeUserRepo_0()) as _i2.UserRepo);
   @override
   _i3.AuthenticationState get state => (super.noSuchMethod(
       Invocation.getter(#state),
@@ -107,11 +111,11 @@ class MockAuthenticationBloc extends _i1.Mock
           returnValueForMissingStub: null);
 }
 
-/// A class which mocks [UserRepository].
+/// A class which mocks [UserRepo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserRepository extends _i1.Mock implements _i2.UserRepository {
-  MockUserRepository() {
+class MockUserRepo extends _i1.Mock implements _i2.UserRepo {
+  MockUserRepo() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -150,13 +154,18 @@ class MockOauthRepository extends _i1.Mock implements _i8.OauthRepository {
               returnValue: _FakeAuthorizationTokenRequest_4())
           as _i5.AuthorizationTokenRequest);
   @override
-  _i6.Future<_i5.AuthorizationTokenResponse?> authenticate(dynamic authType) =>
-      (super.noSuchMethod(Invocation.method(#authenticate, [authType]),
+  _i6.Future<_i5.AuthorizationTokenResponse?> authenticate(dynamic authType,
+          {Map<String, dynamic>? params}) =>
+      (super.noSuchMethod(
+              Invocation.method(#authenticate, [authType], {#params: params}),
               returnValue: Future<_i5.AuthorizationTokenResponse?>.value())
           as _i6.Future<_i5.AuthorizationTokenResponse?>);
   @override
-  _i5.AuthorizationTokenRequest tokenRequestFor(dynamic authType) =>
-      (super.noSuchMethod(Invocation.method(#tokenRequestFor, [authType]),
-              returnValue: _FakeAuthorizationTokenRequest_4())
-          as _i5.AuthorizationTokenRequest);
+  _i5.AuthorizationTokenRequest tokenRequestFor(dynamic authType,
+          {Map<String, dynamic>? params}) =>
+      (super.noSuchMethod(
+          Invocation.method(#tokenRequestFor, [authType], {#params: params}),
+          returnValue:
+              _FakeAuthorizationTokenRequest_4()) as _i5
+          .AuthorizationTokenRequest);
 }

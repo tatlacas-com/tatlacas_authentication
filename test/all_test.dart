@@ -7,7 +7,7 @@ import 'blocs/oauth_login/oauth_login_event_test.dart' as oauth_login_event_test
 import 'blocs/oauth_login/oauth_login_state_test.dart' as oauth_login_state_test;
 
 void main(){
-//region blocs
+//region bloc
   authentication_bloc_test.main();
   authentication_event_test.main();
   authentication_state_test.main();

@@ -6,15 +6,15 @@ import 'package:tatlacas_authentication/tatlacas_authentication.dart';
 
 import 'authentication_bloc_test.mocks.dart';
 
-@GenerateMocks([UserRepository])
+@GenerateMocks([UserRepo])
 void main() {
   group('AuthenticationBloc', () {
-    late UserRepository userRepository;
+    late UserRepo userRepository;
     late AuthenticationBloc bloc;
 
     setUp(() {
       userRepository = MockUserRepository();
-      bloc = AuthenticationBloc(userRepository: userRepository);
+      bloc = AuthenticationBloc(userRepoFunc: ()=>userRepository);
     });
 
     test('should emit AuthUnknown as correct initial state', () {
