@@ -29,7 +29,6 @@ void main() {
         expect(
             LogoutRequestedEvent(
               userRequested: true,
-              context: null,
             ).toString(),
             'LogoutRequested');
       });

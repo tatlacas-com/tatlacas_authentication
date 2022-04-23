@@ -14,7 +14,7 @@ void main() {
 
     setUp(() {
       userRepo = MockUserRepo();
-      bloc = AuthenticationBloc(userRepoFunc: (context) => userRepo);
+      bloc = AuthenticationBloc(userRepo: userRepo);
     });
 
     test('should emit AuthUnknown as correct initial state', () {

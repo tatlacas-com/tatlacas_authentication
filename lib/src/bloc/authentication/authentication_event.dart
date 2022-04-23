@@ -8,11 +8,9 @@ abstract class AuthenticationEvent extends Equatable {
 }
 
 class ChangeAuthStatusEvent extends AuthenticationEvent {
-  final BuildContext? context;
 
   const ChangeAuthStatusEvent({
     required this.status,
-    this.context,
     required this.authType,
     this.user,
     required this.initialAuthentication,
@@ -29,11 +27,9 @@ class ChangeAuthStatusEvent extends AuthenticationEvent {
 
 class LogoutRequestedEvent extends AuthenticationEvent {
   final bool userRequested;
-  final BuildContext? context;
 
   const LogoutRequestedEvent({
     required this.userRequested,
-    required this.context,
   });
 
   @override

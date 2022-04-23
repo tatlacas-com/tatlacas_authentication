@@ -2,15 +2,14 @@
 // in tatlacas_authentication/test/blocs/oauth_login/oauth_login_bloc_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i7;
+import 'dart:async' as _i6;
 
-import 'package:bloc/bloc.dart' as _i8;
-import 'package:flutter/cupertino.dart' as _i6;
+import 'package:bloc/bloc.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:tatlacas_authentication/src/bloc/authentication/authentication_bloc.dart'
     as _i3;
 import 'package:tatlacas_authentication/src/model/user_entity.dart' as _i4;
-import 'package:tatlacas_authentication/src/repo/oauth_repo.dart' as _i9;
+import 'package:tatlacas_authentication/src/repo/oauth_repo.dart' as _i8;
 import 'package:tatlacas_authentication/src/repo/user_repo.dart' as _i2;
 import 'package:tatlacas_flutter_oauth/app_auth_export.dart' as _i5;
 
@@ -46,23 +45,17 @@ class MockAuthenticationBloc extends _i1.Mock
   }
 
   @override
-  _i2.UserRepo Function(_i6.BuildContext?) get userRepoFunc =>
-      (super.noSuchMethod(Invocation.getter(#userRepoFunc),
-              returnValue: (_i6.BuildContext? context) => _FakeUserRepo_0())
-          as _i2.UserRepo Function(_i6.BuildContext?));
-  @override
-  set userRepoFunc(_i2.UserRepo Function(_i6.BuildContext?)? _userRepoFunc) =>
-      super.noSuchMethod(Invocation.setter(#userRepoFunc, _userRepoFunc),
-          returnValueForMissingStub: null);
+  _i2.UserRepo get userRepo => (super.noSuchMethod(Invocation.getter(#userRepo),
+      returnValue: _FakeUserRepo_0()) as _i2.UserRepo);
   @override
   _i3.AuthenticationState get state => (super.noSuchMethod(
       Invocation.getter(#state),
       returnValue: _FakeAuthenticationState_1()) as _i3.AuthenticationState);
   @override
-  _i7.Stream<_i3.AuthenticationState> get stream =>
+  _i6.Stream<_i3.AuthenticationState> get stream =>
       (super.noSuchMethod(Invocation.getter(#stream),
               returnValue: Stream<_i3.AuthenticationState>.empty())
-          as _i7.Stream<_i3.AuthenticationState>);
+          as _i6.Stream<_i3.AuthenticationState>);
   @override
   bool get isClosed =>
       (super.noSuchMethod(Invocation.getter(#isClosed), returnValue: false)
@@ -81,23 +74,23 @@ class MockAuthenticationBloc extends _i1.Mock
           returnValueForMissingStub: null);
   @override
   void on<E extends _i3.AuthenticationEvent>(
-          _i8.EventHandler<E, _i3.AuthenticationState>? handler,
-          {_i8.EventTransformer<E>? transformer}) =>
+          _i7.EventHandler<E, _i3.AuthenticationState>? handler,
+          {_i7.EventTransformer<E>? transformer}) =>
       super.noSuchMethod(
           Invocation.method(#on, [handler], {#transformer: transformer}),
           returnValueForMissingStub: null);
   @override
   void onTransition(
-          _i8.Transition<_i3.AuthenticationEvent, _i3.AuthenticationState>?
+          _i7.Transition<_i3.AuthenticationEvent, _i3.AuthenticationState>?
               transition) =>
       super.noSuchMethod(Invocation.method(#onTransition, [transition]),
           returnValueForMissingStub: null);
   @override
-  _i7.Future<void> close() => (super.noSuchMethod(Invocation.method(#close, []),
+  _i6.Future<void> close() => (super.noSuchMethod(Invocation.method(#close, []),
       returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value()) as _i7.Future<void>);
+      returnValueForMissingStub: Future<void>.value()) as _i6.Future<void>);
   @override
-  void onChange(_i8.Change<_i3.AuthenticationState>? change) =>
+  void onChange(_i7.Change<_i3.AuthenticationState>? change) =>
       super.noSuchMethod(Invocation.method(#onChange, [change]),
           returnValueForMissingStub: null);
   @override
@@ -119,26 +112,26 @@ class MockUserRepo extends _i1.Mock implements _i2.UserRepo {
   }
 
   @override
-  _i7.Future<_i4.UserEntity> saveUser(_i4.UserEntity? user) =>
+  _i6.Future<_i4.UserEntity> saveUser(_i4.UserEntity? user) =>
       (super.noSuchMethod(Invocation.method(#saveUser, [user]),
               returnValue: Future<_i4.UserEntity>.value(_FakeUserEntity_2()))
-          as _i7.Future<_i4.UserEntity>);
+          as _i6.Future<_i4.UserEntity>);
   @override
-  _i7.Future<_i4.UserEntity?> getUser() =>
+  _i6.Future<_i4.UserEntity?> getUser() =>
       (super.noSuchMethod(Invocation.method(#getUser, []),
               returnValue: Future<_i4.UserEntity?>.value())
-          as _i7.Future<_i4.UserEntity?>);
+          as _i6.Future<_i4.UserEntity?>);
   @override
-  _i7.Future<void> removeUser() =>
+  _i6.Future<void> removeUser() =>
       (super.noSuchMethod(Invocation.method(#removeUser, []),
           returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i7.Future<void>);
+          returnValueForMissingStub: Future<void>.value()) as _i6.Future<void>);
 }
 
 /// A class which mocks [OauthRepo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockOauthRepo extends _i1.Mock implements _i9.OauthRepo {
+class MockOauthRepo extends _i1.Mock implements _i8.OauthRepo {
   MockOauthRepo() {
     _i1.throwOnMissingStub(this);
   }
@@ -153,12 +146,12 @@ class MockOauthRepo extends _i1.Mock implements _i9.OauthRepo {
               returnValue: _FakeAuthorizationTokenRequest_4())
           as _i5.AuthorizationTokenRequest);
   @override
-  _i7.Future<_i5.AuthorizationTokenResponse?> authenticate(dynamic authType,
+  _i6.Future<_i5.AuthorizationTokenResponse?> authenticate(dynamic authType,
           {Map<String, dynamic>? params}) =>
       (super.noSuchMethod(
               Invocation.method(#authenticate, [authType], {#params: params}),
               returnValue: Future<_i5.AuthorizationTokenResponse?>.value())
-          as _i7.Future<_i5.AuthorizationTokenResponse?>);
+          as _i6.Future<_i5.AuthorizationTokenResponse?>);
   @override
   _i5.AuthorizationTokenRequest tokenRequestFor(dynamic authType,
           {Map<String, dynamic>? params}) =>

@@ -12,9 +12,9 @@ part 'authentication_state.dart';
 
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
-  UserRepo Function(BuildContext? context) userRepoFunc;
+  final UserRepo userRepo;
 
-  AuthenticationBloc({required this.userRepoFunc})
+  AuthenticationBloc({required this.userRepo})
       : super(AuthUnknownState(
           initialAuthentication: true,
         )) {
@@ -24,7 +24,7 @@ class AuthenticationBloc
 
   FutureOr<void> _onLogoutRequestedEvent(
       LogoutRequestedEvent event, Emitter<AuthenticationState> emit) async {
-    await userRepoFunc(event.context).removeUser();
+    await userRepo.removeUser();
     emit(LoggedOutState(
         initialAuthentication: event.userRequested,
         userRequested: event.userRequested));
@@ -54,7 +54,7 @@ class AuthenticationBloc
           emit(AuthInitializingState(
             initialAuthentication: event.initialAuthentication,
           ));
-          var currUser = await userRepoFunc(event.context).getUser();
+          var currUser = await userRepo.getUser();
           if (currUser?.accessToken != null) {
             emit(AuthenticatedState(
               initialAuthentication: event.initialAuthentication,
