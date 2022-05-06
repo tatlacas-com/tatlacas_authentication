@@ -26,7 +26,8 @@ class OauthLoginSucceeded extends OauthLoginState {
 }
 
 class OauthLoginFailed extends OauthLoginState {
-  const OauthLoginFailed();
+  final dynamic exception;
+  const OauthLoginFailed({this.exception});
   @override
   String toString() => 'OauthLoginFailed';
 }
