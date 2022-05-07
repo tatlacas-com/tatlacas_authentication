@@ -1,6 +1,57 @@
 import 'package:tatlacas_sqflite_storage/sql.dart';
 
-class UserEntity extends Entity<UserEntity> {
+abstract class IUserEntity extends IEntity {
+  String? get givenName;
+
+  String? get familyName;
+
+  String? get username;
+
+  String? get xmppJid;
+
+  String? get xmppPassword;
+
+  bool get profileDownloaded;
+
+  String? get fcmToken;
+
+  String? get accessToken;
+
+  String? get fullName;
+
+  String? get email;
+
+  String? get phone;
+
+  String? get profilePictureThumbnailUrl;
+
+  String? get largeProfilePictureUrl;
+
+  bool get verified;
+
+  UserEntity copyWith({
+    String? id,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? givenName,
+    String? familyName,
+    String? username,
+    String? xmppJid,
+    String? fullName,
+    String? email,
+    String? phone,
+    String? xmppPassword,
+    bool? profileDownloaded,
+    bool? verified,
+    String? fcmToken,
+    String? accessToken,
+    String? profilePictureThumbnailUrl,
+    String? largeProfilePictureUrl,
+  });
+}
+
+abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
+    implements IUserEntity {
   final String? givenName;
   final String? familyName;
   final String? username;
@@ -16,26 +67,26 @@ class UserEntity extends Entity<UserEntity> {
   final String? largeProfilePictureUrl;
   final bool verified;
 
-  SqlColumn<UserEntity, bool> get columnVerified => SqlColumn<UserEntity, bool>(
+  SqlColumn<TEntity, bool> get columnVerified => SqlColumn<TEntity, bool>(
         'verified',
         read: (entity) => entity.verified,
-        write: (entity, value) => entity.copyWith(verified: value),
+        write: (entity, value) => entity.copyWith(verified: value) as TEntity,
       );
 
-  SqlColumn<UserEntity, String> get columnLargeProfilePictureUrl =>
-      SqlColumn<UserEntity, String>(
+  SqlColumn<TEntity, String> get columnLargeProfilePictureUrl =>
+      SqlColumn<TEntity, String>(
         'largeProfilePictureUrl',
         read: (entity) => entity.largeProfilePictureUrl,
         write: (entity, value) =>
-            entity.copyWith(largeProfilePictureUrl: value),
+            entity.copyWith(largeProfilePictureUrl: value) as TEntity,
       );
 
-  SqlColumn<UserEntity, String> get columnProfilePictureThumbnailUrl =>
-      SqlColumn<UserEntity, String>(
+  SqlColumn<TEntity, String> get columnProfilePictureThumbnailUrl =>
+      SqlColumn<TEntity, String>(
         'profilePictureThumbnailUrl',
         read: (entity) => entity.profilePictureThumbnailUrl,
         write: (entity, value) =>
-            entity.copyWith(profilePictureThumbnailUrl: value),
+            entity.copyWith(profilePictureThumbnailUrl: value) as TEntity,
       );
 
   String? get constructedFullName =>
@@ -44,82 +95,80 @@ class UserEntity extends Entity<UserEntity> {
           ? null
           : '${givenName ?? ''} ${familyName ?? ''}');
 
-  SqlColumn<UserEntity, String> get columnPhone =>
-      SqlColumn<UserEntity, String>(
+  SqlColumn<TEntity, String> get columnPhone => SqlColumn<TEntity, String>(
         'phone',
         read: (entity) => entity.phone,
-        write: (entity, value) => entity.copyWith(phone: value),
+        write: (entity, value) => entity.copyWith(phone: value) as TEntity,
       );
 
-  SqlColumn<UserEntity, String> get columnEmail =>
-      SqlColumn<UserEntity, String>(
+  SqlColumn<TEntity, String> get columnEmail => SqlColumn<TEntity, String>(
         'email',
         read: (entity) => entity.email,
-        write: (entity, value) => entity.copyWith(email: value),
+        write: (entity, value) => entity.copyWith(email: value) as TEntity,
       );
 
-  SqlColumn<UserEntity, String> get columnFullName =>
-      SqlColumn<UserEntity, String>(
-        'fullName',
-        read: (entity) => entity.fullName,
-        write: (entity, value) => entity.copyWith(fullName: value),
-      );
-
-  factory UserEntity.fromJson(Map<String, dynamic> json) {
-    return UserEntity().load(json);
-  }
-
-  get columnGivenName => SqlColumn<UserEntity, String>(
+  SqlColumn<TEntity, String> get columnGivenName => SqlColumn<TEntity, String>(
         'givenName',
         read: (entity) => entity.givenName,
-        write: (entity, value) => entity.copyWith(givenName: value),
+        write: (entity, value) => entity.copyWith(givenName: value) as TEntity,
       );
 
-  get columnFamilyName => SqlColumn<UserEntity, String>(
+  SqlColumn<TEntity, String> get columnFamilyName => SqlColumn<TEntity, String>(
         'familyName',
         read: (entity) => entity.familyName,
-        write: (entity, value) => entity.copyWith(familyName: value),
+        write: (entity, value) => entity.copyWith(familyName: value) as TEntity,
       );
 
-  get columnUsername => SqlColumn<UserEntity, String>(
+  SqlColumn<TEntity, String> get columnUsername => SqlColumn<TEntity, String>(
         'username',
         read: (entity) => entity.username,
-        write: (entity, value) => entity.copyWith(username: value),
+        write: (entity, value) => entity.copyWith(username: value) as TEntity,
       );
 
-  get columnXmppJid => SqlColumn<UserEntity, String>(
+  SqlColumn<TEntity, String> get columnXmppJid => SqlColumn<TEntity, String>(
         'xmppJid',
         read: (entity) => entity.xmppJid,
-        write: (entity, value) => entity.copyWith(xmppJid: value),
+        write: (entity, value) => entity.copyWith(xmppJid: value) as TEntity,
       );
 
-  get columnXmppPassword => SqlColumn<UserEntity, String>(
+  SqlColumn<TEntity, String> get columnXmppPassword =>
+      SqlColumn<TEntity, String>(
         'xmppPassword',
         read: (entity) => entity.xmppPassword,
-        write: (entity, value) => entity.copyWith(xmppPassword: value),
+        write: (entity, value) =>
+            entity.copyWith(xmppPassword: value) as TEntity,
       );
 
-  get columnProfileDownloaded => SqlColumn<UserEntity, bool>(
+  SqlColumn<TEntity, bool> get columnProfileDownloaded =>
+      SqlColumn<TEntity, bool>(
         'profileDownloaded',
         read: (entity) => entity.profileDownloaded,
         write: (entity, value) =>
-            entity.copyWith(profileDownloaded: value ?? false),
+            entity.copyWith(profileDownloaded: value ?? false) as TEntity,
       );
 
-  get columnFcmToken => SqlColumn<UserEntity, String>(
+  SqlColumn<TEntity, String> get columnFcmToken => SqlColumn<TEntity, String>(
         'fcmToken',
         read: (entity) => entity.fcmToken,
-        write: (entity, value) => entity.copyWith(fcmToken: value),
+        write: (entity, value) => entity.copyWith(fcmToken: value) as TEntity,
       );
 
-  get columnAccessToken => SqlColumn<UserEntity, String>(
+  SqlColumn<TEntity, String> get columnAccessToken =>
+      SqlColumn<TEntity, String>(
         'accessToken',
         read: (entity) => entity.accessToken,
-        write: (entity, value) => entity.copyWith(accessToken: value),
+        write: (entity, value) =>
+            entity.copyWith(accessToken: value) as TEntity,
+      );
+
+  SqlColumn<TEntity, String> get columnFullName => SqlColumn<TEntity, String>(
+        'fullName',
+        read: (entity) => entity.fullName,
+        write: (entity, value) => entity.copyWith(fullName: value) as TEntity,
       );
 
   @override
-  Iterable<SqlColumn<UserEntity, dynamic>> get columns => [
+  Iterable<SqlColumn<TEntity, dynamic>> get columns => [
         columnGivenName,
         columnFamilyName,
         columnUsername,
@@ -147,7 +196,7 @@ class UserEntity extends Entity<UserEntity> {
         fcmToken,
         fullName,
         email,
-    verified,
+        verified,
         phone,
         accessToken,
         profilePictureThumbnailUrl,
@@ -156,16 +205,6 @@ class UserEntity extends Entity<UserEntity> {
 
   @override
   String get tableName => 'user';
-
-  @override
-  UserEntity setBaseParams(
-      {String? id, DateTime? createdAt, DateTime? updatedAt}) {
-    return this.copyWith(
-      id: id ?? this.id,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-    );
-  }
 
   const UserEntity({
     String? id,
@@ -205,27 +244,5 @@ class UserEntity extends Entity<UserEntity> {
     String? accessToken,
     String? profilePictureThumbnailUrl,
     String? largeProfilePictureUrl,
-  }) {
-    return UserEntity(
-      id: id ?? this.id,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      givenName: givenName ?? this.givenName,
-      verified: verified ?? this.verified,
-      fullName: fullName ?? this.fullName,
-      email: email ?? this.email,
-      profilePictureThumbnailUrl:
-          profilePictureThumbnailUrl ?? this.profilePictureThumbnailUrl,
-      largeProfilePictureUrl:
-          largeProfilePictureUrl ?? this.largeProfilePictureUrl,
-      phone: phone ?? this.phone,
-      familyName: familyName ?? this.familyName,
-      username: username ?? this.username,
-      xmppJid: xmppJid ?? this.xmppJid,
-      xmppPassword: xmppPassword ?? this.xmppPassword,
-      profileDownloaded: profileDownloaded ?? this.profileDownloaded,
-      fcmToken: fcmToken ?? this.fcmToken,
-      accessToken: accessToken ?? this.accessToken,
-    );
-  }
+  });
 }

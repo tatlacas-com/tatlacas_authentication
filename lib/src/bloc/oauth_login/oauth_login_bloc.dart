@@ -14,7 +14,7 @@ part 'oauth_login_event.dart';
 
 part 'oauth_login_state.dart';
 
-class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
+abstract class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
   @protected
   final AuthenticationBloc authenticationBloc;
   @protected
@@ -88,11 +88,5 @@ class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
     }
   }
 
-  Future<UserEntity?> createUser(AuthorizationTokenResponse response) async {
-    if (response.idToken?.isNotEmpty == true) {
-      var entity = UserEntity(id: Uuid().v4(), accessToken: response.idToken);
-      return entity;
-    }
-    return null;
-  }
+  Future<UserEntity?> createUser(AuthorizationTokenResponse response);
 }
