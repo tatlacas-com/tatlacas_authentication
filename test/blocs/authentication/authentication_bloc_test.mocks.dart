@@ -2,11 +2,11 @@
 // in tatlacas_authentication/test/blocs/authentication/authentication_bloc_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i3;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:tatlacas_authentication/src/model/user_entity.dart' as _i2;
-import 'package:tatlacas_authentication/src/repo/user_repo.dart' as _i3;
+
+import '..\..\models\test_user.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -18,29 +18,36 @@ import 'package:tatlacas_authentication/src/repo/user_repo.dart' as _i3;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
-class _FakeUserEntity_0 extends _i1.Fake implements _i2.UserEntity {}
+class _FakeTestUser_0 extends _i1.Fake implements _i2.TestUser {}
 
-/// A class which mocks [UserRepo].
+/// A class which mocks [TestUserRepo].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserRepo extends _i1.Mock implements _i3.UserRepo {
-  MockUserRepo() {
+class MockTestUserRepo extends _i1.Mock implements _i2.TestUserRepo {
+  MockTestUserRepo() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.UserEntity> saveUser(_i2.UserEntity? user) =>
+  _i2.TestUser get type => (super.noSuchMethod(Invocation.getter(#type),
+      returnValue: _FakeTestUser_0()) as _i2.TestUser);
+  @override
+  _i3.Future<_i2.TestUser?> getUserFrom(Map<String, dynamic>? map) =>
+      (super.noSuchMethod(Invocation.method(#getUserFrom, [map]),
+              returnValue: Future<_i2.TestUser?>.value())
+          as _i3.Future<_i2.TestUser?>);
+  @override
+  _i3.Future<_i2.TestUser> saveUser(_i2.TestUser? user) =>
       (super.noSuchMethod(Invocation.method(#saveUser, [user]),
-              returnValue: Future<_i2.UserEntity>.value(_FakeUserEntity_0()))
-          as _i4.Future<_i2.UserEntity>);
+              returnValue: Future<_i2.TestUser>.value(_FakeTestUser_0()))
+          as _i3.Future<_i2.TestUser>);
   @override
-  _i4.Future<_i2.UserEntity?> getUser() =>
-      (super.noSuchMethod(Invocation.method(#getUser, []),
-              returnValue: Future<_i2.UserEntity?>.value())
-          as _i4.Future<_i2.UserEntity?>);
+  _i3.Future<_i2.TestUser?> getUser() => (super.noSuchMethod(
+      Invocation.method(#getUser, []),
+      returnValue: Future<_i2.TestUser?>.value()) as _i3.Future<_i2.TestUser?>);
   @override
-  _i4.Future<void> removeUser() =>
+  _i3.Future<void> removeUser() =>
       (super.noSuchMethod(Invocation.method(#removeUser, []),
           returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
+          returnValueForMissingStub: Future<void>.value()) as _i3.Future<void>);
 }

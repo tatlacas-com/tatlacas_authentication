@@ -27,6 +27,10 @@ abstract class IUserEntity extends IEntity {
 
   String? get largeProfilePictureUrl;
 
+  String? get refreshToken;
+
+  DateTime? get idTokenExpiresOn;
+
   bool get verified;
 
   UserEntity copyWith({
@@ -40,6 +44,8 @@ abstract class IUserEntity extends IEntity {
     String? fullName,
     String? email,
     String? phone,
+    String? refreshToken,
+    DateTime? idTokenExpiresOn,
     String? xmppPassword,
     bool? profileDownloaded,
     bool? verified,
@@ -66,6 +72,24 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
   final String? profilePictureThumbnailUrl;
   final String? largeProfilePictureUrl;
   final bool verified;
+  final String? refreshToken;
+  final DateTime? idTokenExpiresOn;
+
+  SqlColumn<TEntity, DateTime> get columnIdTokenExpiresOn =>
+      SqlColumn<TEntity, DateTime>(
+        'idTokenExpiresOn',
+        read: (entity) => entity.idTokenExpiresOn,
+        write: (entity, value) =>
+            entity.copyWith(idTokenExpiresOn: value) as TEntity,
+      );
+
+  SqlColumn<TEntity, String> get columnRefreshToken =>
+      SqlColumn<TEntity, String>(
+        'refreshToken',
+        read: (entity) => entity.refreshToken,
+        write: (entity, value) =>
+            entity.copyWith(refreshToken: value) as TEntity,
+      );
 
   SqlColumn<TEntity, bool> get columnVerified => SqlColumn<TEntity, bool>(
         'verified',
@@ -183,6 +207,8 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
         columnProfilePictureThumbnailUrl,
         columnLargeProfilePictureUrl,
         columnVerified,
+        columnRefreshToken,
+        columnIdTokenExpiresOn,
       ];
 
   @override
@@ -201,6 +227,8 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
         accessToken,
         profilePictureThumbnailUrl,
         largeProfilePictureUrl,
+        refreshToken,
+        idTokenExpiresOn,
       ]).toList();
 
   @override
@@ -216,6 +244,8 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
     this.xmppJid,
     this.fullName,
     this.email,
+    this.refreshToken,
+    this.idTokenExpiresOn,
     this.phone,
     this.xmppPassword,
     this.profilePictureThumbnailUrl,
@@ -230,6 +260,8 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
     String? id,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? refreshToken,
+    DateTime? idTokenExpiresOn,
     String? givenName,
     String? familyName,
     String? username,

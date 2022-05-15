@@ -4,16 +4,15 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tatlacas_authentication/tatlacas_authentication.dart';
 
-import 'authentication_bloc_test.mocks.dart';
+import '../../models/test_user.dart';
 
-@GenerateMocks([UserRepo])
 void main() {
   group('AuthenticationBloc', () {
     late UserRepo userRepo;
     late AuthenticationBloc bloc;
 
     setUp(() {
-      userRepo = MockUserRepo();
+      userRepo = TestUserRepo();
       bloc = AuthenticationBloc(userRepo: userRepo);
     });
 
