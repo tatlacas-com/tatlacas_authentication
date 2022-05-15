@@ -49,6 +49,7 @@ class AuthenticatedState extends AuthenticationState {
   @override
   List<Object?> get props => [account, initialAuthentication];
 }
+
 class ProfileUpdatedState extends AuthenticationState {
   ProfileUpdatedState({
     required bool initialAuthentication,
@@ -74,7 +75,11 @@ class LoggedOutState extends AuthenticationState {
   LoggedOutState({
     required bool initialAuthentication,
     required this.userRequested,
-  }) : super(initialAuthentication: userRequested);
+    required UserEntity? account,
+  }) : super(
+          initialAuthentication: userRequested,
+          account: account,
+        );
 
   @override
   List<Object?> get props => super.props.followedBy([userRequested]).toList();
@@ -92,8 +97,10 @@ class AuthenticatingState extends AuthenticationState {
 class AuthFailedState extends AuthenticationState {
   final dynamic authType;
 
-  AuthFailedState({required bool initialAuthentication, required this.authType})
-      : super(initialAuthentication: initialAuthentication);
+  AuthFailedState({
+    required bool initialAuthentication,
+    required this.authType,
+  }) : super(initialAuthentication: initialAuthentication);
 
   @override
   List<Object?> get props => super.props.followedBy([authType]).toList();

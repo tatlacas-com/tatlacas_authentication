@@ -24,10 +24,14 @@ class AuthenticationBloc
 
   FutureOr<void> _onLogoutRequestedEvent(
       LogoutRequestedEvent event, Emitter<AuthenticationState> emit) async {
-    await userRepo.removeUser();
-    emit(LoggedOutState(
+    var account = await userRepo.getUser();
+    emit(
+      LoggedOutState(
         initialAuthentication: event.userRequested,
-        userRequested: event.userRequested));
+        userRequested: event.userRequested,
+        account: state.account,
+      ),
+    );
   }
 
   FutureOr<void> _onChangeAuthStatusEvent(
