@@ -16,13 +16,13 @@ part 'oauth_login_event.dart';
 
 part 'oauth_login_state.dart';
 
-abstract class OauthLoginBloc extends Bloc<OauthLoginEvent, OauthLoginState> {
+abstract class OauthLoginBloc<TRepo extends OauthRepo> extends Bloc<OauthLoginEvent, OauthLoginState> {
   @protected
   final AuthenticationBloc authenticationBloc;
   @protected
   final UserRepo userRepo;
   @protected
-  final OauthRepo oauthRepo;
+  final TRepo oauthRepo;
 
   bool get initialAuthentication =>
       authenticationBloc.state.initialAuthentication;
