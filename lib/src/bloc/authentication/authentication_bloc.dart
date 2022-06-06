@@ -18,11 +18,11 @@ class AuthenticationBloc
       : super(AuthUnknownState(
           initialAuthentication: true,
         )) {
-    on<ChangeAuthStatusEvent>(_onChangeAuthStatusEvent);
-    on<LogoutRequestedEvent>(_onLogoutRequestedEvent);
+    on<ChangeAuthStatusEvent>(onChangeAuthStatusEvent);
+    on<LogoutRequestedEvent>(onLogoutRequestedEvent);
   }
 
-  FutureOr<void> _onLogoutRequestedEvent(
+  FutureOr<void> onLogoutRequestedEvent(
       LogoutRequestedEvent event, Emitter<AuthenticationState> emit) async {
     UserEntity? account;
     if(event.userRequested){
@@ -39,7 +39,7 @@ class AuthenticationBloc
     );
   }
 
-  FutureOr<void> _onChangeAuthStatusEvent(
+  FutureOr<void> onChangeAuthStatusEvent(
       ChangeAuthStatusEvent event, Emitter<AuthenticationState> emit) async {
     try {
       switch (event.status) {
