@@ -61,7 +61,7 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo> extends Bloc<OauthLoginEv
         params: event.params,
       );
       UserEntity? user;
-      if (authResponse != null) user = await createUser(authResponse);
+      if (authResponse != null) user = await createUser(event, authResponse);
       if (user != null) {
         emit(const OauthLoginSucceeded());
         user = await userRepo.saveUser(user);
@@ -93,5 +93,5 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo> extends Bloc<OauthLoginEv
     }
   }
 
-  Future<UserEntity?> createUser(AuthorizationTokenResponse response);
+  Future<UserEntity?> createUser(OauthLoginRequestedEvent event,AuthorizationTokenResponse response);
 }
