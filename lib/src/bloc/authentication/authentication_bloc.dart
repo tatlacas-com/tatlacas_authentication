@@ -55,6 +55,7 @@ abstract class AuthenticationBloc
         case AuthenticationStatus.authFailed:
           emit(AuthFailedState(
             initialAuthentication: event.initialAuthentication,
+            account: event.user,
             authType: event.authType,
           ));
           break;
@@ -94,6 +95,7 @@ abstract class AuthenticationBloc
     } catch (_) {
       emit(AuthFailedState(
         initialAuthentication: event.initialAuthentication,
+        account: event.user,
         authType: event.authType,
       ));
     }

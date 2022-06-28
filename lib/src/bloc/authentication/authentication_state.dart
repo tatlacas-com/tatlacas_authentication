@@ -99,8 +99,12 @@ class AuthFailedState extends AuthenticationState {
 
   AuthFailedState({
     required bool initialAuthentication,
+    UserEntity? account,
     required this.authType,
-  }) : super(initialAuth: initialAuthentication);
+  }) : super(
+          initialAuth: initialAuthentication,
+          account: account,
+        );
 
   @override
   List<Object?> get props => super.props.followedBy([authType]).toList();
