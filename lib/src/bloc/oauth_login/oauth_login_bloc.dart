@@ -25,8 +25,7 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
   @protected
   final TRepo oauthRepo;
 
-  bool get initialAuth =>
-      authBloc.state.initialAuth;
+  bool get initialAuth => authBloc.state.initialAuth;
 
   OauthLoginBloc({
     required this.authBloc,
@@ -64,7 +63,11 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
       UserEntity? user;
       if (authResponse != null) user = await createUser(event, authResponse);
       if (user != null) {
-        emit(const OauthLoginSucceeded());
+        var proceed = await onAuthSuccess(emit, event, user);
+        if (!proceed) {
+          await onFailed(emit, event, null);
+          return;
+        }
         user = await userRepo.saveUser(user);
         await Future.delayed(Duration(milliseconds: 500));
         authBloc.add(ChangeAuthStatusEvent(
@@ -74,24 +77,30 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
           authType: event.authType,
         ));
       } else {
-        emit(const OauthLoginFailed());
-        authBloc.add(ChangeAuthStatusEvent(
-          initialAuthentication: event.initialAuthentication,
-          status: AuthenticationStatus.authFailed,
-          authType: event.authType,
-        ));
+        await onFailed(emit, event, null);
       }
     } catch (e) {
       if (kDebugMode) {
         print(e);
       }
-      emit(OauthLoginFailed(exception: e));
-      authBloc.add(ChangeAuthStatusEvent(
-        initialAuthentication: event.initialAuthentication,
-        status: AuthenticationStatus.authFailed,
-        authType: event.authType,
-      ));
+      await onFailed(emit, event, e);
     }
+  }
+
+  FutureOr<void> onFailed(Emitter<OauthLoginState> emit,
+      OauthLoginRequestedEvent event, dynamic exception) {
+    emit(OauthLoginFailed(exception: exception));
+    authBloc.add(ChangeAuthStatusEvent(
+      initialAuthentication: event.initialAuthentication,
+      status: AuthenticationStatus.authFailed,
+      authType: event.authType,
+    ));
+  }
+
+  Future<bool> onAuthSuccess(Emitter<OauthLoginState> emit,
+      OauthLoginRequestedEvent event, UserEntity user) async {
+    emit(const OauthLoginSucceeded());
+    return true;
   }
 
   Future<UserEntity?> createUser(
