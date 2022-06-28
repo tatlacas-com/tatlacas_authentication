@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:tatlacas_authentication/src/model/user_entity.dart';
 import 'package:tatlacas_authentication/src/repo/user_repo.dart';
 
@@ -10,7 +9,7 @@ part 'authentication_event.dart';
 
 part 'authentication_state.dart';
 
-class AuthenticationBloc
+abstract class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserRepo userRepo;
 
