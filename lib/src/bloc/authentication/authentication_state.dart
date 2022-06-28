@@ -12,15 +12,15 @@ enum AuthenticationStatus {
 
 abstract class AuthenticationState extends Equatable {
   final UserEntity? account;
-  final bool initialAuthentication;
+  final bool initialAuth;
 
   final timestamp = DateTime.now();
 
   @override
-  List<Object?> get props => [timestamp, initialAuthentication];
+  List<Object?> get props => [timestamp, initialAuth];
 
   AuthenticationState({
-    required this.initialAuthentication,
+    required this.initialAuth,
     this.account,
   });
 }
@@ -28,13 +28,13 @@ abstract class AuthenticationState extends Equatable {
 class AuthUnknownState extends AuthenticationState {
   AuthUnknownState({
     required bool initialAuthentication,
-  }) : super(initialAuthentication: initialAuthentication);
+  }) : super(initialAuth: initialAuthentication);
 }
 
 class AuthInitializingState extends AuthenticationState {
   AuthInitializingState({
     required bool initialAuthentication,
-  }) : super(initialAuthentication: initialAuthentication);
+  }) : super(initialAuth: initialAuthentication);
 }
 
 class AuthenticatedState extends AuthenticationState {
@@ -43,11 +43,11 @@ class AuthenticatedState extends AuthenticationState {
     required UserEntity user,
   }) : super(
           account: user,
-          initialAuthentication: initialAuthentication,
+          initialAuth: initialAuthentication,
         );
 
   @override
-  List<Object?> get props => [account, initialAuthentication];
+  List<Object?> get props => [account, initialAuth];
 }
 
 class ProfileUpdatedState extends AuthenticationState {
@@ -56,17 +56,17 @@ class ProfileUpdatedState extends AuthenticationState {
     required UserEntity user,
   }) : super(
           account: user,
-          initialAuthentication: initialAuthentication,
+          initialAuth: initialAuthentication,
         );
 
   @override
-  List<Object?> get props => [account, initialAuthentication];
+  List<Object?> get props => [account, initialAuth];
 }
 
 class UnauthenticatedState extends AuthenticationState {
   UnauthenticatedState({
     required bool initialAuthentication,
-  }) : super(initialAuthentication: initialAuthentication);
+  }) : super(initialAuth: initialAuthentication);
 }
 
 class LoggedOutState extends AuthenticationState {
@@ -77,7 +77,7 @@ class LoggedOutState extends AuthenticationState {
     required this.userRequested,
     required UserEntity? account,
   }) : super(
-          initialAuthentication: userRequested,
+          initialAuth: userRequested,
           account: account,
         );
 
@@ -88,7 +88,7 @@ class LoggedOutState extends AuthenticationState {
 class AuthenticatingState extends AuthenticationState {
   AuthenticatingState({
     required bool initialAuthentication,
-  }) : super(initialAuthentication: initialAuthentication);
+  }) : super(initialAuth: initialAuthentication);
 }
 
 ///Must only be emitted when something unexpected happens during authentication
@@ -100,7 +100,7 @@ class AuthFailedState extends AuthenticationState {
   AuthFailedState({
     required bool initialAuthentication,
     required this.authType,
-  }) : super(initialAuthentication: initialAuthentication);
+  }) : super(initialAuth: initialAuthentication);
 
   @override
   List<Object?> get props => super.props.followedBy([authType]).toList();

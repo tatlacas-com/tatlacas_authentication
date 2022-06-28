@@ -31,7 +31,7 @@ void main() {
       when(userRepo.saveUser(user)).thenAnswer((invocation) =>
           Future.value(UserEntity.fromJson({'id': 'testing123'})));
       bloc = OauthLoginBloc(
-        authenticationBloc: authBloc,
+        authBloc: authBloc,
         userRepo: userRepo,
         oauthRepo: oauthRepo,
       );

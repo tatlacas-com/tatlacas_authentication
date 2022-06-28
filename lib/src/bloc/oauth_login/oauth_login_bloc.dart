@@ -19,17 +19,17 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
         TAuthBloc extends AuthenticationBloc>
     extends Bloc<OauthLoginEvent, OauthLoginState> {
   @protected
-  final TAuthBloc authenticationBloc;
+  final TAuthBloc authBloc;
   @protected
   final UserRepo userRepo;
   @protected
   final TRepo oauthRepo;
 
-  bool get initialAuthentication =>
-      authenticationBloc.state.initialAuthentication;
+  bool get initialAuth =>
+      authBloc.state.initialAuth;
 
   OauthLoginBloc({
-    required this.authenticationBloc,
+    required this.authBloc,
     required this.userRepo,
     required this.oauthRepo,
   }) : super(OauthLoginInitial()) {
@@ -40,7 +40,7 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
   FutureOr<void> _onRetryRequested(
       RetryRequestedEvent event, Emitter<OauthLoginState> emit) {
     emit(const OauthLoginInitial());
-    authenticationBloc.add(ChangeAuthStatusEvent(
+    authBloc.add(ChangeAuthStatusEvent(
       initialAuthentication: event.initialAuthentication,
       status: AuthenticationStatus.unauthenticated,
       authType: null,
@@ -50,7 +50,7 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
   FutureOr<void> _onOauthLoginRequested(
       OauthLoginRequestedEvent event, Emitter<OauthLoginState> emit) async {
     try {
-      authenticationBloc.add(ChangeAuthStatusEvent(
+      authBloc.add(ChangeAuthStatusEvent(
         status: AuthenticationStatus.authenticating,
         authType: event.authType,
         initialAuthentication: event.initialAuthentication,
@@ -67,7 +67,7 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
         emit(const OauthLoginSucceeded());
         user = await userRepo.saveUser(user);
         await Future.delayed(Duration(milliseconds: 500));
-        authenticationBloc.add(ChangeAuthStatusEvent(
+        authBloc.add(ChangeAuthStatusEvent(
           initialAuthentication: event.initialAuthentication,
           status: AuthenticationStatus.authenticated,
           user: user,
@@ -75,7 +75,7 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
         ));
       } else {
         emit(const OauthLoginFailed());
-        authenticationBloc.add(ChangeAuthStatusEvent(
+        authBloc.add(ChangeAuthStatusEvent(
           initialAuthentication: event.initialAuthentication,
           status: AuthenticationStatus.authFailed,
           authType: event.authType,
@@ -86,7 +86,7 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
         print(e);
       }
       emit(OauthLoginFailed(exception: e));
-      authenticationBloc.add(ChangeAuthStatusEvent(
+      authBloc.add(ChangeAuthStatusEvent(
         initialAuthentication: event.initialAuthentication,
         status: AuthenticationStatus.authFailed,
         authType: event.authType,
