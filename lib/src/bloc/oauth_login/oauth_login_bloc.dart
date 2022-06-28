@@ -4,21 +4,22 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:tatlacas_authentication/src/bloc/authentication/authentication_bloc.dart';
 import 'package:tatlacas_authentication/src/model/user_entity.dart';
 import 'package:tatlacas_authentication/src/repo/oauth_repo.dart';
 import 'package:tatlacas_authentication/src/repo/user_repo.dart';
 import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
-import 'package:uuid/uuid.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
 
 part 'oauth_login_event.dart';
 
 part 'oauth_login_state.dart';
 
-abstract class OauthLoginBloc<TRepo extends OauthRepo> extends Bloc<OauthLoginEvent, OauthLoginState> {
+abstract class OauthLoginBloc<TRepo extends OauthRepo,
+        TAuthBloc extends AuthenticationBloc>
+    extends Bloc<OauthLoginEvent, OauthLoginState> {
   @protected
-  final AuthenticationBloc authenticationBloc;
+  final TAuthBloc authenticationBloc;
   @protected
   final UserRepo userRepo;
   @protected
@@ -80,8 +81,8 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo> extends Bloc<OauthLoginEv
           authType: event.authType,
         ));
       }
-    } catch(e) {
-      if(kDebugMode){
+    } catch (e) {
+      if (kDebugMode) {
         print(e);
       }
       emit(OauthLoginFailed(exception: e));
@@ -93,5 +94,6 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo> extends Bloc<OauthLoginEv
     }
   }
 
-  Future<UserEntity?> createUser(OauthLoginRequestedEvent event,AuthorizationTokenResponse response);
+  Future<UserEntity?> createUser(
+      OauthLoginRequestedEvent event, AuthorizationTokenResponse response);
 }
