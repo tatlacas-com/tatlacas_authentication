@@ -80,9 +80,7 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
         await onFailed(emit, event, null);
       }
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+      debugPrint(e.toString());
       await onFailed(emit, event, e);
     }
   }

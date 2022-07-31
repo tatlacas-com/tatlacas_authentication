@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:tatlacas_authentication/src/model/user_entity.dart';
 import 'package:tatlacas_authentication/src/repo/user_repo.dart';
 
@@ -92,7 +93,8 @@ abstract class AuthenticationBloc
           ));
           break;
       }
-    } catch (_) {
+    } catch (e) {
+      debugPrint(e.toString());
       emit(AuthFailedState(
         initialAuthentication: event.initialAuthentication,
         account: event.user,
