@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/foundation.dart' show kDebugMode;
 import 'package:tatlacas_authentication/src/bloc/authentication/authentication_bloc.dart';
 import 'package:tatlacas_authentication/src/model/user_entity.dart';
 import 'package:tatlacas_authentication/src/repo/oauth_repo.dart';
@@ -47,7 +46,6 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
     ));
   }
 
-
   @protected
   FutureOr<void> onOauthLoginRequested(
       OauthLoginRequestedEvent event, Emitter<OauthLoginState> emit) async {
@@ -63,28 +61,35 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
         event.authType,
         params: event.params,
       );
-      UserEntity? user;
-      if (authResponse != null) user = await createUser(event, authResponse);
-      if (user != null) {
-        var proceed = await onAuthSuccess(emit, event, user);
-        if (!proceed) {
-          await onFailed(emit, event, null);
-          return;
-        }
-        user = await userRepo.saveUser(user);
-        await Future.delayed(Duration(milliseconds: 500));
-        authBloc.add(ChangeAuthStatusEvent(
-          initialAuthentication: event.initialAuthentication,
-          status: AuthenticationStatus.authenticated,
-          user: user,
-          authType: event.authType,
-        ));
-      } else {
-        await onFailed(emit, event, null);
-      }
+      await createUserFromResponse(event, authResponse, emit);
     } catch (e) {
       debugPrint(e.toString());
       await onFailed(emit, event, e);
+    }
+  }
+
+  Future createUserFromResponse(
+      OauthLoginRequestedEvent event,
+      AuthorizationTokenResponse? authResponse,
+      Emitter<OauthLoginState> emit) async {
+    UserEntity? user;
+    if (authResponse != null) user = await createUser(event, authResponse);
+    if (user != null) {
+      var proceed = await onAuthSuccess(emit, event, user);
+      if (!proceed) {
+        await onFailed(emit, event, null);
+        return;
+      }
+      user = await userRepo.saveUser(user);
+      await Future.delayed(Duration(milliseconds: 500));
+      authBloc.add(ChangeAuthStatusEvent(
+        initialAuthentication: event.initialAuthentication,
+        status: AuthenticationStatus.authenticated,
+        user: user,
+        authType: event.authType,
+      ));
+    } else {
+      await onFailed(emit, event, null);
     }
   }
 
