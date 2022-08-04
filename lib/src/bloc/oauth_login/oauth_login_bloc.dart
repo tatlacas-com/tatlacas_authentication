@@ -32,11 +32,12 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
     required this.userRepo,
     required this.oauthRepo,
   }) : super(OauthLoginInitial()) {
-    on<OauthLoginRequestedEvent>(_onOauthLoginRequested);
-    on<RetryRequestedEvent>(_onRetryRequested);
+    on<OauthLoginRequestedEvent>(onOauthLoginRequested);
+    on<RetryRequestedEvent>(onRetryRequested);
   }
 
-  FutureOr<void> _onRetryRequested(
+  @protected
+  FutureOr<void> onRetryRequested(
       RetryRequestedEvent event, Emitter<OauthLoginState> emit) {
     emit(const OauthLoginInitial());
     authBloc.add(ChangeAuthStatusEvent(
@@ -46,7 +47,9 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
     ));
   }
 
-  FutureOr<void> _onOauthLoginRequested(
+
+  @protected
+  FutureOr<void> onOauthLoginRequested(
       OauthLoginRequestedEvent event, Emitter<OauthLoginState> emit) async {
     try {
       authBloc.add(ChangeAuthStatusEvent(
@@ -85,6 +88,7 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
     }
   }
 
+  @protected
   FutureOr<void> onFailed(Emitter<OauthLoginState> emit,
       OauthLoginRequestedEvent event, dynamic exception) {
     emit(OauthLoginFailed(exception: exception));
@@ -95,12 +99,14 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
     ));
   }
 
+  @protected
   Future<bool> onAuthSuccess(Emitter<OauthLoginState> emit,
       OauthLoginRequestedEvent event, UserEntity user) async {
     emit(const OauthLoginSucceeded());
     return true;
   }
 
+  @protected
   Future<UserEntity?> createUser(
       OauthLoginRequestedEvent event, AuthorizationTokenResponse response);
 }
