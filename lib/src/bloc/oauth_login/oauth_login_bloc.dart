@@ -9,6 +9,7 @@ import 'package:tatlacas_authentication/src/model/user_entity.dart';
 import 'package:tatlacas_authentication/src/repo/oauth_repo.dart';
 import 'package:tatlacas_authentication/src/repo/user_repo.dart';
 import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 part 'oauth_login_event.dart';
 
@@ -56,12 +57,15 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
         initialAuthentication: event.initialAuthentication,
       ));
       emit(const OauthLoginInProgress());
+      if (UniversalPlatform.isWeb) {
 
-      var authResponse = await oauthRepo.authenticate(
-        event.authType,
-        params: event.params,
-      );
-      await createUserFromResponse(event, authResponse, emit);
+      } else {
+        var authResponse = await oauthRepo.authenticate(
+          event.authType,
+          params: event.params,
+        );
+        await createUserFromResponse(event, authResponse, emit);
+      }
     } catch (e) {
       debugPrint(e.toString());
       await onFailed(emit, event, e);
