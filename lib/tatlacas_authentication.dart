@@ -1,6 +1,6 @@
 library tatlacas_authentication;
 
-export 'src/bloc/authentication/authentication_bloc.dart';
+export 'src/bloc/authentication/auth_bloc.dart';
 export 'src/bloc/oauth_login/oauth_login_bloc.dart';
 
 export 'src/model/user_entity.dart';

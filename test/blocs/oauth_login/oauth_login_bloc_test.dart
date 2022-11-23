@@ -7,11 +7,11 @@ import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
 
 import 'oauth_login_bloc_test.mocks.dart';
 
-@GenerateMocks([AuthenticationBloc, UserRepo, OauthRepo])
+@GenerateMocks([AuthBloc, UserRepo, OauthRepo])
 void main() {
   group('OauthLoginBloc', () {
     late OauthLoginBloc bloc;
-    late AuthenticationBloc authBloc;
+    late AuthBloc authBloc;
     late UserRepo userRepo;
     late OauthRepo oauthRepo;
     late AuthorizationTokenResponse testResponse;

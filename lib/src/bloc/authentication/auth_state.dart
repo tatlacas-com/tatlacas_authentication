@@ -1,4 +1,4 @@
-part of 'authentication_bloc.dart';
+part of 'auth_bloc.dart';
 
 enum AuthenticationStatus {
   unknown,
@@ -8,9 +8,10 @@ enum AuthenticationStatus {
   authenticating,
   authFailed,
   profileUpdated,
+  refreshingToken,
 }
 
-abstract class AuthenticationState extends Equatable {
+abstract class AuthState extends Equatable {
   final UserEntity? account;
   final bool initialAuth;
 
@@ -19,65 +20,65 @@ abstract class AuthenticationState extends Equatable {
   @override
   List<Object?> get props => [timestamp, initialAuth];
 
-  AuthenticationState({
+  AuthState({
     required this.initialAuth,
     this.account,
   });
 }
 
-class AuthUnknownState extends AuthenticationState {
+class AuthUnknownState extends AuthState {
   AuthUnknownState({
-    required bool initialAuthentication,
-  }) : super(initialAuth: initialAuthentication);
+    required bool initialAuth,
+  }) : super(initialAuth: initialAuth);
 }
 
-class AuthInitializingState extends AuthenticationState {
+class AuthInitializingState extends AuthState {
   AuthInitializingState({
-    required bool initialAuthentication,
-  }) : super(initialAuth: initialAuthentication);
+    required bool initialAuth,
+  }) : super(initialAuth: initialAuth);
 }
 
-class AuthenticatedState extends AuthenticationState {
+class AuthenticatedState extends AuthState {
   AuthenticatedState({
-    required bool initialAuthentication,
+    required bool initialAuth,
     required UserEntity user,
   }) : super(
           account: user,
-          initialAuth: initialAuthentication,
+          initialAuth: initialAuth,
         );
 
   @override
   List<Object?> get props => [account, initialAuth];
 }
 
-class ProfileUpdatedState extends AuthenticationState {
+class ProfileUpdatedState extends AuthState {
   ProfileUpdatedState({
-    required bool initialAuthentication,
+    required bool initialAuth,
     required UserEntity user,
   }) : super(
           account: user,
-          initialAuth: initialAuthentication,
+          initialAuth: initialAuth,
         );
 
   @override
   List<Object?> get props => [account, initialAuth];
 }
 
-class UnauthenticatedState extends AuthenticationState {
+class UnauthenticatedState extends AuthState {
   UnauthenticatedState({
-    required bool initialAuthentication,
-  }) : super(initialAuth: initialAuthentication);
+    required bool initialAuth,
+  }) : super(initialAuth: initialAuth);
 }
 
-class LoggedOutState extends AuthenticationState {
+class LoggedOutState extends AuthState {
   final bool userRequested;
 
   LoggedOutState({
-    required bool initialAuthentication,
+    required bool initialAuth,
     required this.userRequested,
     required UserEntity? account,
   }) : super(
-          initialAuth: userRequested,
+          initialAuth: initialAuth,
           account: account,
         );
 
@@ -85,24 +86,34 @@ class LoggedOutState extends AuthenticationState {
   List<Object?> get props => super.props.followedBy([userRequested]).toList();
 }
 
-class AuthenticatingState extends AuthenticationState {
+class RefreshingTokenState extends AuthState {
+  RefreshingTokenState({
+    required bool initialAuth,
+    required UserEntity? account,
+  }) : super(
+          initialAuth: initialAuth,
+          account: account,
+        );
+}
+
+class AuthenticatingState extends AuthState {
   AuthenticatingState({
-    required bool initialAuthentication,
-  }) : super(initialAuth: initialAuthentication);
+    required bool initialAuth,
+  }) : super(initialAuth: initialAuth);
 }
 
 ///Must only be emitted when something unexpected happens during authentication
 ///
 ///e.g authenticated but with null user
-class AuthFailedState extends AuthenticationState {
+class AuthFailedState extends AuthState {
   final dynamic authType;
 
   AuthFailedState({
-    required bool initialAuthentication,
+    required bool initialAuth,
     UserEntity? account,
     required this.authType,
   }) : super(
-          initialAuth: initialAuthentication,
+          initialAuth: initialAuth,
           account: account,
         );
 

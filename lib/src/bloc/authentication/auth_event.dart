@@ -1,30 +1,30 @@
-part of 'authentication_bloc.dart';
+part of 'auth_bloc.dart';
 
-abstract class AuthenticationEvent extends Equatable {
-  const AuthenticationEvent();
+abstract class AuthEvent extends Equatable {
+  const AuthEvent();
 
   @override
   List<Object?> get props => [];
 }
 
-class ChangeAuthStatusEvent extends AuthenticationEvent {
+class ChangeAuthStatusEvent extends AuthEvent {
   const ChangeAuthStatusEvent({
     required this.status,
     required this.authType,
     this.user,
-    required this.initialAuthentication,
+    required this.initialAuth,
   });
 
   final dynamic authType;
   final AuthenticationStatus status;
   final UserEntity? user;
-  final bool initialAuthentication;
+  final bool initialAuth;
 
   @override
-  List<Object?> get props => [status, user, authType, initialAuthentication];
+  List<Object?> get props => [status, user, authType, initialAuth];
 }
 
-class LogoutRequestedEvent extends AuthenticationEvent {
+class LogoutRequestedEvent extends AuthEvent {
   final bool userRequested;
 
   const LogoutRequestedEvent({
@@ -35,10 +35,10 @@ class LogoutRequestedEvent extends AuthenticationEvent {
   List<Object> get props => [userRequested];
 }
 
-class RefreshTokenEvent extends AuthenticationEvent {
+class IdTokenExpiredEvent extends AuthEvent {
   final String refreshToken;
 
-  RefreshTokenEvent({required this.refreshToken});
+  IdTokenExpiredEvent({required this.refreshToken});
 
   @override
   List<Object> get props => [refreshToken];

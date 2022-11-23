@@ -8,13 +8,13 @@ abstract class OauthLoginEvent extends Equatable {
 }
 
 class RetryRequestedEvent extends OauthLoginEvent {
-  final bool initialAuthentication;
+  final bool initialAuth;
 
   @override
-  List<Object> get props => [initialAuthentication];
+  List<Object> get props => [initialAuth];
 
   const RetryRequestedEvent({
-    required this.initialAuthentication,
+    required this.initialAuth,
   });
 }
 
@@ -23,15 +23,15 @@ class OauthLoginRequestedEvent extends OauthLoginEvent {
   final UserEntity? currUser;
   final Map<String, dynamic> params;
 
-  final bool initialAuthentication;
+  final bool initialAuth;
 
   @override
   List<Object?> get props =>
-      [authType, initialAuthentication, params, currUser];
+      [authType, initialAuth, params, currUser];
 
   const OauthLoginRequestedEvent({
     required this.authType,
-    required this.initialAuthentication,
+    required this.initialAuth,
     this.currUser,
     this.params = const <String, String>{},
   });
