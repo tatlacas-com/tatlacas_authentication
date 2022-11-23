@@ -8,7 +8,6 @@ abstract class AuthenticationEvent extends Equatable {
 }
 
 class ChangeAuthStatusEvent extends AuthenticationEvent {
-
   const ChangeAuthStatusEvent({
     required this.status,
     required this.authType,
@@ -34,4 +33,13 @@ class LogoutRequestedEvent extends AuthenticationEvent {
 
   @override
   List<Object> get props => [userRequested];
+}
+
+class RefreshTokenEvent extends AuthenticationEvent {
+  final String refreshToken;
+
+  RefreshTokenEvent({required this.refreshToken});
+
+  @override
+  List<Object> get props => [refreshToken];
 }
