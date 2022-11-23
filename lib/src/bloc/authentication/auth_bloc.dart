@@ -45,6 +45,7 @@ abstract class AuthBloc extends Bloc<AuthEvent, AuthState> {
       IdTokenExpiredState(
         initialAuth: state.initialAuth,
         account: state.account,
+        refreshToken: event.refreshToken,
       ),
     );
   }
