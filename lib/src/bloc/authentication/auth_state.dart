@@ -86,14 +86,20 @@ class LoggedOutState extends AuthState {
   List<Object?> get props => super.props.followedBy([userRequested]).toList();
 }
 
-class RefreshingTokenState extends AuthState {
-  RefreshingTokenState({
+class IdTokenExpiredState extends AuthState {
+  final String refreshToken;
+
+  IdTokenExpiredState({
     required bool initialAuth,
     required UserEntity? account,
+    required this.refreshToken,
   }) : super(
           initialAuth: initialAuth,
           account: account,
         );
+
+  @override
+  List<Object?> get props => super.props.followedBy([refreshToken]).toList();
 }
 
 class AuthenticatingState extends AuthState {

@@ -42,7 +42,7 @@ abstract class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> onIdTokenExpiredEvent(
       IdTokenExpiredEvent event, Emitter<AuthState> emit) async {
     emit(
-      RefreshingTokenState(
+      IdTokenExpiredState(
         initialAuth: state.initialAuth,
         account: state.account,
       ),
