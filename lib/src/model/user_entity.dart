@@ -29,7 +29,7 @@ abstract class IUserEntity extends IEntity {
 
   String? get refreshToken;
 
-  DateTime? get idTokenExpiresOn;
+  DateTime? get tokenExpiresOn;
 
   bool get verified;
 
@@ -45,7 +45,7 @@ abstract class IUserEntity extends IEntity {
     String? email,
     String? phone,
     String? refreshToken,
-    DateTime? idTokenExpiresOn,
+    DateTime? tokenExpiresOn,
     String? xmppPassword,
     bool? profileDownloaded,
     bool? verified,
@@ -73,14 +73,14 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
   final String? largeProfilePictureUrl;
   final bool verified;
   final String? refreshToken;
-  final DateTime? idTokenExpiresOn;
+  final DateTime? tokenExpiresOn;
 
   SqlColumn<TEntity, DateTime> get columnIdTokenExpiresOn =>
       SqlColumn<TEntity, DateTime>(
         'idTokenExpiresOn',
-        read: (entity) => entity.idTokenExpiresOn,
+        read: (entity) => entity.tokenExpiresOn,
         write: (entity, value) =>
-            entity.copyWith(idTokenExpiresOn: value) as TEntity,
+            entity.copyWith(tokenExpiresOn: value) as TEntity,
       );
 
   SqlColumn<TEntity, String> get columnRefreshToken =>
@@ -228,7 +228,7 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
         profilePictureThumbnailUrl,
         largeProfilePictureUrl,
         refreshToken,
-        idTokenExpiresOn,
+        tokenExpiresOn,
       ]).toList();
 
   @override
@@ -245,7 +245,7 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
     this.fullName,
     this.email,
     this.refreshToken,
-    this.idTokenExpiresOn,
+    this.tokenExpiresOn,
     this.phone,
     this.xmppPassword,
     this.profilePictureThumbnailUrl,
@@ -261,7 +261,7 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
     DateTime? createdAt,
     DateTime? updatedAt,
     String? refreshToken,
-    DateTime? idTokenExpiresOn,
+    DateTime? tokenExpiresOn,
     String? givenName,
     String? familyName,
     String? username,
