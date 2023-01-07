@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:tatlacas_authentication/src/bloc/authentication/authentication_bloc.dart';
+import 'package:tatlacas_authentication/src/bloc/authentication/auth_bloc.dart';
 import 'package:tatlacas_authentication/src/model/user_entity.dart';
 import 'package:tatlacas_authentication/src/repo/oauth_repo.dart';
 import 'package:tatlacas_authentication/src/repo/user_repo.dart';
@@ -16,8 +16,7 @@ part 'oauth_login_event.dart';
 part 'oauth_login_state.dart';
 
 abstract class OauthLoginBloc<TRepo extends OauthRepo,
-        TAuthBloc extends AuthenticationBloc>
-    extends Bloc<OauthLoginEvent, OauthLoginState> {
+    TAuthBloc extends AuthBloc> extends Bloc<OauthLoginEvent, OauthLoginState> {
   @protected
   final TAuthBloc authBloc;
   @protected
@@ -41,7 +40,7 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
       RetryRequestedEvent event, Emitter<OauthLoginState> emit) {
     emit(const OauthLoginInitial());
     authBloc.add(ChangeAuthStatusEvent(
-      initialAuthentication: event.initialAuthentication,
+      initialAuth: event.initialAuth,
       status: AuthenticationStatus.unauthenticated,
       authType: null,
     ));
@@ -54,11 +53,10 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
       authBloc.add(ChangeAuthStatusEvent(
         status: AuthenticationStatus.authenticating,
         authType: event.authType,
-        initialAuthentication: event.initialAuthentication,
+        initialAuth: event.initialAuth,
       ));
       emit(const OauthLoginInProgress());
       if (UniversalPlatform.isWeb) {
-
       } else {
         var authResponse = await oauthRepo.authenticate(
           event.authType,
@@ -87,7 +85,7 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
       user = await userRepo.saveUser(user);
       await Future.delayed(Duration(milliseconds: 500));
       authBloc.add(ChangeAuthStatusEvent(
-        initialAuthentication: event.initialAuthentication,
+        initialAuth: event.initialAuth,
         status: AuthenticationStatus.authenticated,
         user: user,
         authType: event.authType,
@@ -102,7 +100,7 @@ abstract class OauthLoginBloc<TRepo extends OauthRepo,
       OauthLoginRequestedEvent event, dynamic exception) {
     emit(OauthLoginFailed(exception: exception));
     authBloc.add(ChangeAuthStatusEvent(
-      initialAuthentication: event.initialAuthentication,
+      initialAuth: event.initialAuth,
       status: AuthenticationStatus.authFailed,
       authType: event.authType,
     ));

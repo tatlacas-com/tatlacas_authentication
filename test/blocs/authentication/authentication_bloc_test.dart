@@ -9,11 +9,11 @@ import '../../models/test_user.dart';
 void main() {
   group('AuthenticationBloc', () {
     late UserRepo userRepo;
-    late AuthenticationBloc bloc;
+    late AuthBloc bloc;
 
     setUp(() {
       userRepo = TestUserRepo();
-      bloc = AuthenticationBloc(userRepo: userRepo);
+      bloc = AuthBloc(userRepo: userRepo);
     });
 
     test('should emit AuthUnknown as correct initial state', () {
@@ -24,7 +24,7 @@ void main() {
           ));
     });
 
-    blocTest<AuthenticationBloc, AuthenticationState>(
+    blocTest<AuthBloc, AuthState>(
       'should emit AuthFailed if repository throws',
       build: () {
         when(userRepo.getUser()).thenThrow(Exception('ops'));
@@ -37,7 +37,7 @@ void main() {
           status: AuthenticationStatus.initializing,
         ),
       ),
-      expect: () => <AuthenticationState>[
+      expect: () => <AuthState>[
         AuthInitializingState(
           initialAuthentication: true,
         ),
@@ -48,7 +48,7 @@ void main() {
       ],
     );
 
-    blocTest<AuthenticationBloc, AuthenticationState>(
+    blocTest<AuthBloc, AuthState>(
       'should emit Authenticated with correct user',
       build: () => bloc,
       act: (bloc) async => bloc.add(
@@ -63,7 +63,7 @@ void main() {
           }),
         ),
       ),
-      expect: () => <AuthenticationState>[
+      expect: () => <AuthState>[
         AuthenticatedState(
           initialAuthentication: true,
           user: UserEntity.fromJson({
@@ -74,7 +74,7 @@ void main() {
         ),
       ],
     );
-    blocTest<AuthenticationBloc, AuthenticationState>(
+    blocTest<AuthBloc, AuthState>(
       'should emit Authenticated with correct user from repo',
       build: () {
         when(userRepo.getUser())
@@ -93,7 +93,7 @@ void main() {
           status: AuthenticationStatus.initializing,
         ),
       ),
-      expect: () => <AuthenticationState>[
+      expect: () => <AuthState>[
         AuthInitializingState(
           initialAuthentication: true,
         ),
@@ -109,7 +109,7 @@ void main() {
       ],
     );
 
-    blocTest<AuthenticationBloc, AuthenticationState>(
+    blocTest<AuthBloc, AuthState>(
       'should emit Unauthenticated if repo has no user',
       build: () {
         when(userRepo.getUser()).thenAnswer((_) => Future.value(null));
@@ -122,7 +122,7 @@ void main() {
           status: AuthenticationStatus.initializing,
         ),
       ),
-      expect: () => <AuthenticationState>[
+      expect: () => <AuthState>[
         AuthInitializingState(
           initialAuthentication: true,
         ),
@@ -131,7 +131,7 @@ void main() {
         ),
       ],
     );
-    blocTest<AuthenticationBloc, AuthenticationState>(
+    blocTest<AuthBloc, AuthState>(
       'should emit Unauthenticated',
       build: () => bloc,
       act: (bloc) async => bloc.add(
@@ -141,7 +141,7 @@ void main() {
           status: AuthenticationStatus.unauthenticated,
         ),
       ),
-      expect: () => <AuthenticationState>[
+      expect: () => <AuthState>[
         UnauthenticatedState(
           initialAuthentication: true,
         ),
