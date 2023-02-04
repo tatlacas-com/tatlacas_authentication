@@ -14,38 +14,40 @@ enum AuthenticationStatus {
 abstract class AuthState extends Equatable {
   final UserEntity? account;
   final bool initialAuth;
+  final bool showAllSignInOptions;
 
   final timestamp = DateTime.now();
 
   @override
-  List<Object?> get props => [timestamp, initialAuth];
+  List<Object?> get props => [account, timestamp, initialAuth];
 
   AuthState({
     required this.initialAuth,
     this.account,
+    this.showAllSignInOptions = false,
   });
 }
 
 class AuthUnknownState extends AuthState {
   AuthUnknownState({
-    required bool initialAuth,
-  }) : super(initialAuth: initialAuth);
+    required super.initialAuth,
+    super.showAllSignInOptions = false,
+  });
 }
 
 class AuthInitializingState extends AuthState {
   AuthInitializingState({
-    required bool initialAuth,
-  }) : super(initialAuth: initialAuth);
+    required super.initialAuth,
+    required super.showAllSignInOptions,
+  });
 }
 
 class AuthenticatedState extends AuthState {
   AuthenticatedState({
-    required bool initialAuth,
-    required UserEntity user,
-  }) : super(
-          account: user,
-          initialAuth: initialAuth,
-        );
+    required super.initialAuth,
+    required super.showAllSignInOptions,
+    required super.account,
+  });
 
   @override
   List<Object?> get props => [account, initialAuth];
@@ -53,12 +55,10 @@ class AuthenticatedState extends AuthState {
 
 class ProfileUpdatedState extends AuthState {
   ProfileUpdatedState({
-    required bool initialAuth,
-    required UserEntity user,
-  }) : super(
-          account: user,
-          initialAuth: initialAuth,
-        );
+    required super.initialAuth,
+    required super.showAllSignInOptions,
+    required super.account,
+  });
 
   @override
   List<Object?> get props => [account, initialAuth];
@@ -66,21 +66,21 @@ class ProfileUpdatedState extends AuthState {
 
 class UnauthenticatedState extends AuthState {
   UnauthenticatedState({
-    required bool initialAuth,
-  }) : super(initialAuth: initialAuth);
+    required super.initialAuth,
+    required super.showAllSignInOptions,
+    super.account,
+  });
 }
 
 class LoggedOutState extends AuthState {
   final bool userRequested;
 
   LoggedOutState({
-    required bool initialAuth,
+    required super.initialAuth,
+    required super.showAllSignInOptions,
+    required super.account,
     required this.userRequested,
-    required UserEntity? account,
-  }) : super(
-          initialAuth: initialAuth,
-          account: account,
-        );
+  });
 
   @override
   List<Object?> get props => super.props.followedBy([userRequested]).toList();
@@ -90,13 +90,11 @@ class IdTokenExpiredState extends AuthState {
   final String refreshToken;
 
   IdTokenExpiredState({
-    required bool initialAuth,
-    required UserEntity? account,
+    required super.initialAuth,
+    required super.showAllSignInOptions,
+    required super.account,
     required this.refreshToken,
-  }) : super(
-          initialAuth: initialAuth,
-          account: account,
-        );
+  });
 
   @override
   List<Object?> get props => super.props.followedBy([refreshToken]).toList();
@@ -104,8 +102,10 @@ class IdTokenExpiredState extends AuthState {
 
 class AuthenticatingState extends AuthState {
   AuthenticatingState({
-    required bool initialAuth,
-  }) : super(initialAuth: initialAuth);
+    required super.initialAuth,
+    required super.showAllSignInOptions,
+    super.account,
+  });
 }
 
 ///Must only be emitted when something unexpected happens during authentication
@@ -115,13 +115,11 @@ class AuthFailedState extends AuthState {
   final dynamic authType;
 
   AuthFailedState({
-    required bool initialAuth,
-    UserEntity? account,
+    required super.initialAuth,
+    required super.showAllSignInOptions,
+    super.account,
     required this.authType,
-  }) : super(
-          initialAuth: initialAuth,
-          account: account,
-        );
+  });
 
   @override
   List<Object?> get props => super.props.followedBy([authType]).toList();

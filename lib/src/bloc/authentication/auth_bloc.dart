@@ -34,6 +34,7 @@ abstract class AuthBloc extends Bloc<AuthEvent, AuthState> {
       LoggedOutState(
         initialAuth: event.userRequested,
         userRequested: event.userRequested,
+        showAllSignInOptions: state.showAllSignInOptions,
         account: account,
       ),
     );
@@ -45,6 +46,7 @@ abstract class AuthBloc extends Bloc<AuthEvent, AuthState> {
       IdTokenExpiredState(
         initialAuth: state.initialAuth,
         account: state.account,
+        showAllSignInOptions: state.showAllSignInOptions,
         refreshToken: event.refreshToken,
       ),
     );
@@ -57,11 +59,13 @@ abstract class AuthBloc extends Bloc<AuthEvent, AuthState> {
         case AuthenticationStatus.unauthenticated:
           emit(UnauthenticatedState(
             initialAuth: event.initialAuth,
+            showAllSignInOptions: state.showAllSignInOptions,
           ));
           break;
         case AuthenticationStatus.authenticating:
           emit(AuthenticatingState(
             initialAuth: event.initialAuth,
+            showAllSignInOptions: state.showAllSignInOptions,
           ));
           break;
         case AuthenticationStatus.authFailed:
@@ -69,33 +73,39 @@ abstract class AuthBloc extends Bloc<AuthEvent, AuthState> {
             initialAuth: event.initialAuth,
             account: event.user,
             authType: event.authType,
+            showAllSignInOptions: state.showAllSignInOptions,
           ));
           break;
         case AuthenticationStatus.initializing:
           emit(AuthInitializingState(
             initialAuth: event.initialAuth,
+            showAllSignInOptions: state.showAllSignInOptions,
           ));
           var currUser = await userRepo.getUser();
           if (currUser?.accessToken != null) {
             emit(AuthenticatedState(
               initialAuth: event.initialAuth,
-              user: currUser!,
+              account: currUser!,
+              showAllSignInOptions: state.showAllSignInOptions,
             ));
           } else
             emit(UnauthenticatedState(
               initialAuth: event.initialAuth,
+              showAllSignInOptions: state.showAllSignInOptions,
             ));
           break;
         case AuthenticationStatus.authenticated:
           emit(AuthenticatedState(
             initialAuth: event.initialAuth,
-            user: event.user!,
+            showAllSignInOptions: state.showAllSignInOptions,
+            account: event.user!,
           ));
           break;
         case AuthenticationStatus.profileUpdated:
           emit(ProfileUpdatedState(
             initialAuth: event.initialAuth,
-            user: event.user!,
+            account: event.user!,
+            showAllSignInOptions: state.showAllSignInOptions,
           ));
           break;
         default:
@@ -110,6 +120,7 @@ abstract class AuthBloc extends Bloc<AuthEvent, AuthState> {
         initialAuth: event.initialAuth,
         account: event.user,
         authType: event.authType,
+        showAllSignInOptions: state.showAllSignInOptions,
       ));
     }
   }
