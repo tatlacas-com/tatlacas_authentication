@@ -19,7 +19,12 @@ abstract class AuthState extends Equatable {
   final timestamp = DateTime.now();
 
   @override
-  List<Object?> get props => [account, timestamp, initialAuth];
+  List<Object?> get props => [
+        account,
+        timestamp,
+        initialAuth,
+        showAllSignInOptions,
+      ];
 
   AuthState({
     required this.initialAuth,
