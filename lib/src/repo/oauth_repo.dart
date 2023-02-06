@@ -1,12 +1,12 @@
 import 'package:tatlacas_flutter_oauth/app_auth_export.dart';
 
 abstract class OauthRepo {
-  final FlutterAppAuth flutterAppAuth;
-  final AuthorizationTokenRequest authorizationTokenRequest;
+  final FlutterAppAuth? flutterAppAuth;
+  final AuthorizationTokenRequest? authorizationTokenRequest;
 
   OauthRepo({
-    required this.flutterAppAuth,
-    required this.authorizationTokenRequest,
+    this.flutterAppAuth,
+    this.authorizationTokenRequest,
   });
 
   Future<AuthorizationTokenResponse?> authenticate(
@@ -14,7 +14,7 @@ abstract class OauthRepo {
     required Map<String, dynamic> params,
   }) async {
     final AuthorizationTokenResponse? result =
-        await flutterAppAuth.authorizeAndExchangeCode(
+        await flutterAppAuth?.authorizeAndExchangeCode(
       tokenRequestFor(
         authType,
         params: params,
@@ -27,5 +27,5 @@ abstract class OauthRepo {
     dynamic authType, {
     required Map<String, dynamic> params,
   }) =>
-      authorizationTokenRequest;
+      authorizationTokenRequest!;
 }
