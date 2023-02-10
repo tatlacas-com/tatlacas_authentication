@@ -60,8 +60,8 @@ class TestUser extends UserEntity<TestUser> {
           email: email,
           phone: phone,
           xmppPassword: xmppPassword,
-          profilePictureThumbnailUrl: profilePictureThumbnailUrl,
-          largeProfilePictureUrl: largeProfilePictureUrl,
+          avatarUrl: profilePictureThumbnailUrl,
+          smallAvatarUrl: largeProfilePictureUrl,
           profileDownloaded: profileDownloaded,
           verified: verified,
           fcmToken: fcmToken,
@@ -88,8 +88,8 @@ class TestUser extends UserEntity<TestUser> {
     bool? verified,
     String? fcmToken,
     String? accessToken,
-    String? profilePictureThumbnailUrl,
-    String? largeProfilePictureUrl,
+    String? avatarUrl,
+    String? smallAvatarUrl,
   }) {
     return TestUser(
       id: id ?? this.id,
@@ -101,10 +101,8 @@ class TestUser extends UserEntity<TestUser> {
       refreshToken: refreshToken ?? this.refreshToken,
       idTokenExpiresOn: tokenExpiresOn ?? this.tokenExpiresOn,
       email: email ?? this.email,
-      profilePictureThumbnailUrl:
-          profilePictureThumbnailUrl ?? this.profilePictureThumbnailUrl,
-      largeProfilePictureUrl:
-          largeProfilePictureUrl ?? this.largeProfilePictureUrl,
+      profilePictureThumbnailUrl: avatarUrl ?? this.avatarUrl,
+      largeProfilePictureUrl: smallAvatarUrl ?? this.smallAvatarUrl,
       phone: phone ?? this.phone,
       familyName: familyName ?? this.familyName,
       username: username ?? this.username,

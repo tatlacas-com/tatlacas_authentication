@@ -23,9 +23,9 @@ abstract class IUserEntity extends IEntity {
 
   String? get phone;
 
-  String? get profilePictureThumbnailUrl;
+  String? get avatarUrl;
 
-  String? get largeProfilePictureUrl;
+  String? get smallAvatarUrl;
 
   String? get refreshToken;
 
@@ -51,8 +51,8 @@ abstract class IUserEntity extends IEntity {
     bool? verified,
     String? fcmToken,
     String? accessToken,
-    String? profilePictureThumbnailUrl,
-    String? largeProfilePictureUrl,
+    String? avatarUrl,
+    String? smallAvatarUrl,
   });
 }
 
@@ -69,8 +69,8 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
   final String? fullName;
   final String? email;
   final String? phone;
-  final String? profilePictureThumbnailUrl;
-  final String? largeProfilePictureUrl;
+  final String? avatarUrl;
+  final String? smallAvatarUrl;
   final bool verified;
   final String? refreshToken;
   final DateTime? tokenExpiresOn;
@@ -97,20 +97,18 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
         write: (entity, value) => entity.copyWith(verified: value) as TEntity,
       );
 
-  SqlColumn<TEntity, String> get columnLargeProfilePictureUrl =>
+  SqlColumn<TEntity, String> get columnSmallAvatarUrl =>
       SqlColumn<TEntity, String>(
-        'largeProfilePictureUrl',
-        read: (entity) => entity.largeProfilePictureUrl,
+        'smallAvatarUrl',
+        read: (entity) => entity.smallAvatarUrl,
         write: (entity, value) =>
-            entity.copyWith(largeProfilePictureUrl: value) as TEntity,
+            entity.copyWith(smallAvatarUrl: value) as TEntity,
       );
 
-  SqlColumn<TEntity, String> get columnProfilePictureThumbnailUrl =>
-      SqlColumn<TEntity, String>(
-        'profilePictureThumbnailUrl',
-        read: (entity) => entity.profilePictureThumbnailUrl,
-        write: (entity, value) =>
-            entity.copyWith(profilePictureThumbnailUrl: value) as TEntity,
+  SqlColumn<TEntity, String> get columnAvatarUrl => SqlColumn<TEntity, String>(
+        'avatarUrl',
+        read: (entity) => entity.avatarUrl,
+        write: (entity, value) => entity.copyWith(avatarUrl: value) as TEntity,
       );
 
   String? get constructedFullName =>
@@ -204,8 +202,8 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
         columnEmail,
         columnPhone,
         columnAccessToken,
-        columnProfilePictureThumbnailUrl,
-        columnLargeProfilePictureUrl,
+        columnAvatarUrl,
+        columnSmallAvatarUrl,
         columnVerified,
         columnRefreshToken,
         columnIdTokenExpiresOn,
@@ -225,8 +223,8 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
         verified,
         phone,
         accessToken,
-        profilePictureThumbnailUrl,
-        largeProfilePictureUrl,
+        avatarUrl,
+        smallAvatarUrl,
         refreshToken,
         tokenExpiresOn,
       ]).toList();
@@ -248,8 +246,8 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
     this.tokenExpiresOn,
     this.phone,
     this.xmppPassword,
-    this.profilePictureThumbnailUrl,
-    this.largeProfilePictureUrl,
+    this.avatarUrl,
+    this.smallAvatarUrl,
     this.profileDownloaded = false,
     this.verified = false,
     this.fcmToken,
@@ -274,7 +272,7 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
     bool? verified,
     String? fcmToken,
     String? accessToken,
-    String? profilePictureThumbnailUrl,
-    String? largeProfilePictureUrl,
+    String? avatarUrl,
+    String? smallAvatarUrl,
   });
 }
