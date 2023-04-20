@@ -4,7 +4,7 @@ abstract class OauthLoginState extends Equatable {
   const OauthLoginState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class OauthLoginInitial extends OauthLoginState {
