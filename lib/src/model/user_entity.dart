@@ -33,7 +33,8 @@ abstract class IUserEntity extends IEntity {
 
   bool get verified;
 
-  UserEntity copyWith({
+  @override
+  IUserEntity copyWith({
     String? id,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -253,8 +254,8 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
     this.fcmToken,
     this.accessToken,
   }) : super(id: id, createdAt: createdAt, updatedAt: updatedAt);
-
-  UserEntity copyWith({
+  @override
+  TEntity copyWith({
     String? id,
     DateTime? createdAt,
     DateTime? updatedAt,

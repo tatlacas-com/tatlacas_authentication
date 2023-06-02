@@ -1,4 +1,3 @@
-import 'package:tatlacas_authentication/src/model/user_entity.dart';
 import 'package:tatlacas_authentication/tatlacas_authentication.dart';
 
 class TestUserRepo extends UserRepo<TestUser> {
