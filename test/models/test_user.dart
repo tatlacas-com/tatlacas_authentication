@@ -15,16 +15,6 @@ class TestUserRepo extends UserRepo<TestUser> {
 }
 
 class TestUser extends UserEntity<TestUser> {
-  @override
-  TestUser setBaseParams(
-      {String? id, DateTime? createdAt, DateTime? updatedAt}) {
-    return copyWith(
-      id: id ?? this.id,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-    );
-  }
-
   const TestUser({
     String? id,
     DateTime? createdAt,
