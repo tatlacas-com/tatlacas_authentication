@@ -79,37 +79,39 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
   SqlColumn<TEntity, DateTime> get columnIdTokenExpiresOn =>
       SqlColumn<TEntity, DateTime>(
         'idTokenExpiresOn',
-        read: (entity) => entity.tokenExpiresOn,
-        write: (entity, value) =>
+        saveToDb: (entity) => entity.tokenExpiresOn,
+        readFromDb: (entity, value) =>
             entity.copyWith(tokenExpiresOn: value) as TEntity,
       );
 
   SqlColumn<TEntity, String> get columnRefreshToken =>
       SqlColumn<TEntity, String>(
         'refreshToken',
-        read: (entity) => entity.refreshToken,
-        write: (entity, value) =>
+        saveToDb: (entity) => entity.refreshToken,
+        readFromDb: (entity, value) =>
             entity.copyWith(refreshToken: value) as TEntity,
       );
 
   SqlColumn<TEntity, bool> get columnVerified => SqlColumn<TEntity, bool>(
         'verified',
-        read: (entity) => entity.verified,
-        write: (entity, value) => entity.copyWith(verified: value) as TEntity,
+        saveToDb: (entity) => entity.verified,
+        readFromDb: (entity, value) =>
+            entity.copyWith(verified: value) as TEntity,
       );
 
   SqlColumn<TEntity, String> get columnSmallAvatarUrl =>
       SqlColumn<TEntity, String>(
         'smallAvatarUrl',
-        read: (entity) => entity.smallAvatarUrl,
-        write: (entity, value) =>
+        saveToDb: (entity) => entity.smallAvatarUrl,
+        readFromDb: (entity, value) =>
             entity.copyWith(smallAvatarUrl: value) as TEntity,
       );
 
   SqlColumn<TEntity, String> get columnAvatarUrl => SqlColumn<TEntity, String>(
         'avatarUrl',
-        read: (entity) => entity.avatarUrl,
-        write: (entity, value) => entity.copyWith(avatarUrl: value) as TEntity,
+        saveToDb: (entity) => entity.avatarUrl,
+        readFromDb: (entity, value) =>
+            entity.copyWith(avatarUrl: value) as TEntity,
       );
 
   String? get constructedFullName =>
@@ -120,74 +122,80 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
 
   SqlColumn<TEntity, String> get columnPhone => SqlColumn<TEntity, String>(
         'phone',
-        read: (entity) => entity.phone,
-        write: (entity, value) => entity.copyWith(phone: value) as TEntity,
+        saveToDb: (entity) => entity.phone,
+        readFromDb: (entity, value) => entity.copyWith(phone: value) as TEntity,
       );
 
   SqlColumn<TEntity, String> get columnEmail => SqlColumn<TEntity, String>(
         'email',
-        read: (entity) => entity.email,
-        write: (entity, value) => entity.copyWith(email: value) as TEntity,
+        saveToDb: (entity) => entity.email,
+        readFromDb: (entity, value) => entity.copyWith(email: value) as TEntity,
       );
 
   SqlColumn<TEntity, String> get columnGivenName => SqlColumn<TEntity, String>(
         'givenName',
-        read: (entity) => entity.givenName,
-        write: (entity, value) => entity.copyWith(givenName: value) as TEntity,
+        saveToDb: (entity) => entity.givenName,
+        readFromDb: (entity, value) =>
+            entity.copyWith(givenName: value) as TEntity,
       );
 
   SqlColumn<TEntity, String> get columnFamilyName => SqlColumn<TEntity, String>(
         'familyName',
-        read: (entity) => entity.familyName,
-        write: (entity, value) => entity.copyWith(familyName: value) as TEntity,
+        saveToDb: (entity) => entity.familyName,
+        readFromDb: (entity, value) =>
+            entity.copyWith(familyName: value) as TEntity,
       );
 
   SqlColumn<TEntity, String> get columnUsername => SqlColumn<TEntity, String>(
         'username',
-        read: (entity) => entity.username,
-        write: (entity, value) => entity.copyWith(username: value) as TEntity,
+        saveToDb: (entity) => entity.username,
+        readFromDb: (entity, value) =>
+            entity.copyWith(username: value) as TEntity,
       );
 
   SqlColumn<TEntity, String> get columnXmppJid => SqlColumn<TEntity, String>(
         'xmppJid',
-        read: (entity) => entity.xmppJid,
-        write: (entity, value) => entity.copyWith(xmppJid: value) as TEntity,
+        saveToDb: (entity) => entity.xmppJid,
+        readFromDb: (entity, value) =>
+            entity.copyWith(xmppJid: value) as TEntity,
       );
 
   SqlColumn<TEntity, String> get columnXmppPassword =>
       SqlColumn<TEntity, String>(
         'xmppPassword',
-        read: (entity) => entity.xmppPassword,
-        write: (entity, value) =>
+        saveToDb: (entity) => entity.xmppPassword,
+        readFromDb: (entity, value) =>
             entity.copyWith(xmppPassword: value) as TEntity,
       );
 
   SqlColumn<TEntity, bool> get columnProfileDownloaded =>
       SqlColumn<TEntity, bool>(
         'profileDownloaded',
-        read: (entity) => entity.profileDownloaded,
-        write: (entity, value) =>
+        saveToDb: (entity) => entity.profileDownloaded,
+        readFromDb: (entity, value) =>
             entity.copyWith(profileDownloaded: value ?? false) as TEntity,
       );
 
   SqlColumn<TEntity, String> get columnFcmToken => SqlColumn<TEntity, String>(
         'fcmToken',
-        read: (entity) => entity.fcmToken,
-        write: (entity, value) => entity.copyWith(fcmToken: value) as TEntity,
+        saveToDb: (entity) => entity.fcmToken,
+        readFromDb: (entity, value) =>
+            entity.copyWith(fcmToken: value) as TEntity,
       );
 
   SqlColumn<TEntity, String> get columnAccessToken =>
       SqlColumn<TEntity, String>(
         'accessToken',
-        read: (entity) => entity.accessToken,
-        write: (entity, value) =>
+        saveToDb: (entity) => entity.accessToken,
+        readFromDb: (entity, value) =>
             entity.copyWith(accessToken: value) as TEntity,
       );
 
   SqlColumn<TEntity, String> get columnFullName => SqlColumn<TEntity, String>(
         'fullName',
-        read: (entity) => entity.fullName,
-        write: (entity, value) => entity.copyWith(fullName: value) as TEntity,
+        saveToDb: (entity) => entity.fullName,
+        readFromDb: (entity, value) =>
+            entity.copyWith(fullName: value) as TEntity,
       );
 
   @override
