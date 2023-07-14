@@ -38,6 +38,17 @@ class AuthUnknownState extends AuthState {
     required super.initialAuth,
     super.showAllSignInOptions = false,
   });
+
+  factory AuthUnknownState.copy(
+    AuthState curr, {
+    UserEntity? account,
+    bool showAllSignInOptions = false,
+  }) {
+    return AuthUnknownState(
+      initialAuth: curr.initialAuth,
+      showAllSignInOptions: showAllSignInOptions,
+    );
+  }
 }
 
 class AuthInitializingState extends AuthState {
@@ -45,6 +56,18 @@ class AuthInitializingState extends AuthState {
     required super.initialAuth,
     required super.showAllSignInOptions,
   });
+
+  factory AuthInitializingState.copy(
+    AuthState curr, {
+    UserEntity? account,
+    bool? initialAuth,
+    bool? showAllSignInOptions,
+  }) {
+    return AuthInitializingState(
+      initialAuth: initialAuth ?? curr.initialAuth,
+      showAllSignInOptions: showAllSignInOptions ?? curr.showAllSignInOptions,
+    );
+  }
 }
 
 class AuthenticatedState extends AuthState {
@@ -53,6 +76,19 @@ class AuthenticatedState extends AuthState {
     required super.showAllSignInOptions,
     required super.account,
   });
+
+  factory AuthenticatedState.copy(
+    AuthState curr, {
+    UserEntity? account,
+    bool? initialAuth,
+    bool? showAllSignInOptions,
+  }) {
+    return AuthenticatedState(
+      initialAuth: initialAuth ?? curr.initialAuth,
+      showAllSignInOptions: showAllSignInOptions ?? curr.showAllSignInOptions,
+      account: account,
+    );
+  }
 
   @override
   List<Object?> get props => [account, initialAuth];
@@ -65,6 +101,19 @@ class ProfileUpdatedState extends AuthState {
     required super.account,
   });
 
+  factory ProfileUpdatedState.copy(
+    AuthState curr, {
+    UserEntity? account,
+    bool? initialAuth,
+    bool? showAllSignInOptions,
+  }) {
+    return ProfileUpdatedState(
+      initialAuth: initialAuth ?? curr.initialAuth,
+      showAllSignInOptions: showAllSignInOptions ?? curr.showAllSignInOptions,
+      account: account,
+    );
+  }
+
   @override
   List<Object?> get props => [account, initialAuth];
 }
@@ -75,6 +124,19 @@ class UnauthenticatedState extends AuthState {
     required super.showAllSignInOptions,
     super.account,
   });
+
+  factory UnauthenticatedState.copy(
+    AuthState curr, {
+    UserEntity? account,
+    bool? initialAuth,
+    bool? showAllSignInOptions,
+  }) {
+    return UnauthenticatedState(
+      initialAuth: initialAuth ?? curr.initialAuth,
+      showAllSignInOptions: showAllSignInOptions ?? curr.showAllSignInOptions,
+      account: account,
+    );
+  }
 }
 
 class LoggedOutState extends AuthState {
@@ -87,6 +149,20 @@ class LoggedOutState extends AuthState {
     required this.userRequested,
   });
 
+  factory LoggedOutState.copy(
+    AuthState curr, {
+    UserEntity? account,
+    required bool userRequested,
+    bool? initialAuth,
+    bool? showAllSignInOptions,
+  }) {
+    return LoggedOutState(
+      initialAuth: initialAuth ?? curr.initialAuth,
+      showAllSignInOptions: showAllSignInOptions ?? curr.showAllSignInOptions,
+      account: account,
+      userRequested: userRequested,
+    );
+  }
   @override
   List<Object?> get props => super.props.followedBy([userRequested]).toList();
 }
@@ -101,6 +177,21 @@ class IdTokenExpiredState extends AuthState {
     required this.refreshToken,
   });
 
+  factory IdTokenExpiredState.copy(
+    AuthState curr, {
+    UserEntity? account,
+    required String refreshToken,
+    bool? initialAuth,
+    bool? showAllSignInOptions,
+  }) {
+    return IdTokenExpiredState(
+      initialAuth: initialAuth ?? curr.initialAuth,
+      showAllSignInOptions: showAllSignInOptions ?? curr.showAllSignInOptions,
+      account: account,
+      refreshToken: refreshToken,
+    );
+  }
+
   @override
   List<Object?> get props => super.props.followedBy([refreshToken]).toList();
 }
@@ -111,6 +202,19 @@ class AuthenticatingState extends AuthState {
     required super.showAllSignInOptions,
     super.account,
   });
+
+  factory AuthenticatingState.copy(
+    AuthState curr, {
+    UserEntity? account,
+    bool? initialAuth,
+    bool? showAllSignInOptions,
+  }) {
+    return AuthenticatingState(
+      initialAuth: initialAuth ?? curr.initialAuth,
+      showAllSignInOptions: showAllSignInOptions ?? curr.showAllSignInOptions,
+      account: account,
+    );
+  }
 }
 
 ///Must only be emitted when something unexpected happens during authentication
@@ -125,6 +229,21 @@ class AuthFailedState extends AuthState {
     super.account,
     required this.authType,
   });
+
+  factory AuthFailedState.copy(
+    AuthState curr, {
+    UserEntity? account,
+    dynamic authType,
+    bool? initialAuth,
+    bool? showAllSignInOptions,
+  }) {
+    return AuthFailedState(
+      initialAuth: initialAuth ?? curr.initialAuth,
+      showAllSignInOptions: showAllSignInOptions ?? curr.showAllSignInOptions,
+      account: account,
+      authType: authType,
+    );
+  }
 
   @override
   List<Object?> get props => super.props.followedBy([authType]).toList();
