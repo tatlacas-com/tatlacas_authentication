@@ -21,13 +21,12 @@ class RetryRequestedEvent extends OauthLoginEvent {
 class OauthLoginRequestedEvent extends OauthLoginEvent {
   final dynamic authType;
   final UserEntity? currUser;
-  final Map<String, dynamic> params;
+  final dynamic params;
 
   final bool initialAuth;
 
   @override
-  List<Object?> get props =>
-      [authType, initialAuth, params, currUser];
+  List<Object?> get props => [authType, initialAuth, params, currUser];
 
   const OauthLoginRequestedEvent({
     required this.authType,
