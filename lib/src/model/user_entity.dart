@@ -219,7 +219,8 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
       ];
 
   @override
-  List<Object?> get props => super.props.followedBy([
+  List<Object?> get props => [
+        ...super.props,
         givenName,
         familyName,
         username,
@@ -236,10 +237,7 @@ abstract class UserEntity<TEntity extends IUserEntity> extends Entity<TEntity>
         smallAvatarUrl,
         refreshToken,
         tokenExpiresOn,
-      ]).toList();
-
-  @override
-  String get tableName => 'user';
+      ];
 
   const UserEntity({
     String? id,
