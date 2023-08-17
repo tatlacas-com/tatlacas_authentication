@@ -723,7 +723,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "317f9dfda0d275001ecf06d33b3c5a6d1bf5e47d"
+      resolved-ref: a04a58b1bcdc7a990c04ff76de74b816b0d0f899
       url: "git@github.com:tatlacas-com/tatlacas_sqflite_storage.git"
     source: git
     version: "1.0.1"

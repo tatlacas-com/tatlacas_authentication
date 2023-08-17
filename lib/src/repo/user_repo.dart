@@ -10,19 +10,19 @@ abstract class UserRepo<TEntity extends UserEntity> {
 
   Future<TEntity> saveUser(TEntity user) async {
     await _repo.delete(
-        where: SqlWhere(
-      type.columnId,
-      condition: SqlCondition.NotNull,
-    ));
+        where: (typeProvider) => SqlWhere(
+              type.columnId,
+              condition: SqlCondition.NotNull,
+            ));
     return await _repo.insert(user) as TEntity;
   }
 
   Future<TEntity?> getUser() async {
     var user = await _repo.getEntity(
-        where: SqlWhere(
-      type.columnId,
-      condition: SqlCondition.NotNull,
-    ));
+        where: (typeProvider) => SqlWhere(
+              type.columnId,
+              condition: SqlCondition.NotNull,
+            ));
     if (user == null) return null;
     return getUserFrom(user);
   }
@@ -31,7 +31,7 @@ abstract class UserRepo<TEntity extends UserEntity> {
 
   Future<void> removeUser() async {
     await _repo.delete(
-      where: SqlWhere(
+      where: (typeProvider) => SqlWhere(
         type.columnId,
         condition: SqlCondition.NotNull,
       ),
